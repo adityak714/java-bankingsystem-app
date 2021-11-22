@@ -10,7 +10,11 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+<<<<<<< HEAD
       <module name="spicy-salmon" target="16" />
+=======
+      <module name="spicy-salmon" target="1.5" />
+>>>>>>> 6b81990306939189a213db5a07f545604a013001
     </bytecodeTargetLevel>
   </component>
 </project>
