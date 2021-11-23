@@ -5,4 +5,6 @@ module com.salmon.spicysalmon {
 
     opens com.salmon.spicysalmon to javafx.fxml;
     exports com.salmon.spicysalmon;
+    exports models;
+    opens models to javafx.fxml;
 }

@@ -1,22 +1,22 @@
-package com.salmon.spicysalmon;
+package models;
 
 public abstract class User {
-    final private int userID;
+    private final String ID;
     private String password;
     private String firstName;
     private String lastName;
-    final private int socialSecurityNumber;
+    private final String socialSecurityNumber;
 
-    public User(int userID, String password, String firstName, String lastName, int socialSecurityNumber) {
-        this.userID = userID;
+    public User(String ID, String password, String firstName, String lastName, String socialSecurityNumber) {
+        this.ID = ID;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.socialSecurityNumber = socialSecurityNumber;
     }
 
-    public int getUserID() {
-        return userID;
+    public String getID() {
+        return ID;
     }
 
     public String getPassword() {
@@ -43,22 +43,30 @@ public abstract class User {
         this.lastName = lastName;
     }
 
-    public int getSocialSecurityNumber() {
+    public String getSocialSecurityNumber() {
         return socialSecurityNumber;
     }
 
-    public boolean verifyPassword(String Password, int UserId){
-        if(Password==UserId.getPassword){
-            return true;
-        }else {
-            return false;
-        }
+
+    // call this on a user so no need for user ID
+    public boolean verifyPassword(String testPassword){
+        return this.password.equals(testPassword);
     }
 
-    public void changePassword(String OldPassword, String NewPassword, int UserId){
+    /*public void changePassword(String oldPassword, String newPassword, int UserId){
         if (OldPassword == NewPassword){
             System.out.println("Error : You wrote the same password (old password)");
         }
         UserId.setPassword = NewPassword;
+    }*/
+
+    public void changePassword(String testPassword, String newPassword) throws Exception{
+        if (this.password.equals(testPassword)){
+            this.password= newPassword;
+        } else{
+            throw new Exception("Incorret current password");
+        }
+
     }
+
 }

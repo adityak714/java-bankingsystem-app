@@ -1,14 +1,13 @@
-package com.salmon.spicysalmon;
+package models;
 
-public class Employee extends Users{
+public class Employee extends User{
 
     private String title;
     private int vacationDays;
     private String startDate;
 
-    public Employee(int ID, String pwd, String name, String title, String startDate){
-        super(ID, pwd, name);
-
+    public Employee(String ID, String password, String firstName, String lastName, String socialSecurityNumber, String title, String startDate){
+        super(ID, password, firstName, lastName, socialSecurityNumber);
         this.title = title;
         this.startDate = startDate;
 
@@ -33,12 +32,12 @@ public class Employee extends Users{
     }
 
     public String deleteAccount(int accountID){
-
+        return "";
     }
     public String reviewApplication(){
-
+        return "";
     }
     public String certifyLoan(){
-
+        return "";
     }
 }
