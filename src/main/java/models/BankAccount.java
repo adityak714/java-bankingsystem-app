@@ -1,19 +1,19 @@
-package com.salmon.spicysalmon;
+package models;
 
 public class BankAccount {
-    private final int accountNumber;
+    private final String accountNumber;
     private final String customerFirstName;
     private final String customerLastName;
     private double balance;
 
-    public BankAccount(int accountNumber, String customerFirstName, String customerLastName) {
+    public BankAccount(String accountNumber, String customerFirstName, String customerLastName) {
         this.accountNumber = accountNumber;
         this.customerFirstName = customerFirstName;
         this.customerLastName = customerLastName;
         this.balance = 0.00;
     }
 
-    public int getAccountNumber() {
+    public String getAccountNumber() {
         return accountNumber;
     }
 

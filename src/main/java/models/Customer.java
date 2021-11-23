@@ -1,21 +1,15 @@
-package com.salmon.spicysalmon;
+package models;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 public class Customer extends User {
-    private int userID;
-    private String password;
-    private String firstName;
-    private String lastName;
-    private long personnumer;
     private final LinkedHashMap<String, BankAccount> accounts;
     private double salary;
     private String residentialArea;
     private String occupation;
 
-    public Customer(double salary, String residentialArea, String occupation) {
-        super();
+    public Customer(String ID, String password, String firstName, String lastName, double salary, String residentialArea, String occupation, String socialSecurityNumber) {
+        super(ID, password, firstName, lastName, socialSecurityNumber);
         this.accounts = new LinkedHashMap<>();
         this.salary = salary;
         this.residentialArea = residentialArea;
