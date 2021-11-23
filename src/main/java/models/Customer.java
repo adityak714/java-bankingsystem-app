@@ -47,4 +47,8 @@ public class Customer extends User {
     public double getTotalBalance(String accName){
         return accounts.get(accName).getBalance();
     }
+
+    
+    
+    
 }
