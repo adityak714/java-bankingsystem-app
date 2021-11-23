@@ -14,10 +14,10 @@ public class Bank {
         this.transactionsCollection = new LinkedHashMap<>();
     }
 
-    public void createCustomer(String firstName, String lastName, double salary, String residentialArea, String occupation, String socialSecurityNumber) throws Exception{
+    public void createCustomer(String password, String firstName, String lastName, double salary, String residentialArea, String occupation, String socialSecurityNumber) throws Exception{
         try{
             String ID = "";
-            User newCustomer = new Customer(ID, firstName, lastName, socialSecurityNumber, salary, residentialArea, occupation, socialSecurityNumber);
+            User newCustomer = new Customer(ID, password, firstName, lastName, residentialArea, salary, occupation, socialSecurityNumber);
             String uniqueID;
             do{
                 int temp = (int) (Math.random()*999999);

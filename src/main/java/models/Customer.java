@@ -1,4 +1,4 @@
-package com.salmon.spicysalmon;
+package models;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -9,7 +9,7 @@ public class Customer extends User {
     private String residentialArea;
     private String occupation;
 
-    public Customer(int userID, String password, String firstName, String lastName, int socialSecurityNumber, double salary, String residentialArea, String occupation) {
+    public Customer(String userID, String password, String firstName, String lastName, String socialSecurityNumber, double salary, String residentialArea, String occupation) {
         super(userID, password, firstName, lastName, socialSecurityNumber);
         this.accounts = new LinkedHashMap<>();
         this.salary = salary;
