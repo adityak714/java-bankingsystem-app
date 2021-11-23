@@ -4,25 +4,20 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 public class Customer extends User {
-    private int userID;
-    private String password;
-    private String firstName;
-    private String lastName;
-    private long personnumer;
     private final LinkedHashMap<String, BankAccount> accounts;
     private double salary;
     private String residentialArea;
     private String occupation;
 
-    public Customer(double salary, String residentialArea, String occupation) {
-        super();
+    public Customer(int userID, String password, String firstName, String lastName, int socialSecurityNumber, double salary, String residentialArea, String occupation) {
+        super(userID, password, firstName, lastName, socialSecurityNumber);
         this.accounts = new LinkedHashMap<>();
         this.salary = salary;
         this.residentialArea = residentialArea;
         this.occupation = occupation;
     }
 
-    // super functions, adding personnummer and attributes inherited from super class User
+    // super functions, adding social security numbers and attributes inherited from super class User
 
     public LinkedHashMap<String, BankAccount> getAccounts() {
         return accounts;

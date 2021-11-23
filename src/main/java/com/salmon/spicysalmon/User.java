@@ -5,14 +5,14 @@ public abstract class User {
     private String password;
     private String firstName;
     private String lastName;
-    final private long personnumer;
+    final private int socialSecurityNumber;
 
-    public User(int userID, String password, String firstName, String lastName, long personnumer) {
+    public User(int userID, String password, String firstName, String lastName, int socialSecurityNumber) {
         this.userID = userID;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.personnumer = personnumer;
+        this.socialSecurityNumber = socialSecurityNumber;
     }
 
     public int getUserID() {
@@ -43,11 +43,11 @@ public abstract class User {
         this.lastName = lastName;
     }
 
-    public long getPersonnumer() {
-        return personnumer;
+    public int getSocialSecurityNumber() {
+        return socialSecurityNumber;
     }
 
-    public boolean verifyPassword(String Password,int UserId){
+    public boolean verifyPassword(String Password, int UserId){
         if(Password==UserId.getPassword){
             return true;
         }else {
