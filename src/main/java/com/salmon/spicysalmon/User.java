@@ -47,7 +47,7 @@ public abstract class User {
         return personnumer;
     }
 
-    public boolean verifyPassword(String Password,int UserId){
+    public boolean verifyPassword(String password,int userId){
         if(Password==UserId.getPassword){
             return true;
         }else {
@@ -55,10 +55,10 @@ public abstract class User {
         }
     }
 
-    public void changePassword(String OldPassword, String NewPassword, int UserId){
+    public void changePassword(String oldPassword, String newPassword, int userId){
         if (OldPassword == NewPassword){
             System.out.println("Error : You wrote the same password (old password)");
         }
-        UserId.setPassword = NewPassword;
+        userId.setPassword = NewPassword;
     }
 }
