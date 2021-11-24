@@ -64,4 +64,7 @@ public class Bank {
 
         //User's first account has a different process to apply, and all further accounts like savings account can be added by the customer by themselves
         return true; }
+    public HashMap<String, User> getUsersCollection(){
+        return this.usersCollection;
+    }
 }

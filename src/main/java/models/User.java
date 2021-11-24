@@ -1,11 +1,16 @@
 package models;
 
-public abstract class User {
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+
+public abstract class User extends Bank {
     private final String ID;
     private String password;
     private String firstName;
     private String lastName;
     private final String socialSecurityNumber;
+
 
     public User(String ID, String password, String firstName, String lastName, String socialSecurityNumber) {
         this.ID = ID;
@@ -13,6 +18,7 @@ public abstract class User {
         this.firstName = firstName;
         this.lastName = lastName;
         this.socialSecurityNumber = socialSecurityNumber;
+        this.accounts = new LinkedHashMap<>();
     }
 
     public String getID() {
@@ -49,7 +55,7 @@ public abstract class User {
 
 
     // call this on a user so no need for user ID
-    public boolean verifyPassword(String testPassword){
+    public boolean verifyPassword(String testPassword) {
         return this.password.equals(testPassword);
     }
 
@@ -60,11 +66,16 @@ public abstract class User {
         UserId.setPassword = NewPassword;
     }*/
 
-    public void changePassword(String testPassword, String newPassword) throws Exception{
-        if (this.password.equals(testPassword)){
-            this.password= newPassword;
-        } else{
+    public void changePassword(String testPassword, String newPassword) throws Exception {
+        if (this.password.equals(testPassword)) {
+            this.password = newPassword;
+        } else {
             throw new Exception("Incorret current password");
         }
     }
+
+    public LinkedHashMap<String, BankAccount> getAccounts() {
+        return accounts;
+    }
+
 }
