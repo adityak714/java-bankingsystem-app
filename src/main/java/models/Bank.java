@@ -43,4 +43,8 @@ public class Bank {
             throw new Exception("Please enter valid transaction data.");
         }
     }
+    public HashMap<String, User> getUsersCollection(){
+        return this.usersCollection;
+    }
+
 }
