@@ -5,12 +5,19 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 public class Bank {
+    // implement delete method for UserAccounts
+    // implement application hashmap
+    // create Customer User
+    // create Customer Account
+    // delete method for BankAccount
+    // delete employee user Account
+
 
     private final HashMap<String, User> usersCollection;
     private final LinkedHashMap<String, ArrayList<Transaction>> transactionsCollection;
 
     public Bank() {
-        this.usersCollection = new HashMap();
+        this.usersCollection = new HashMap<>();
         this.transactionsCollection = new LinkedHashMap<>();
     }
 
@@ -19,6 +26,7 @@ public class Bank {
             String uniqueID;
             do{
                 int temp = (int) (Math.random()*999999);
+                // potentially get rid of uniqueID
                 uniqueID = "3"+ temp;
             } while(transactionsCollection.get(uniqueID) != null);
             User newCustomer = new Customer(uniqueID, firstName, lastName, socialSecurityNumber, salary, residentialArea, occupation, socialSecurityNumber);
@@ -45,7 +53,7 @@ public class Bank {
      */
 
     ///We decided that we have apply account and delete account in the bank class
-    public boolean applyAccount(String accName) {  return true;  }
+    public boolean applyBankAccount(String accountNumber, ) {  return true;  }
 
     //Potential sub-types - Savings, Current, Pension, Family, Aktier/Fonder
 

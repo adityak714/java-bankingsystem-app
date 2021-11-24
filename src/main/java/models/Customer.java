@@ -3,6 +3,7 @@ package models;
 import java.util.LinkedHashMap;
 
 public class Customer extends User {
+    // change linkedhashmap to arraylist?
     private final LinkedHashMap<String, BankAccount> accounts;
     private double salary;
     private String residentialArea;
@@ -46,4 +47,61 @@ public class Customer extends User {
     public double getTotalBalance(String accName){
         return accounts.get(accName).getBalance();
     }
+<<<<<<< HEAD
 }
+=======
+
+    // deposit to an Account, a method takes in account number and amount
+    // deposit to an Account, a method takes in account number and amount
+    /*public boolean verifyAccount(String accountID) {
+        for (String key : accounts.keySet()) {
+            if (accountID.equals(key)) {
+                 return true;
+            }
+            else {
+                return false;
+            }
+        }
+    }
+
+     */
+
+
+
+
+
+    public double deposit(String accountID, double amount) throws Exception {
+
+        ////Find account
+        for (String key : accounts.keySet()) {
+            if (accountID.equals(key)) {
+                BankAccount myBankAccount = accounts.get(accountID);
+                if (amount <= 0) {throw new Exception("Amount to be deposited is invalid"); }
+                else { return myBankAccount.getBalance() + amount; }
+
+            }
+            else {
+                System.out.println("Account could not be found.");
+            }
+        /*if (amount <= 0.00) {
+            throw new Exception("Please enter a valid amount to be deposited:");
+        }
+        else {
+            for (String key : accounts.keySet()) {
+                if (accountID.equals(key)) {
+                    BankAccount myBankAccount = accounts.get(accountID);
+                    return myBankAccount.getBalance() + amount;
+                }
+                else {
+                    System.out.println("Account could not be found.");
+                }
+            }
+        }
+
+         */
+
+
+    }
+    
+}
+>>>>>>> cabbe5d3189da8eff79abe118bf8661dc744c796
