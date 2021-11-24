@@ -14,7 +14,7 @@ public class Bank {
         this.transactionsCollection = new LinkedHashMap<>();
     }
 
-    public void createCustomer(String firstName, String lastName, double salary, String residentialArea, String occupation, String socialSecurityNumber) throws Exception{
+    public void createCustomer(String password, String firstName, String lastName, double salary, String residentialArea, String occupation, String socialSecurityNumber) throws Exception{
         try{
             String uniqueID;
             do{
@@ -42,4 +42,17 @@ public class Bank {
             throw new Exception("Please enter valid transaction data.");
         }
     }
+
+    ///We decided that we have apply account and delete account in the bank class
+    public boolean applyAccount(String accName) {  return true;  }
+
+    //Potential sub-types - Savings, Current, Pension, Family, Aktier/Fonder
+
+    public boolean deleteAccount(int accountNumber) {
+        // When the user enter the account number of the account, we have to look for
+        //the account that has that number but first the user must exist before
+        //The plan is that after the user has logged in, we have the option to delete account
+
+        //User's first account has a different process to apply, and all further accounts like savings account can be added by the customer by themselves
+        return true; }
 }

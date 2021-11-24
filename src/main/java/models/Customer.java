@@ -1,5 +1,6 @@
 package models;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 public class Customer extends User {
@@ -8,15 +9,15 @@ public class Customer extends User {
     private String residentialArea;
     private String occupation;
 
-    public Customer(String ID, String password, String firstName, String lastName, double salary, String residentialArea, String occupation, String socialSecurityNumber) {
-        super(ID, password, firstName, lastName, socialSecurityNumber);
+    public Customer(String userID, String password, String firstName, String lastName, String socialSecurityNumber, double salary, String residentialArea, String occupation) {
+        super(userID, password, firstName, lastName, socialSecurityNumber);
         this.accounts = new LinkedHashMap<>();
         this.salary = salary;
         this.residentialArea = residentialArea;
         this.occupation = occupation;
     }
 
-    // super functions, adding personnummer and attributes inherited from super class User
+    // super functions, adding social security numbers and attributes inherited from super class User
 
     public LinkedHashMap<String, BankAccount> getAccounts() {
         return accounts;
@@ -46,4 +47,8 @@ public class Customer extends User {
     public double getTotalBalance(String accName){
         return accounts.get(accName).getBalance();
     }
+
+    
+    
+    
 }
