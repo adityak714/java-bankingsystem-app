@@ -1,28 +1,31 @@
 package com.salmon.spicysalmon.models;
 
+import java.util.HashMap;
+
 public class BankAccount {
-    private final String accountNumber;
-    private final String customerFirstName;
-    private final String customerLastName;
+    private final String ACCOUNTNUMBER;
+    private final String CUSTOMERFIRSTNAME;
+    private final String CUSTOMERLASTNAME;
     private double balance;
+    private HashMap transactionMap = new HashMap();
 
     public BankAccount(String accountNumber, String customerFirstName, String customerLastName) {
-        this.accountNumber = accountNumber;
-        this.customerFirstName = customerFirstName;
-        this.customerLastName = customerLastName;
+        this.ACCOUNTNUMBER = accountNumber;
+        this.CUSTOMERFIRSTNAME = customerFirstName;
+        this.CUSTOMERLASTNAME = customerLastName;
         this.balance = 0.00;
     }
 
     public String getAccountNumber() {
-        return accountNumber;
+        return ACCOUNTNUMBER;
     }
 
     public String getCustomerFirstName() {
-        return customerFirstName;
+        return CUSTOMERFIRSTNAME;
     }
 
     public String getCustomerLastName() {
-        return customerLastName;
+        return CUSTOMERLASTNAME;
     }
 
     public double getBalance() {
@@ -36,9 +39,9 @@ public class BankAccount {
     @Override
     public String toString() {
         return "Account{" +
-                "accountNumber=" + accountNumber +
-                ", customerFirstName='" + customerFirstName + '\'' +
-                ", customerLastName='" + customerLastName + '\'' +
+                "accountNumber=" + ACCOUNTNUMBER +
+                ", customerFirstName='" + CUSTOMERFIRSTNAME + '\'' +
+                ", customerLastName='" + CUSTOMERLASTNAME + '\'' +
                 ", balance=" + balance +
                 '}';
     }
