@@ -5,14 +5,14 @@ public abstract class User {
     private String password;
     private String firstName;
     private String lastName;
-    final private String personnumer;
+    final private String socialSecurityNumber;
 
-    public User(String password, String firstName, String lastName, String personnumer) {
+    public User(String password, String firstName, String lastName, String socialSecurityNumber) {
 
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.personnumer = personnumer;
+        this.personnumer = this.socialSecurityNumber;
     }
 
 
@@ -41,22 +41,22 @@ public abstract class User {
         this.lastName = lastName;
     }
 
-    public String getPersonnumer() {
+    public String getSocialSecurityNumber() {
         return personnumer;
     }
 
-    public boolean verifyPassword(String password,String personnumer){
-        if(Password==personnumer.getPassword){
+    public boolean verifyPassword(String password,String socialSecurityNumber){
+        if(Password==socialSecurityNumber.getPassword){
             return true;
         }else {
             return false;
         }
     }
 
-    public void changePassword(String oldPassword, String newPassword, String personnumer){
+    public void changePassword(String oldPassword, String newPassword, String socialSecurityNumber){
         if (OldPassword == NewPassword){
             System.out.println("Error : You wrote the same password (old password)");
         }
-        personnumer.setPassword = NewPassword;
+        socialSecurityNumber.setPassword = NewPassword;
     }
 }
