@@ -1,7 +1,5 @@
-package models;
+package com.salmon.spicysalmon.models;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 public abstract class User extends Bank {

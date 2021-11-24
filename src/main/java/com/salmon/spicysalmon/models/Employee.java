@@ -1,5 +1,5 @@
-package models;
-import java.util.LinkedHashMap;
+package com.salmon.spicysalmon.models;
+
 public class Employee extends User{
     // delete vacation part
     private String title;
