@@ -52,7 +52,7 @@ public class Bank {
     }
 
     ///We decided that we have apply account and delete account in the bank class
-    public boolean applyAccount(String accName) {  return true;  }
+    public boolean applyBankAccount(String accountNumber, ) {  return true;  }
 
     //Potential sub-types - Savings, Current, Pension, Family, Aktier/Fonder
 
