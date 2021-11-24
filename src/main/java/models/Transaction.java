@@ -9,7 +9,7 @@ public class Transaction {
     public final double AMOUNT;
 
     public Transaction(String to, String from, double amount){
-        this.ID = UUID.randomUUID().toString();
+        this.ID = UUID.randomUUID().toString().replace("-", "");
         this.TO = to;
         this.FROM = from;
         this.AMOUNT = amount;
