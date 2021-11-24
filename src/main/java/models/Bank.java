@@ -16,13 +16,12 @@ public class Bank {
 
     public void createCustomer(String firstName, String lastName, double salary, String residentialArea, String occupation, String socialSecurityNumber) throws Exception{
         try{
-            String ID = "";
-            User newCustomer = new Customer(ID, firstName, lastName, socialSecurityNumber, salary, residentialArea, occupation, socialSecurityNumber);
             String uniqueID;
             do{
                 int temp = (int) (Math.random()*999999);
                 uniqueID = "3"+ temp;
             } while(transactionsCollection.get(uniqueID) != null);
+            User newCustomer = new Customer(uniqueID, firstName, lastName, socialSecurityNumber, salary, residentialArea, occupation, socialSecurityNumber);
             usersCollection.put(uniqueID, newCustomer);
         } catch(Exception e){
             throw new Exception("Please enter valid customer information");
@@ -38,7 +37,7 @@ public class Bank {
             toUser.deposit(accountID, amount);
             // maybe change this to match to if from is type String
             from.withdraw(amount);
-            Transaction newTransaction =  new Transaction(from.getAccountNumber(), to, amount);
+            Transaction newTransaction =  new Transaction(from.getAccountNumber(), to, amount);::i
         } catch(Exception e){
             throw new Exception("Please enter valid transaction data.");
         }
