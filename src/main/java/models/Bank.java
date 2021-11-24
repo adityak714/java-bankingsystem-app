@@ -42,6 +42,7 @@ public class Bank {
             throw new Exception("Please enter valid transaction data.");
         }
     }
+<<<<<<< HEAD
 
     ///We decided that we have apply account and delete account in the bank class
     public boolean applyAccount(String accName) {  return true;  }
@@ -55,4 +56,10 @@ public class Bank {
 
         //User's first account has a different process to apply, and all further accounts like savings account can be added by the customer by themselves
         return true; }
+=======
+    public HashMap<String, User> getUsersCollection(){
+        return this.usersCollection;
+    }
+
+>>>>>>> 3f122d9b3b382bf859897806638b960147cf3ea1
 }
