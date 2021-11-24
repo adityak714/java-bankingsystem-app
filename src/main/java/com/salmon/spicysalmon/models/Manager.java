@@ -1,4 +1,4 @@
-package models;
+package com.salmon.spicysalmon.models;
 
 public class Manager extends Employee {
 
