@@ -37,7 +37,7 @@ public class Bank {
             toUser.deposit(accountID, amount);
             // maybe change this to match to if from is type String
             from.withdraw(amount);
-            Transaction newTransaction =  new Transaction(from.getAccountNumber(), to, amount);::i
+            Transaction newTransaction =  new Transaction(from.getAccountNumber(), to, amount);
         } catch(Exception e){
             throw new Exception("Please enter valid transaction data.");
         }
