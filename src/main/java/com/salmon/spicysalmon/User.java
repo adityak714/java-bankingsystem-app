@@ -1,23 +1,21 @@
 package com.salmon.spicysalmon;
 
 public abstract class User {
-    final private int userID;
+
     private String password;
     private String firstName;
     private String lastName;
-    final private long personnumer;
+    final private String personnumer;
 
-    public User(int userID, String password, String firstName, String lastName, long personnumer) {
-        this.userID = userID;
+    public User(String password, String firstName, String lastName, String personnumer) {
+
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.personnumer = personnumer;
     }
 
-    public int getUserID() {
-        return userID;
-    }
+
 
     public String getPassword() {
         return password;
@@ -43,22 +41,22 @@ public abstract class User {
         this.lastName = lastName;
     }
 
-    public long getPersonnumer() {
+    public String getPersonnumer() {
         return personnumer;
     }
 
-    public boolean verifyPassword(String password,int userId){
-        if(Password==UserId.getPassword){
+    public boolean verifyPassword(String password,String personnumer){
+        if(Password==personnumer.getPassword){
             return true;
         }else {
             return false;
         }
     }
 
-    public void changePassword(String oldPassword, String newPassword, int userId){
+    public void changePassword(String oldPassword, String newPassword, String personnumer){
         if (OldPassword == NewPassword){
             System.out.println("Error : You wrote the same password (old password)");
         }
-        userId.setPassword = NewPassword;
+        personnumer.setPassword = NewPassword;
     }
 }
