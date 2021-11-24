@@ -25,9 +25,9 @@ public abstract class User extends Bank {
         return ID;
     }
 
-    public String getPassword() {
+    /*public String getPassword() {
         return password;
-    }
+    }*/
 
     public void setPassword(String password) {
         this.password = password;
@@ -72,7 +72,6 @@ public abstract class User extends Bank {
         } else {
             throw new Exception("Incorret current password");
         }
-
     }
 
     public LinkedHashMap<String, BankAccount> getAccounts() {

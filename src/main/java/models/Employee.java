@@ -1,7 +1,7 @@
 package models;
 import java.util.LinkedHashMap;
 public class Employee extends User{
-
+    // delete vacation part
     private String title;
     private int vacationDays;
     private String startDate;
