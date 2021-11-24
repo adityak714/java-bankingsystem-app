@@ -16,13 +16,12 @@ public class Bank {
 
     public void createCustomer(String password, String firstName, String lastName, double salary, String residentialArea, String occupation, String socialSecurityNumber) throws Exception{
         try{
-            String ID = "";
-            User newCustomer = new Customer(ID, password, firstName, lastName, residentialArea, salary, occupation, socialSecurityNumber);
             String uniqueID;
             do{
                 int temp = (int) (Math.random()*999999);
                 uniqueID = "3"+ temp;
             } while(transactionsCollection.get(uniqueID) != null);
+            User newCustomer = new Customer(uniqueID, firstName, lastName, socialSecurityNumber, salary, residentialArea, occupation, socialSecurityNumber);
             usersCollection.put(uniqueID, newCustomer);
         } catch(Exception e){
             throw new Exception("Please enter valid customer information");
