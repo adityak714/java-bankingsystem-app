@@ -1,6 +1,5 @@
 package models;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 public class Customer extends User {
@@ -47,8 +46,4 @@ public class Customer extends User {
     public double getTotalBalance(String accName){
         return accounts.get(accName).getBalance();
     }
-
-    
-    
-    
 }

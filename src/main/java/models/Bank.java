@@ -14,7 +14,7 @@ public class Bank {
         this.transactionsCollection = new LinkedHashMap<>();
     }
 
-    public void createCustomer(String password, String firstName, String lastName, double salary, String residentialArea, String occupation, String socialSecurityNumber) throws Exception{
+    public void createCustomer(String password, String firstName, String lastName, String salary, double residentialArea, String occupation, String socialSecurityNumber) throws Exception{
         try{
             String uniqueID;
             do{
@@ -29,7 +29,7 @@ public class Bank {
     }
 
     // unsure about type for from account
-    public void transferBetweenCustomers(BankAccount from, String to, double amount) throws Exception{
+    /*public void transferBetweenCustomers(BankAccount from, String to, double amount) throws Exception{
         try{
             String userID = to.substring(1,7);
             String accountID = to.substring(8,9);
@@ -42,6 +42,7 @@ public class Bank {
             throw new Exception("Please enter valid transaction data.");
         }
     }
+     */
 
     ///We decided that we have apply account and delete account in the bank class
     public boolean applyAccount(String accName) {  return true;  }

@@ -66,7 +66,5 @@ public abstract class User {
         } else{
             throw new Exception("Incorret current password");
         }
-
     }
-
 }
