@@ -5,20 +5,28 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 public class Bank {
+    // implement delete method for UserAccounts
+    // implement application hashmap
+    // create Customer User
+    // create Customer Account
+    // delete method for BankAccount
+    // delete employee user Account
+
 
     private final HashMap<String, User> usersCollection;
     private final LinkedHashMap<String, ArrayList<Transaction>> transactionsCollection;
 
     public Bank() {
-        this.usersCollection = new HashMap();
+        this.usersCollection = new HashMap<>();
         this.transactionsCollection = new LinkedHashMap<>();
     }
 
-    public void createCustomer(String password, String firstName, String lastName, double salary, String residentialArea, String occupation, String socialSecurityNumber) throws Exception{
+    public void createCustomer(String password, String firstName, String lastName, String salary, double residentialArea, String occupation, String socialSecurityNumber) throws Exception{
         try{
             String uniqueID;
             do{
                 int temp = (int) (Math.random()*999999);
+                // potentially get rid of uniqueID
                 uniqueID = "3"+ temp;
             } while(transactionsCollection.get(uniqueID) != null);
             User newCustomer = new Customer(uniqueID, firstName, lastName, socialSecurityNumber, salary, residentialArea, occupation, socialSecurityNumber);
@@ -29,7 +37,7 @@ public class Bank {
     }
 
     // unsure about type for from account
-    public void transferBetweenCustomers(BankAccount from, String to, double amount) throws Exception{
+    /*public void transferBetweenCustomers(BankAccount from, String to, double amount) throws Exception{
         try{
             String userID = to.substring(1,7);
             String accountID = to.substring(8,9);
@@ -42,9 +50,10 @@ public class Bank {
             throw new Exception("Please enter valid transaction data.");
         }
     }
+     */
 
     ///We decided that we have apply account and delete account in the bank class
-    public boolean applyAccount(String accName) {  return true;  }
+    public boolean applyBankAccount(String accountNumber, ) {  return true;  }
 
     //Potential sub-types - Savings, Current, Pension, Family, Aktier/Fonder
 

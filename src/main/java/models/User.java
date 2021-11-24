@@ -19,9 +19,9 @@ public abstract class User {
         return ID;
     }
 
-    public String getPassword() {
+    /*public String getPassword() {
         return password;
-    }
+    }*/
 
     public void setPassword(String password) {
         this.password = password;
@@ -66,7 +66,5 @@ public abstract class User {
         } else{
             throw new Exception("Incorret current password");
         }
-
     }
-
 }

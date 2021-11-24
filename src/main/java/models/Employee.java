@@ -1,7 +1,7 @@
 package models;
 
 public class Employee extends User{
-
+    // delete vacation part
     private String title;
     private int vacationDays;
     private String startDate;
