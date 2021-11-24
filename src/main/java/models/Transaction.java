@@ -8,6 +8,8 @@ public class Transaction {
     public final String FROM;
     public final double AMOUNT;
 
+    // potentially add date
+
     public Transaction(String to, String from, double amount){
         this.ID = UUID.randomUUID().toString().replace("-", "");
         this.TO = to;

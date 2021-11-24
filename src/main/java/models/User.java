@@ -19,9 +19,9 @@ public abstract class User {
         return ID;
     }
 
-    public String getPassword() {
+    /*public String getPassword() {
         return password;
-    }
+    }*/
 
     public void setPassword(String password) {
         this.password = password;

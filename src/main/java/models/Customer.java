@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 public class Customer extends User {
+    // change linkedhashmap to arraylist?
     private final LinkedHashMap<String, BankAccount> accounts;
     private double salary;
     private String residentialArea;
@@ -48,7 +49,8 @@ public class Customer extends User {
         return accounts.get(accName).getBalance();
     }
 
-    
+    // deposit to an Account, a method takes in account number and amount
+    // deposit to an Account, a method takes in account number and amount
     
     
 }
