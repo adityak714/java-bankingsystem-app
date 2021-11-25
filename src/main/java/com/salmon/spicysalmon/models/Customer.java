@@ -9,8 +9,8 @@ public class Customer extends User {
     private String residentialArea;
     private String occupation;
 
-    public Customer(String userID, String password, String firstName, String lastName, String socialSecurityNumber, double salary, String residentialArea, String occupation) {
-        super(userID, password, firstName, lastName, socialSecurityNumber);
+    public Customer(String socialSecurity, String password, String firstName, String lastName, double salary, String residentialArea, String occupation) {
+        super(socialSecurity, password, firstName, lastName);
         this.accounts = new LinkedHashMap<>();
         this.salary = salary;
         this.residentialArea = residentialArea;
@@ -47,28 +47,6 @@ public class Customer extends User {
     public double getTotalBalance(String accName){
         return accounts.get(accName).getBalance();
     }
-<<<<<<< HEAD
-}
-=======
-
-    // deposit to an Account, a method takes in account number and amount
-    // deposit to an Account, a method takes in account number and amount
-    /*public boolean verifyAccount(String accountID) {
-        for (String key : accounts.keySet()) {
-            if (accountID.equals(key)) {
-                 return true;
-            }
-            else {
-                return false;
-            }
-        }
-    }
-
-     */
-
-
-
-
 
     public double deposit(String accountID, double amount) throws Exception {
 
@@ -76,13 +54,18 @@ public class Customer extends User {
         for (String key : accounts.keySet()) {
             if (accountID.equals(key)) {
                 BankAccount myBankAccount = accounts.get(accountID);
-                if (amount <= 0) {throw new Exception("Amount to be deposited is invalid"); }
-                else { return myBankAccount.getBalance() + amount; }
+                if (amount <= 0) {
+                    throw new Exception("Amount to be deposited is invalid");
+                } else {
+                    return myBankAccount.getBalance() + amount;
+                }
 
-            }
-            else {
+            } else {
                 System.out.println("Account could not be found.");
             }
+        }
+        return 0.0;
+    }
         /*if (amount <= 0.00) {
             throw new Exception("Please enter a valid amount to be deposited:");
         }
@@ -101,7 +84,19 @@ public class Customer extends User {
          */
 
 
+    // deposit to an Account, a method takes in account number and amount
+    // deposit to an Account, a method takes in account number and amount
+    /*public boolean verifyAccount(String accountID) {
+        for (String key : accounts.keySet()) {
+            if (accountID.equals(key)) {
+                 return true;
+            }
+            else {
+                return false;
+            }
+        }
     }
+
+     */
     
 }
->>>>>>> cabbe5d3189da8eff79abe118bf8661dc744c796

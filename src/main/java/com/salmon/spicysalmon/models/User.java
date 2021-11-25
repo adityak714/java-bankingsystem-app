@@ -2,30 +2,19 @@ package com.salmon.spicysalmon.models;
 
 import java.util.LinkedHashMap;
 
-public abstract class User extends Bank {
-    private final String ID;
+public abstract class User{
     private String password;
     private String firstName;
     private String lastName;
     private final String socialSecurityNumber;
 
 
-    public User(String ID, String password, String firstName, String lastName, String socialSecurityNumber) {
-        this.ID = ID;
+    public User(String socialSecurityNumber, String password, String firstName, String lastName) {
+        this.socialSecurityNumber = socialSecurityNumber;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.socialSecurityNumber = socialSecurityNumber;
-        this.accounts = new LinkedHashMap<>();
     }
-
-    public String getID() {
-        return ID;
-    }
-
-    /*public String getPassword() {
-        return password;
-    }*/
 
     public void setPassword(String password) {
         this.password = password;
@@ -63,7 +52,6 @@ public abstract class User extends Bank {
         }
         UserId.setPassword = NewPassword;
     }*/
-
     public void changePassword(String testPassword, String newPassword) throws Exception {
         if (this.password.equals(testPassword)) {
             this.password = newPassword;
@@ -71,9 +59,4 @@ public abstract class User extends Bank {
             throw new Exception("Incorret current password");
         }
     }
-
-    public LinkedHashMap<String, BankAccount> getAccounts() {
-        return accounts;
-    }
-
 }
