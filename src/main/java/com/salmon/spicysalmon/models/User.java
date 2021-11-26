@@ -6,14 +6,13 @@ public abstract class User{
     private String password;
     private String firstName;
     private String lastName;
-    private final String socialSecurityNumber;
+    private final String SOCIALSECURITYNUMBER;
 
-
-    public User(String socialSecurityNumber, String password, String firstName, String lastName) {
-        this.socialSecurityNumber = socialSecurityNumber;
+    public User(String password, String firstName, String lastName, String socialSecurityNumber) {
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.SOCIALSECURITYNUMBER = socialSecurityNumber;
     }
 
     public void setPassword(String password) {
@@ -37,26 +36,18 @@ public abstract class User{
     }
 
     public String getSocialSecurityNumber() {
-        return socialSecurityNumber;
+        return SOCIALSECURITYNUMBER;
     }
 
-
-    // call this on a user so no need for user ID
     public boolean verifyPassword(String testPassword) {
         return this.password.equals(testPassword);
     }
 
-    /*public void changePassword(String oldPassword, String newPassword, int UserId){
-        if (OldPassword == NewPassword){
-            System.out.println("Error : You wrote the same password (old password)");
-        }
-        UserId.setPassword = NewPassword;
-    }*/
     public void changePassword(String testPassword, String newPassword) throws Exception {
         if (this.password.equals(testPassword)) {
             this.password = newPassword;
         } else {
-            throw new Exception("Incorret current password");
+            throw new Exception("Incorrect current password");
         }
     }
 }
