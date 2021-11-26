@@ -6,7 +6,7 @@ public class Manager extends Employee {
         super(ID, pwd, firstName, lastName, socialSecurityNumber, title, startDate);
     }
 
-    public String createEmployee(String pwd, String firstName, String lastName, String socialSecurityNumber, String title, String startDate)throws Exception{
+    /*public String createEmployee(String pwd, String firstName, String lastName, String socialSecurityNumber, String title, String startDate)throws Exception{
         try{
             String uniqueID;
             do{
@@ -20,6 +20,6 @@ public class Manager extends Employee {
             throw new Exception("Please enter valid customer information");
         }
         return "Employee created successfully";
-    }
+    }*/
 }
 
