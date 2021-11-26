@@ -8,7 +8,7 @@ public class Employee extends User{
 
 
     public Employee(String ID, String password, String firstName, String lastName, String socialSecurityNumber, String title, String startDate){
-        super(ID, password, firstName, lastName, socialSecurityNumber);
+        super(password, firstName, lastName, socialSecurityNumber);
         this.title = title;
         this.startDate = startDate;
 
@@ -34,7 +34,7 @@ public class Employee extends User{
         this.vacationDays = vacationDays;
     }
 
-    public String deleteAccount(String ID) throws Exception{
+    /*public String deleteAccount(String ID) throws Exception{
 
         if (ID.length() == 10 && ID.startsWith("5")){
             String userID = ID.substring(2, 8); //Check if this should start at 1
@@ -47,7 +47,7 @@ public class Employee extends User{
             else return "Account number not found.";
         }
         return "Invalid account number";
-    }
+    }*/
     public String reviewApplication(){
 
         return "";

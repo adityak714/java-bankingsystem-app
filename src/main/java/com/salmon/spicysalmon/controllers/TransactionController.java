@@ -13,6 +13,6 @@ public class TransactionController {
     }
 
     public boolean isSSNUnique(String SSN){
-        return allTransactions.get(SSN) != null;
+        return allTransactions.get(SSN) == null;
     }
 }
