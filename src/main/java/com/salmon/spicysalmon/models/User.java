@@ -1,6 +1,8 @@
 package com.salmon.spicysalmon.models;
 
-public abstract class User {
+import java.util.LinkedHashMap;
+
+public abstract class User{
     private String password;
     private String firstName;
     private String lastName;
