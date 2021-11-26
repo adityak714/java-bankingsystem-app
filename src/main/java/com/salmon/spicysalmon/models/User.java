@@ -39,6 +39,15 @@ public abstract class User{
         return SOCIALSECURITYNUMBER;
     }
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", SOCIALSECURITYNUMBER='" + SOCIALSECURITYNUMBER + '\'' +
+                '}';
+    }
+
     public boolean verifyPassword(String testPassword) {
         return this.password.equals(testPassword);
     }

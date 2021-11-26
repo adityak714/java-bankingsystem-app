@@ -1,10 +1,12 @@
 package com.salmon.spicysalmon.models;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 public class Customer extends User {
     // change linkedhashmap to arraylist?
     private final LinkedHashMap<String, BankAccount> accounts;
+    private final ArrayList<BankAccount> customerAccount;
     private double salary;
     private String residentialArea;
     private String occupation;
@@ -12,6 +14,7 @@ public class Customer extends User {
     public Customer(String socialSecurity, String password, String firstName, String lastName, double salary, String residentialArea, String occupation) {
         super(socialSecurity, password, firstName, lastName);
         this.accounts = new LinkedHashMap<>();
+        this.customerAccount = new ArrayList<>();
         this.salary = salary;
         this.residentialArea = residentialArea;
         this.occupation = occupation;
@@ -48,6 +51,16 @@ public class Customer extends User {
         return accounts.get(accName).getBalance();
     }
 
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "accounts=" + accounts +
+                ", salary=" + salary +
+                ", residentialArea='" + residentialArea + '\'' +
+                ", occupation='" + occupation + '\'' +
+                '}';
+    }
+
     public double deposit(String accountID, double amount) throws Exception {
 
         ////Find account
@@ -66,6 +79,11 @@ public class Customer extends User {
         }
         return 0.0;
     }
+
+    public void createBankAccount(String SSN, String firstName, String lastName) {
+        BankAccount bankAccount = new BankAccount(SSN, firstName, lastName);
+    }
+
         /*if (amount <= 0.00) {
             throw new Exception("Please enter a valid amount to be deposited:");
         }
