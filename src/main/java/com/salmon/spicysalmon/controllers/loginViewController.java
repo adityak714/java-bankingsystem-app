@@ -42,7 +42,7 @@ public class loginViewController implements Initializable {
                 loader.setLocation(getClass().getResource("/views/customerView.fxml"));
                 Scene customerView = new Scene(loader.load());
 
-                customerViewController cvc = loader.getController();
+                CustomerViewController cvc = loader.getController();
                 cvc.initialData(customer);
 
                 Stage mainStage = (Stage) ((Node) event.getSource()).getScene().getWindow();

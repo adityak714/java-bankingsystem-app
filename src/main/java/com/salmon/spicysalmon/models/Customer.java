@@ -15,6 +15,12 @@ public class Customer extends User {
         this.salary = salary;
         this.residentialArea = residentialArea;
         this.occupation = occupation;
+        BankAccount acc1 = new BankAccount("01", firstName, lastName);
+        BankAccount acc2 = new BankAccount("02", firstName, lastName);
+        BankAccount acc3 = new BankAccount("03", firstName, lastName);
+        accounts.put("01", acc1);
+        accounts.put("02", acc2);
+        accounts.put("03", acc3);
     }
 
     // super functions, adding social security numbers and attributes inherited from super class User
