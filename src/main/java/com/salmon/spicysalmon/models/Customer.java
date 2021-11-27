@@ -20,8 +20,6 @@ public class Customer extends User {
         this.occupation = occupation;
     }
 
-    // super functions, adding social security numbers and attributes inherited from super class User
-
     public LinkedHashMap<String, BankAccount> getAccounts() {
         return accounts;
     }
@@ -29,6 +27,7 @@ public class Customer extends User {
     public double getSalary() {
         return salary;
     }
+
     public void setSalary(double salary) {
         this.salary = salary;
     }
@@ -36,6 +35,7 @@ public class Customer extends User {
     public String getResidentialArea() {
         return residentialArea;
     }
+
     public void setResidentialArea(String residentialArea) {
         this.residentialArea = residentialArea;
     }
@@ -43,12 +43,9 @@ public class Customer extends User {
     public String getOccupation() {
         return occupation;
     }
+
     public void setOccupation(String occupation) {
         this.occupation = occupation;
-    }
-
-    public double getTotalBalance(String accName){
-        return accounts.get(accName).getBalance();
     }
 
     @Override
@@ -61,9 +58,12 @@ public class Customer extends User {
                 '}';
     }
 
-    public double deposit(String accountID, double amount) throws Exception {
+    public double getTotalBalance(String accName){
+        return accounts.get(accName).getBalance();
+    }
 
-        ////Find account
+    public double deposit(String accountID, double amount) throws Exception {
+        // Find account
         for (String key : accounts.keySet()) {
             if (accountID.equals(key)) {
                 BankAccount myBankAccount = accounts.get(accountID);

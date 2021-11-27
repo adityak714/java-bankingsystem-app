@@ -99,26 +99,26 @@ public class MainMenu {
                     break;
                 case 1:
                     System.out.println("You have chosen: Create a customer.");
-                    System.out.println("What is your SSN?: ");
+                    System.out.print("What is your SSN?: ");
                     String socialSecurityNumber = UserIO.readStr();
-                    System.out.println("Create a new password: ");
+                    System.out.print("Create a new password: ");
                     String password = UserIO.readStr();
-                    System.out.println("What is your first name?: ");
+                    System.out.print("What is your first name?: ");
                     String firstName = UserIO.readStr();
-                    System.out.println("What is your last name?: ");
+                    System.out.print("What is your last name?: ");
                     String lastName = UserIO.readStr();
-                    System.out.println("What is your salary?: ");
+                    System.out.print("What is your salary?: ");
                     int salary = UserIO.readInt();
-                    System.out.println("Where do you live?: ");
+                    System.out.print("Where do you live?: ");
                     String residentalArea = UserIO.readStr();
-                    System.out.println("What is your occupation?: ");
+                    System.out.print("What is your occupation?: ");
                     String occupation = UserIO.readStr();
                     customers.createCustomer(socialSecurityNumber,password, firstName,lastName, salary, residentalArea, occupation);
                     printOpenCustomerOptions();
                     break;
                 case 2:
                     System.out.println("You have chosen: Remove a customer.");
-                    System.out.println("What customer do you wish to remove? ");
+                    System.out.print("What customer do you wish to remove? Enter SSN: ");
                     String remove = UserIO.readStr();
                     System.out.println(customers.removeCustomer(remove));
                     printOpenCustomerOptions();
@@ -130,11 +130,11 @@ public class MainMenu {
                     break;
                 case 4:
                     System.out.println("You have chosen: Create bank account for a customer.");
-                    System.out.println("Which customer do you wish to create an account for? Enter SSN: ");
+                    System.out.print("Which customer do you wish to create an account for? Enter SSN: ");
                     String SSN = UserIO.readStr();
-                    System.out.println("Enter first name: ");
+                    System.out.print("Enter first name: ");
                     firstName = UserIO.readStr();
-                    System.out.println("Enter last name: ");
+                    System.out.print("Enter last name: ");
                     lastName = UserIO.readStr();
                     Customer tempCustomer = customers.findCustomer(SSN);
                     tempCustomer.createBankAccount(SSN, firstName, lastName);
@@ -142,7 +142,7 @@ public class MainMenu {
                     break;
                 case 5:
                     System.out.println("You have chosen: Print a specific customer.");
-                    System.out.println("customer SSN: ");
+                    System.out.print("Enter customer SSN: ");
                     SSN = UserIO.readStr();
                     System.out.println(customers.printSpecificCustomer(SSN));
                     printOpenCustomerOptions();

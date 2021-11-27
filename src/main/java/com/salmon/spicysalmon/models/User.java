@@ -8,7 +8,7 @@ public abstract class User{
     private String lastName;
     private final String SOCIALSECURITYNUMBER;
 
-    public User(String socialSecurityNumber, String password, String firstName, String lastName) {
+    public User(String password, String firstName, String lastName, String socialSecurityNumber) {
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;

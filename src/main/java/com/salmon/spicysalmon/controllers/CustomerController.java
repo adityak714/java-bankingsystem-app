@@ -18,7 +18,7 @@ public class CustomerController {
     }
 
     public void createCustomer(String socialSecurityNumber, String password, String firstName, String lastName, double salary, String residentialArea, String occupation) throws Exception{
-            if(transactionsController.isSSNUnique(socialSecurityNumber)){
+            if(transactionsController.checkIfSSNUnique(socialSecurityNumber)){
                 Customer newCustomer = new Customer(socialSecurityNumber, password, firstName, lastName, salary, residentialArea, occupation);
                 allCustomers.put(socialSecurityNumber, newCustomer);
                 customerList.add(newCustomer);
@@ -33,10 +33,12 @@ public class CustomerController {
 
     public Customer findCustomer(String SSN) {
         for (Customer customer : customerList) {
-            if(customer.getSocialSecurityNumber().equals(SSN)) {
+            if (customer.getSocialSecurityNumber().equals(SSN)) {
+                System.out.println("kladdkaka009");
                 return customer;
             }
         }
+        System.out.println("Kladdkaka2323");
         return null;
     }
 
@@ -51,12 +53,13 @@ public class CustomerController {
     }
 
     public String printAllCustomers(){
+        String EOL = System.lineSeparator();
         if(customerList.isEmpty()){
-            return "No items registered yet.";
+            return "No customers registered yet.";
         }
-        String message = "All registered customers:" + System.lineSeparator();
+        String message = "All registered customers:" + EOL;
         for (Customer customer: customerList) {
-            message += printCustomer(customer.getSocialSecurityNumber()) + System.lineSeparator();
+            message += printCustomer(customer.getSocialSecurityNumber()) + EOL;
         }
         return message;
     }
@@ -75,9 +78,9 @@ public class CustomerController {
 
     public String printSpecificCustomer(String SSN) {
         Customer customer = findCustomer(SSN);
+        System.out.println("kladdkaka45");
         if(customer == null) {
-            return ("Item " + SSN + " could not be found.");
-
+            return ("Customer " + SSN + " could not be found.");
         }
         return printCustomer(customer.getSocialSecurityNumber());
     }
