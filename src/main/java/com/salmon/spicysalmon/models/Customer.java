@@ -86,6 +86,8 @@ public class Customer extends User {
         return 0.0;
     }
 
+
+    // no need to pass in any of the parameters, all are already attributes of the customer, however, should it in a name for the account
     public void createBankAccount(String SSN, String firstName, String lastName) {
         BankAccount bankAccount = new BankAccount(SSN, firstName, lastName);
     }

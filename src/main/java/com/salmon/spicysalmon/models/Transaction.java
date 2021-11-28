@@ -17,4 +17,19 @@ public class Transaction {
         this.AMOUNT = amount;
     }
 
+    public String getID() {
+        return ID;
+    }
+
+    public String getTO() {
+        return TO;
+    }
+
+    public String getFROM() {
+        return FROM;
+    }
+
+    public double getAMOUNT() {
+        return AMOUNT;
+    }
 }
