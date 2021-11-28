@@ -12,7 +12,7 @@ public class TransactionController {
         allTransactions = new LinkedHashMap<>();
     }
 
-    public boolean isSSNUnique(String SSN){
+    public boolean checkIfSSNUnique(String SSN){ // Armin: use verb when naming methods
         return allTransactions.get(SSN) == null;
     }
 }
