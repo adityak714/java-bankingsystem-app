@@ -1,10 +1,12 @@
 package com.salmon.spicysalmon.models;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 public class Customer extends User {
     // change linkedhashmap to arraylist?
     private final LinkedHashMap<String, BankAccount> accounts;
+    private final ArrayList<BankAccount> customerAccount;
     private double salary;
     private String residentialArea;
     private String occupation;
@@ -12,12 +14,11 @@ public class Customer extends User {
     public Customer(String socialSecurity, String password, String firstName, String lastName, double salary, String residentialArea, String occupation) {
         super(socialSecurity, password, firstName, lastName);
         this.accounts = new LinkedHashMap<>();
+        this.customerAccount = new ArrayList<>();
         this.salary = salary;
         this.residentialArea = residentialArea;
         this.occupation = occupation;
     }
-
-    // super functions, adding social security numbers and attributes inherited from super class User
 
     public LinkedHashMap<String, BankAccount> getAccounts() {
         return accounts;
@@ -26,6 +27,7 @@ public class Customer extends User {
     public double getSalary() {
         return salary;
     }
+
     public void setSalary(double salary) {
         this.salary = salary;
     }
@@ -33,6 +35,7 @@ public class Customer extends User {
     public String getResidentialArea() {
         return residentialArea;
     }
+
     public void setResidentialArea(String residentialArea) {
         this.residentialArea = residentialArea;
     }
@@ -40,8 +43,19 @@ public class Customer extends User {
     public String getOccupation() {
         return occupation;
     }
+
     public void setOccupation(String occupation) {
         this.occupation = occupation;
+    }
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "accounts=" + accounts +
+                ", salary=" + salary +
+                ", residentialArea='" + residentialArea + '\'' +
+                ", occupation='" + occupation + '\'' +
+                '}';
     }
 
     public double getTotalBalance(String accName){
@@ -49,8 +63,7 @@ public class Customer extends User {
     }
 
     public double deposit(String accountID, double amount) throws Exception {
-
-        ////Find account
+        // Find account
         for (String key : accounts.keySet()) {
             if (accountID.equals(key)) {
                 BankAccount myBankAccount = accounts.get(accountID);
@@ -66,6 +79,11 @@ public class Customer extends User {
         }
         return 0.0;
     }
+
+    public void createBankAccount(String SSN, String firstName, String lastName) {
+        BankAccount bankAccount = new BankAccount(SSN, firstName, lastName);
+    }
+
         /*if (amount <= 0.00) {
             throw new Exception("Please enter a valid amount to be deposited:");
         }
