@@ -23,7 +23,7 @@ public class BankAccountViewController {
     public void initData(Customer customer, BankAccount bankAccount){
         this.loggedInCustomer = customer;
         this.currentBankAccount = bankAccount;
-        mainHeading.setText(bankAccount.toString());
+        mainHeading.setText(loggedInCustomer.getSocialSecurityNumber()+"-"+currentBankAccount.getAccountNumber()+"\n"+currentBankAccount.getBalance()+" SEK");
     }
 
     public void goBack(ActionEvent event){

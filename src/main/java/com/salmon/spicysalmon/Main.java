@@ -20,6 +20,7 @@ public class Main extends Application {
             Scene loginScene = new Scene(loader.load());
             stage.setTitle("Login Salmon");
             stage.setScene(loginScene);
+            stage.setResizable(false);
             stage.show();
             CustomerController cc = new CustomerController();
             cc.createCustomer("123", "salmon", "Shariq", "Shahbaz", 988888888, "gatan", "chutiya");

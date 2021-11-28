@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class loginViewController implements Initializable {
+public class LoginViewController implements Initializable {
 
     @FXML
     private Text heading;
