@@ -49,12 +49,14 @@ public class BankAccountViewController {
         Transaction trans2 = new Transaction("Victor", "Shariq", 10000);
         Transaction trans3 = new Transaction("Umar", "Shariq", 50000);
         Transaction trans4 = new Transaction("Aditya", "Shariq", 2);
+        Transaction trans5 = new Transaction("Emil", "Shariq", -300000000);
 
         ArrayList<Transaction> allTransactions = new ArrayList<>();
         allTransactions.add(trans1);
         allTransactions.add(trans2);
         allTransactions.add(trans3);
         allTransactions.add(trans4);
+        allTransactions.add(trans5);
 
 
         ID.setCellValueFactory(new PropertyValueFactory<Transaction, String>("ID"));
