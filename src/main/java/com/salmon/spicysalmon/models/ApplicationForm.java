@@ -1,11 +1,11 @@
 package com.salmon.spicysalmon.models;
 
-public class BankAccountApplication {
+public class ApplicationForm { // Armin: ApplicationForm a better name
     private final Customer requestee;
     private String accountName;
     private boolean isApproved;
 
-    public BankAccountApplication(Customer customer,String accountName){
+    public ApplicationForm(Customer customer, String accountName){
         this.requestee = customer;
         this.accountName = accountName;
     }
