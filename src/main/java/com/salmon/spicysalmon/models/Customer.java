@@ -18,6 +18,12 @@ public class Customer extends User {
         this.salary = salary;
         this.residentialArea = residentialArea;
         this.occupation = occupation;
+        BankAccount acc1 = new BankAccount("01", firstName, lastName);
+        BankAccount acc2 = new BankAccount("02", firstName, lastName);
+        BankAccount acc3 = new BankAccount("03", firstName, lastName);
+        accounts.put("01", acc1);
+        accounts.put("02", acc2);
+        accounts.put("03", acc3);
     }
 
     public LinkedHashMap<String, BankAccount> getAccounts() {
@@ -80,6 +86,8 @@ public class Customer extends User {
         return 0.0;
     }
 
+
+    // no need to pass in any of the parameters, all are already attributes of the customer, however, should it in a name for the account
     public void createBankAccount(String SSN, String firstName, String lastName) {
         BankAccount bankAccount = new BankAccount(SSN, firstName, lastName);
     }

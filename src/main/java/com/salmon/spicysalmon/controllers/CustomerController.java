@@ -8,12 +8,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class CustomerController {
-    private static HashMap<String, Customer> allCustomers; // "customerList" is a better name?
-    private TransactionController transactionsController;
-    private ArrayList<Customer> customerList = new ArrayList<>();
+    private static final HashMap<String, Customer> allCustomers = new HashMap<>(); // "customerList" is a better name?
+    private final TransactionController transactionsController;
+    private final ArrayList<Customer> customerList = new ArrayList<>();
 
     public CustomerController(){
-        allCustomers = new HashMap<>();
         transactionsController = new TransactionController();
     }
 
