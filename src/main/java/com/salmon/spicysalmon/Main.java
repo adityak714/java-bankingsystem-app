@@ -16,14 +16,15 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         try{
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("loginScreen.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/loginView.fxml"));
             Scene loginScene = new Scene(loader.load());
             stage.setTitle("Login Salmon");
             stage.setScene(loginScene);
+            stage.setResizable(false);
             stage.show();
             CustomerController cc = new CustomerController();
-            cc.createCustomer("1234567890", "salmon", "Shariq", "Shahbaz", 988888888, "gatan", "chutiya");
-            cc.createCustomer("0987654321", "salmon", "Armin", "Balesic  ", 988888888, "gatan", "chutiya");
+            cc.createCustomer("123", "salmon", "Shariq", "Shahbaz", 988888888, "gatan", "chutiya");
+            cc.createCustomer("321", "salmon", "Armin", "Balesic", 988888888, "gatan", "chutiya");
         } catch(Exception e){
             System.out.println(e.getMessage());
         }
