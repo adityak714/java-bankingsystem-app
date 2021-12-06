@@ -56,7 +56,7 @@ public class CustomerController {
         if(customerList.isEmpty()){
             return "No customers registered yet.";
         }
-        String message = "All registered customers:" + EOL;
+        String message = "All registered customers:" + EOL + "-------------------------" + EOL;
         for (Customer customer: customerList) {
             message += printCustomer(customer.getSocialSecurityNumber()) + EOL;
         }
@@ -71,7 +71,7 @@ public class CustomerController {
         } else {
             String firstName = customer.getFirstName();
             String lastName = customer.getLastName();
-            return (firstName + EOL + lastName + EOL + customer.getOccupation() + EOL + customer.getResidentialArea());
+            return ("Name: " + firstName + " " + lastName + EOL + "Occupation: " + customer.getOccupation() + EOL + "Residential Area: " + customer.getResidentialArea() + EOL);
         }
     }
 
