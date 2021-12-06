@@ -4,20 +4,20 @@ public class Employee extends User{
     // delete vacation part
     private String title;
     private int vacationDays;
-    private String startDate;
+    private final String STARTDATE;
 
-    public Employee(String ID, String password, String firstName, String lastName, String socialSecurityNumber, String title, String startDate){
+   public Employee(String socialSecurityNumber, String password, String firstName, String lastName, String title, String STARTDATE){
         super(password, firstName, lastName, socialSecurityNumber);
         this.title = title;
-        this.startDate = startDate;
-    }
+        this.STARTDATE = STARTDATE;
+   }
 
     public String getTitle(){
         return this.title;
     }
 
-    public String getStartDate() {
-        return this.startDate;
+    public String getStartDate(){
+        return this.STARTDATE;
     }
 
     public int getVacationDays() {
@@ -28,14 +28,17 @@ public class Employee extends User{
         this.title = title;
     }
 
-    public void setStartDate(String startDate) {
-        this.startDate = startDate;
-    }
-
     public void setVacationDays(int vacationDays) {
         this.vacationDays = vacationDays;
     }
-
+}
+    public String toString(){
+        return getFirstName() + " " + getLastName() + "\n"
+                + getSocialSecurityNumber() + "\n"
+                + getTitle() + "\n"
+                + getStartDate() + "\n"
+                + getVacationDays();
+    }
     /*public String deleteAccount(String ID) throws Exception{
 
         if (ID.length() == 10 && ID.startsWith("5")){
