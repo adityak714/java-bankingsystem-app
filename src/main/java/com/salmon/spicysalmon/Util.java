@@ -17,5 +17,6 @@ public class Util {
     public static String readLine(String message){
         System.out.print(message);
         return input.nextLine();
+
     }
 }
