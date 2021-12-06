@@ -10,8 +10,8 @@ import com.salmon.spicysalmon.models.Transaction;
 
 import java.util.ArrayList;
 
-public class Main {
-    private static Main mainMenu;
+public class OldMain {
+    private static OldMain mainMenu;
     private CustomerController customers;
     private EmployeeController employees;
     private TransactionController transactions;
@@ -19,14 +19,14 @@ public class Main {
     ArrayList <Employee> employeeList = new ArrayList<>();
     ArrayList <Transaction> transactionList = new ArrayList<>();
 
-    public Main() {
+    public OldMain() {
         this.customers = new CustomerController();
         this.employees = new EmployeeController();
         this.transactions = new TransactionController();
     }
 
     public static void main(String[] args) throws Exception {
-        mainMenu = new Main();
+        mainMenu = new OldMain();
         mainMenu.printMainMenu();
         mainMenu.mainMenuHandler();
     }
