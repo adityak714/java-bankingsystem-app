@@ -18,16 +18,4 @@ public class Util {
         System.out.print(message);
         return input.nextLine();
     }
-
-    public static String readPassword(String message){
-        System.out.print(message);
-        Console cnsl = System.console();
-        char[] key = cnsl.readPassword();
-        String password = "";
-        for(char character : key){
-            password += character;
-        }
-        return password;
-    }
-
 }
