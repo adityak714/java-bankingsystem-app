@@ -2,8 +2,16 @@ package com.salmon.spicysalmon;
 
 import com.salmon.spicysalmon.controllers.CustomerController;
 import com.salmon.spicysalmon.controllers.EmployeeController;
+import com.salmon.spicysalmon.models.Customer;
 
 public class LoginMenu {
+    String CUSTOMER_HEADING = "Customer Menu: Please choose a valid option.";
+    String[] CUSTOMER_OPTIONS = {
+            "View Bank Accounts",
+            "Apply for new Bank Account",
+            "Log out"
+    };
+
 
     private String[] getLoginInfo(){
         System.out.println("Login.");
@@ -14,8 +22,15 @@ public class LoginMenu {
 
     public void loginCustomer(){
         String[] loginInfo = getLoginInfo();
-        System.out.println(loginInfo[0]);
-        System.out.println(loginInfo[1]);
+        String SSN = loginInfo[0];
+        String password = loginInfo[1];
+        CustomerController customerController = new CustomerController();
+        Customer loggedInCustomer = customerController.getCustomer(SSN);
+        if(loggedInCustomer != null && loggedInCustomer.verifyPassword(password)){
+            Menu customerMenu = new Menu(CUSTOMER_HEADING, CUSTOMER_OPTIONS);
+        } else{
+            System.out.println("Username or password incorrect.");
+        }
     }
 
     public void loginEmployee(){
