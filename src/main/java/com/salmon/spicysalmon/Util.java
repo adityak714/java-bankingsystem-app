@@ -1,6 +1,4 @@
 package com.salmon.spicysalmon;
-
-import java.io.Console;
 import java.util.Scanner;
 
 public class Util {
