@@ -6,15 +6,19 @@ import java.util.LinkedHashMap;
 public class Customer extends User {
     // change linkedhashmap to arraylist?
     private final LinkedHashMap<String, BankAccount> accounts;
-    private final ArrayList<BankAccount> customerAccount;
+    private final ArrayList<BankAccount> customerAccounts;
     private double salary;
     private String residentialArea;
     private String occupation;
 
+    public ArrayList<BankAccount> getCustomerAccounts(){
+        return customerAccounts;
+    }
+
     public Customer(String socialSecurity, String password, String firstName, String lastName, double salary, String residentialArea, String occupation) {
         super(socialSecurity, password, firstName, lastName);
         this.accounts = new LinkedHashMap<>();
-        this.customerAccount = new ArrayList<>();
+        this.customerAccounts = new ArrayList<>();
         this.salary = salary;
         this.residentialArea = residentialArea;
         this.occupation = occupation;
