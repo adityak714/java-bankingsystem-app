@@ -1,6 +1,4 @@
 package com.salmon.spicysalmon;
-
-import java.io.Console;
 import java.util.Scanner;
 
 public class Util {
@@ -17,6 +15,5 @@ public class Util {
     public static String readLine(String message){
         System.out.print(message);
         return input.nextLine();
-
     }
 }
