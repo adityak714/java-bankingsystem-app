@@ -31,10 +31,6 @@ public class AuthenticationController {
         }
     }
 
-    private void showCustomerMenu(){
-
-    }
-
     public void employeeLogin(){
         String[] loginInfo = getLoginInfo();
         String SSN = loginInfo[0];
