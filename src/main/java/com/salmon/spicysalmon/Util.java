@@ -1,14 +1,19 @@
 package com.salmon.spicysalmon;
-
 import java.util.Scanner;
 
 public class Util {
-    public static final String EOL = System.lineSeparator();
+    public static String EOL = System.lineSeparator();
     private static final Scanner input = new Scanner(System.in);
+
     public static int readInt(String message){
         System.out.print(message);
-        int userInput = input.nextInt();
+        int userInt = input.nextInt();
         input.nextLine();
-        return userInput;
+        return userInt;
+    }
+
+    public static String readLine(String message){
+        System.out.print(message);
+        return input.nextLine();
     }
 }

@@ -24,11 +24,13 @@ public class UserIO {
     public static final Scanner SCANNER = new Scanner(System.in);
 
     public static int readInt(){
-        return SCANNER.nextInt();
+        int input = SCANNER.nextInt();
+        SCANNER.next();
+        return input;
     }
 
     public static String readStr(){
-        String str = SCANNER.next();
+        String str = SCANNER.nextLine();
         return str;
     }
 

@@ -1,5 +1,6 @@
 package com.salmon.spicysalmon.menus;
 
+import com.salmon.spicysalmon.controllers.AuthenticationController;
 import com.salmon.spicysalmon.models.Menu;
 
 public class MainMenu {
@@ -15,22 +16,15 @@ public class MainMenu {
     public void show(){
         int userInput = 0;
         Menu mainMenu = new Menu(MAIN_HEADING, MAIN_OPTIONS);
+        AuthenticationController authenticationController = new AuthenticationController();
         do{
             System.out.print(mainMenu);
             userInput = mainMenu.getValidOption();
-            switch(userInput){
-                case 1:
-                    AuthenticationController.customerLogin();
-                    break;
-                case 2:
-                    System.out.println("Application handling");
-                    break;
-                case 3:
-                    AuthenticationController.employeeLogin();
-                    break;
-                case 0:
-                default:
-                    break;
+            switch (userInput) {
+                case 1 -> authenticationController.customerLogin();
+                case 2 -> System.out.println("Application handling");
+                case 3 -> authenticationController.loginEmployee();
+                case 0, default -> {}
             }
         } while(userInput != 0);
     }
