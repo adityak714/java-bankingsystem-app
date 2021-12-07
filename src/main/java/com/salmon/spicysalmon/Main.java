@@ -1,11 +1,10 @@
 package com.salmon.spicysalmon;
 
-import com.salmon.spicysalmon.controllers.CustomerController;
-import com.salmon.spicysalmon.controllers.EmployeeController;
+import com.salmon.spicysalmon.controllers.AuthenticationController;
 
-public class NewMain {
+public class Main {
     public static void main(String[] args) {
-        LoginMenu loginMenu = new LoginMenu();
+        AuthenticationController authenticationController = new AuthenticationController();
         int userInput = 0;
         do {
             System.out.println(Util.EOL + "Login Menu" + Util.EOL +
@@ -15,9 +14,9 @@ public class NewMain {
             userInput = Util.readInt("Please choose an option: ");
             switch (userInput) {
                 case 0 -> System.out.println("goodbye :(");
-                case 1 -> loginMenu.loginCustomer();
+                case 1 -> authenticationController.customerLogin();
                 case 2 -> System.out.println("Application login");
-                case 3 -> loginMenu.loginEmployee();
+                case 3 -> authenticationController.loginEmployee();
                 default -> System.out.println("Please input a valid option.");
             }
             /*
