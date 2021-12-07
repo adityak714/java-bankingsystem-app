@@ -56,7 +56,7 @@ public class CustomerController {
         if(customerList.isEmpty()){
             return "No customers registered yet.";
         }
-        String message = "All registered customers:" + EOL;
+        String message = "All registered customers:" + EOL + "-------------------------" + EOL;
         for (Customer customer: customerList) {
             message += printCustomer(customer.getSocialSecurityNumber()) + EOL;
         }
@@ -71,7 +71,7 @@ public class CustomerController {
         } else {
             String firstName = customer.getFirstName();
             String lastName = customer.getLastName();
-            return (firstName + EOL + lastName + EOL + customer.getOccupation() + EOL + customer.getResidentialArea());
+            return ("Name: " + firstName + " " + lastName + EOL + "Occupation: " + customer.getOccupation() + EOL + "Residential Area: " + customer.getResidentialArea() + EOL);
         }
     }
 
@@ -82,6 +82,17 @@ public class CustomerController {
             return ("Customer " + SSN + " could not be found.");
         }
         return printCustomer(customer.getSocialSecurityNumber());
+    }
+
+    public String createBankAccount(String SSN, String accountNumber, String customerFirstName, String customerLastName){
+        Customer customer = findCustomer(SSN);
+        if(customer.equals(null)){
+            return "Customer does not exist.";
+        }else{
+            BankAccount newAccount = new BankAccount(accountNumber, customerFirstName, customerLastName);
+            customer.getCustomerAccounts().add(newAccount);
+            return "Account " + accountNumber + " created successfully.";
+        }
     }
 }
 
