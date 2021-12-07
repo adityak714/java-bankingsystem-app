@@ -91,7 +91,7 @@ public class Customer extends User {
     public void createBankAccount(String SSN, String firstName, String lastName) {
         BankAccount bankAccount = new BankAccount(SSN, firstName, lastName);
     }
-
+   
         /*if (amount <= 0.00) {
             throw new Exception("Please enter a valid amount to be deposited:");
         }
