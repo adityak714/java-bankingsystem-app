@@ -68,10 +68,10 @@ public class ApplicationController {
     public void approveApplication(BankAccountApplication application) {    //Sets the Boolean isApproved of the Customer object that is referenced in the specified application to true.
         application.approveApplication();                                   //And creates a new BankAccount for the Customer and puts it in the HashMap of BankAccounts.
         if (application.getRequestee().getNumberOfAccounts() < 10) {        // Key depends on the size of the hashmap, or at least I hope it does :).
-            application.getRequestee().getAccounts().put("0" + application.getRequestee().getNumberOfAccounts() + 1, new BankAccount("0" + application.getRequestee().getNumberOfAccounts() + 1, application.getRequestee().getFirstName(), application.getRequestee().getLastName()));
+            //application.getRequestee().getAccounts().put("0" + application.getRequestee().getNumberOfAccounts() + 1, new BankAccount("0" + application.getRequestee().getNumberOfAccounts() + 1, application.getRequestee().getFirstName(), application.getRequestee().getLastName()));
             deleteApplication(application);
         } else
-            application.getRequestee().getAccounts().put("" + application.getRequestee().getNumberOfAccounts() + 1, new BankAccount("" + application.getRequestee().getNumberOfAccounts() + 1, application.getRequestee().getFirstName(), application.getRequestee().getLastName()));
+            //application.getRequestee().getAccounts().put("" + application.getRequestee().getNumberOfAccounts() + 1, new BankAccount("" + application.getRequestee().getNumberOfAccounts() + 1, application.getRequestee().getFirstName(), application.getRequestee().getLastName()));
         deleteApplication(application); //Deletes the application, maybe we don't want to do this?
     }
     public void denyApplication(BankAccountApplication application){

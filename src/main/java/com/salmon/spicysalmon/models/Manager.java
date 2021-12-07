@@ -2,8 +2,8 @@ package com.salmon.spicysalmon.models;
 
 public class Manager extends Employee {
 
-    public Manager(String ID, String pwd, String firstName, String lastName, String socialSecurityNumber, String title, String startDate) {
-        super(ID, pwd, firstName, lastName, socialSecurityNumber, title, startDate);
+    public Manager(String socialSecurityNumber, String password, String firstName, String lastName, String title, String startDate) {
+        super(socialSecurityNumber, password, firstName, lastName, title, startDate);
     }
 
     /*public String createEmployee(String pwd, String firstName, String lastName, String socialSecurityNumber, String title, String startDate)throws Exception{

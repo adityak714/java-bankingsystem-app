@@ -3,12 +3,12 @@ package com.salmon.spicysalmon.models;
 import com.salmon.spicysalmon.controllers.ApplicationController;
 import com.salmon.spicysalmon.controllers.CustomerController;
 
-public class ApplicationForm {
+public class BankAccountApplication {
     private final Customer requestee;
     private String accountName;
     private Boolean isApproved;
 
-    public ApplicationForm(Customer customer, String accountName){
+    public BankAccountApplication(Customer customer, String accountName){
         this.requestee = customer;
         this.accountName = accountName;
         this.isApproved = null;
