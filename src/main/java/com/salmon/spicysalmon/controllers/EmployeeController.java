@@ -1,5 +1,6 @@
 package com.salmon.spicysalmon.controllers;
 
+import com.salmon.spicysalmon.models.Customer;
 import com.salmon.spicysalmon.models.Employee;
 import com.salmon.spicysalmon.models.User;
 
@@ -39,6 +40,9 @@ public class EmployeeController {
     }
 
  */
+    public Employee getEmployee(String SSN){
+    return employeeAccounts.get(SSN);
+    }
     public void createEmployee(String socialSecurityNumber, String password, String firstName, String lastName, String title, String startDate)throws Exception {
             Employee employee = new Employee(socialSecurityNumber, password, firstName, lastName, title, startDate);
             employeeAccounts.put(socialSecurityNumber, employee);
