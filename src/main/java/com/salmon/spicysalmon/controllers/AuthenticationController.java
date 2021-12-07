@@ -57,7 +57,7 @@ public class AuthenticationController {
         }while(userInput != 0);
     }
 
-    public void loginEmployee(){
+    public void employeeLogin(){
         String[] loginInfo = getLoginInfo();
         String SSN = loginInfo[0];
         String password = loginInfo[1];
