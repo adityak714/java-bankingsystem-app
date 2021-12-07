@@ -31,7 +31,7 @@ public class Employee extends User{
     public void setVacationDays(int vacationDays) {
         this.vacationDays = vacationDays;
     }
-}
+
     public String toString(){
         return getFirstName() + " " + getLastName() + "\n"
                 + getSocialSecurityNumber() + "\n"
