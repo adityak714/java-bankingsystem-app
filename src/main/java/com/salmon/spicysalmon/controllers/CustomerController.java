@@ -83,6 +83,17 @@ public class CustomerController {
         }
         return printCustomer(customer.getSocialSecurityNumber());
     }
+
+    public String createBankAccount(String SSN, String accountNumber, String customerFirstName, String customerLastName){
+        Customer customer = findCustomer(SSN);
+        if(customer.equals(null)){
+            return "Customer does not exist.";
+        }else{
+            BankAccount newAccount = new BankAccount(accountNumber, customerFirstName, customerLastName);
+            customer.getCustomerAccounts().add(newAccount);
+            return "Account " + accountNumber + " created successfully.";
+        }
+    }
 }
 
 

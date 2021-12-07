@@ -20,13 +20,13 @@ public class MainMenu {
             userInput = mainMenu.getValidOption();
             switch(userInput){
                 case 1:
-                    AuthenticationController.customerLogin();
+                   // AuthenticationController.customerLogin();
                     break;
                 case 2:
                     System.out.println("Application handling");
                     break;
                 case 3:
-                    AuthenticationController.employeeLogin();
+                   // AuthenticationController.employeeLogin();
                     break;
                 case 0:
                 default:
