@@ -3,6 +3,7 @@ package com.salmon.spicysalmon;
 import com.salmon.spicysalmon.controllers.CustomerController;
 import com.salmon.spicysalmon.controllers.EmployeeController;
 import com.salmon.spicysalmon.models.Customer;
+import com.salmon.spicysalmon.models.Employee;
 import com.salmon.spicysalmon.models.Menu;
 
 public class LoginMenu {
@@ -11,6 +12,13 @@ public class LoginMenu {
             "Log out",
             "View Bank Accounts",
             "Apply for new Bank Account"
+    };
+    String EMPLOYEE_HEADING = "Employee Menu: Please choose a valid option.";
+    String[] EMPLOYEE_OPTIONS = {
+            "Log out",
+            "Delete account",
+            "Approve new customer accounts",
+            "Approve new bank accounts",
     };
 
 
@@ -50,5 +58,36 @@ public class LoginMenu {
 
     public void loginEmployee(){
         String[] loginInfo = getLoginInfo();
+        String SSN = loginInfo[0];
+        String password = loginInfo[1];
+        EmployeeController employeeController = new EmployeeController();
+        Employee loggedInEmployee = employeeController.getEmployee(SSN);
+        if (loggedInEmployee != null && loggedInEmployee.verifyPassword(password)){
+            showEmployeeMenu();
+        }else {
+            System.out.println("Username or password incorrect");
+        }
+    }
+    private void showEmployeeMenu(){
+        Menu employeeMenu = new Menu(EMPLOYEE_HEADING, EMPLOYEE_OPTIONS);
+        int userInput = 0;
+        do {
+            System.out.println(employeeMenu);
+            userInput = employeeMenu.getValidOption();
+            switch (userInput){
+                case 1:
+                    System.out.println("Delete account"); // ADD LOGIC HERE
+                    break;
+                case 2:
+                    System.out.println("Approve new customer accounts"); // ADD LOGIC HERE
+                    break;
+                case 3:
+                    System.out.println("Approve new bank accounts"); // ADD LOGIC HERE
+                    break;
+                default:
+                    System.out.println("goodbye");
+                    break;
+            }
+        }while (userInput != 0);
     }
 }
