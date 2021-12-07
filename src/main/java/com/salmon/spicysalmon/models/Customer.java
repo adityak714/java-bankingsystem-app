@@ -5,29 +5,17 @@ import java.util.LinkedHashMap;
 
 public class Customer extends User {
     // change linkedhashmap to arraylist?
-    private final LinkedHashMap<String, BankAccount> accounts;
-    private final ArrayList<BankAccount> customerAccount;
+    private final ArrayList<BankAccount> customerAccounts;
     private double salary;
     private String residentialArea;
     private String occupation;
 
     public Customer(String socialSecurity, String password, String firstName, String lastName, double salary, String residentialArea, String occupation) {
         super(socialSecurity, password, firstName, lastName);
-        this.accounts = new LinkedHashMap<>();
-        this.customerAccount = new ArrayList<>();
+        this.customerAccounts = new ArrayList<>();
         this.salary = salary;
         this.residentialArea = residentialArea;
         this.occupation = occupation;
-        BankAccount acc1 = new BankAccount("01", firstName, lastName);
-        BankAccount acc2 = new BankAccount("02", firstName, lastName);
-        BankAccount acc3 = new BankAccount("03", firstName, lastName);
-        accounts.put("01", acc1);
-        accounts.put("02", acc2);
-        accounts.put("03", acc3);
-    }
-
-    public LinkedHashMap<String, BankAccount> getAccounts() {
-        return accounts;
     }
 
     public double getSalary() {
@@ -57,7 +45,6 @@ public class Customer extends User {
     @Override
     public String toString() {
         return "Customer{" +
-                "accounts=" + accounts +
                 ", salary=" + salary +
                 ", residentialArea='" + residentialArea + '\'' +
                 ", occupation='" + occupation + '\'' +
@@ -65,12 +52,13 @@ public class Customer extends User {
     }
 
     public double getTotalBalance(String accName){
-        return accounts.get(accName).getBalance();
+        //return accounts.get(accName).getBalance();
+        return 0.0;
     }
 
     public double deposit(String accountID, double amount) throws Exception {
         // Find account
-        for (String key : accounts.keySet()) {
+        /*for (String key : accounts.keySet()) {
             if (accountID.equals(key)) {
                 BankAccount myBankAccount = accounts.get(accountID);
                 if (amount <= 0) {
@@ -82,7 +70,7 @@ public class Customer extends User {
             } else {
                 System.out.println("Account could not be found.");
             }
-        }
+        }*/
         return 0.0;
     }
 
@@ -90,6 +78,10 @@ public class Customer extends User {
     // no need to pass in any of the parameters, all are already attributes of the customer, however, should it in a name for the account
     public void createBankAccount(String SSN, String firstName, String lastName) {
         BankAccount bankAccount = new BankAccount(SSN, firstName, lastName);
+    }
+
+    public int getNumberOfAccounts(){
+        return customerAccounts.size();
     }
    
         /*if (amount <= 0.00) {
