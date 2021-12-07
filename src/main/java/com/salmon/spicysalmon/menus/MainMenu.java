@@ -23,7 +23,7 @@ public class MainMenu {
             switch (userInput) {
                 case 1 -> authenticationController.customerLogin();
                 case 2 -> System.out.println("Application handling");
-                case 3 -> authenticationController.loginEmployee();
+                case 3 -> authenticationController.employeeLogin();
                 case 0, default -> {}
             }
         } while(userInput != 0);

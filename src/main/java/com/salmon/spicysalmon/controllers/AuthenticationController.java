@@ -62,12 +62,12 @@ public class AuthenticationController {
         String SSN = loginInfo[0];
         String password = loginInfo[1];
         EmployeeController employeeController = new EmployeeController();
-        Employee loggedInEmployee = employeeController.getEmployee(SSN);
-        if (loggedInEmployee != null && loggedInEmployee.verifyPassword(password)){
-            showEmployeeMenu();
-        }else {
-            System.out.println("Username or password incorrect");
-        }
+//        Employee loggedInEmployee = employeeController.getEmployee(SSN);
+//        if (loggedInEmployee != null && loggedInEmployee.verifyPassword(password)){
+//            showEmployeeMenu();
+//        }else {
+//            System.out.println("Username or password incorrect");
+//        }
     }
     private void showEmployeeMenu(){
         Menu employeeMenu = new Menu(EMPLOYEE_HEADING, EMPLOYEE_OPTIONS);
