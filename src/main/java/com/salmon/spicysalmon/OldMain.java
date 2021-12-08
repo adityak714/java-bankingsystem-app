@@ -150,7 +150,7 @@ public class OldMain {
                     System.out.print("Enter customer SSN: ");
                     SSN = UserIO.readStr();
                     System.out.print("Enter customer account number: ");
-                    accountNumber = UserIO.readStr();
+                    String accountNumber = UserIO.readStr();
                     System.out.print("Enter deposit amount: ");
                     double depositAmount = UserIO.readDouble();
                     customers.depositMoney(SSN, accountNumber, depositAmount);
