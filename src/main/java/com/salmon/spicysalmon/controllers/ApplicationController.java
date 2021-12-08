@@ -63,8 +63,8 @@ public class ApplicationController {
         allApplications.remove(application);
     }
     public void approveApplication(BankAccountApplication application) {    //Sets the Boolean isApproved of the Customer object that is referenced in the specified application to true.
-        application.approveApplication();                                   //And creates a new BankAccount for the Customer and puts it in the HashMap of BankAccounts.
-        application.getRequestee().createBankAccount(application.getAccountName());
+        application.approveApplication(); //And creates a new BankAccount for the Customer and puts it in the HashMap of BankAccounts.
+        application.getRequestee().createBankAccount(application.getRequestee().getSocialSecurityNumber(), application.getRequestee().getFirstName(), application.getRequestee().getLastName());
     }
     public void denyApplication(BankAccountApplication application){
         application.denyApplication();
