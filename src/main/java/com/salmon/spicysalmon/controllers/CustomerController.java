@@ -102,6 +102,14 @@ public class CustomerController {
         }
     }
 
+    public void withdrawMoney(String SSN, String accountNumber, double amount) {
+        BankAccount account = findBankAccount(SSN, accountNumber);
+        if (account != null && amount < account.getBalance()) {
+            account.setBalance(account.getBalance() - amount);
+        }
+    }
+
+
     public BankAccount findBankAccount(String SSN, String accountNumber) {
         Customer customer = findCustomer(SSN);
         for (BankAccount account : customer.getCustomerAccounts()) {
