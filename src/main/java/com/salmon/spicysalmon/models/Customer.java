@@ -10,7 +10,7 @@ public class Customer extends User {
     private String residentialArea;
     private String occupation;
 
-    public ArrayList<BankAccount> getCustomerAccounts(){
+    public ArrayList<BankAccount> getCustomerAccounts() {
         return customerAccounts;
     }
 

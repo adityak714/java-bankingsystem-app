@@ -30,7 +30,7 @@ public class UserIO {
     }
 
     public static String readStr(){
-        String str = SCANNER.nextLine();
+        String str = SCANNER.next();
         return str;
     }
 
