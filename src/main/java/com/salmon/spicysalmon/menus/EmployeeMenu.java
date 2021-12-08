@@ -63,6 +63,7 @@ public class EmployeeMenu {
                                 System.out.print("What is your occupation?: ");
                                 String occupation = UserIO.readStr();
                                 customerController.createCustomer(socialSecurityNumber,password, firstName,lastName, salary, residentalArea, occupation);
+                                // we should probably remove the exceptionhandling
                                 break;
                             case 2:
                                 System.out.println("You have chosen: Remove a customer.");
