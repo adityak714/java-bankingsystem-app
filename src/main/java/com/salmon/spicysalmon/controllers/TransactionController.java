@@ -1,5 +1,6 @@
 package com.salmon.spicysalmon.controllers;
 
+import com.salmon.spicysalmon.Util;
 import com.salmon.spicysalmon.models.BankAccountApplication;
 import com.salmon.spicysalmon.models.Customer;
 import com.salmon.spicysalmon.models.Transaction;
@@ -9,8 +10,6 @@ import java.util.LinkedHashMap;
 public class TransactionController {
 
     private final LinkedHashMap<String, ArrayList<Transaction>> allTransactions;
-    private final String EOL = System.lineSeparator();
-
     CustomerController customerController = new CustomerController();
 
     public TransactionController(){
@@ -25,7 +24,7 @@ public class TransactionController {
         Customer customer = customerController.findCustomer(SSN);
         if(customer!=null){
             for(Transaction transaction : allTransactions.get(SSN).get(accID){
-                transactionForAnAccount += transaction;
+                transactionForAnAccount += transaction + Util.EOL;
             }
         }
         return transactionForAnAccount;
@@ -36,7 +35,7 @@ public class TransactionController {
         if(customer!=null){
             for(String accountKey : allTransactions.get(SSN).keySet()){
                 for(Transaction transaction : allTransactions.get(SSN).get(accountKey)){
-                    transactionsForAllAccounts += transaction + EOL;
+                    transactionsForAllAccounts += transaction + Util.EOL;
                 }
             }
         }
