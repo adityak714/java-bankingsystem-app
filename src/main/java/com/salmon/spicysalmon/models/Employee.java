@@ -1,4 +1,5 @@
 package com.salmon.spicysalmon.models;
+import  com.salmon.spicysalmon.Util;
 
 public class Employee extends User{
     // delete vacation part
@@ -33,10 +34,10 @@ public class Employee extends User{
     }
 
     public String toString(){
-        return getFirstName() + " " + getLastName() + "\n"
-                + getSocialSecurityNumber() + "\n"
-                + getTitle() + "\n"
-                + getStartDate() + "\n"
+        return getFirstName() + " " + getLastName() + Util.EOL
+                + getSocialSecurityNumber() + Util.EOL
+                + getTitle() + Util.EOL
+                + getStartDate() + Util.EOL
                 + getVacationDays();
     }
     /*public String deleteAccount(String ID) throws Exception{

@@ -2,8 +2,9 @@ package com.salmon.spicysalmon.models;
 
 import com.salmon.spicysalmon.controllers.ApplicationController;
 import com.salmon.spicysalmon.controllers.CustomerController;
+import com.salmon.spicysalmon.models.Customer;
 
-public class BankAccountApplication {
+public class BankAccountApplication extends Application{
     private final Customer requestee;
     private String accountName;
     private Boolean isApproved;
@@ -29,6 +30,9 @@ public class BankAccountApplication {
     }
     public Customer getRequestee(){
         return this.requestee;
+    }
+    public String getAccountName(){
+        return this.accountName;
     }
     public String toString(){
         return  this.requestee.getFirstName() + this.requestee.getLastName() + "\n"
