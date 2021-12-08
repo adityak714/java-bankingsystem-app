@@ -20,7 +20,9 @@ public class EmployeeMenu {
             // is these 2 methods agreed upon functions of the employee?
             "4. deposit money into bank account ", // this function is used when a customer meets with an employee in person and has cash that they want to deposit
             "5. withdraw money from bank account", // this function is used when a customer meets with an employee in person and has cash that they want to withdraw
-            "6"
+            "6."
+            // Continue to add more options here and to the switch case as you see fit, it's ok to create submenus if anyone want to do that,
+            // just make a switch case inside the switch case (or make a seperate method that is called inside the switch case)
     };
     String EMPLOYEE_HEADING3 = "Application handling menu: Please choose a valid option.";
     String[] EMPLOYEE_OPTIONS3 = {
