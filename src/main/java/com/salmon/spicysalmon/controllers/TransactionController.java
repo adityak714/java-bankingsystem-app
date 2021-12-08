@@ -20,12 +20,10 @@ public class TransactionController {
         return allTransactions.get(SSN) == null;
     }
 
-    private ArrayList<Transaction> sortedList;
-
     public String ascendingTransactionsByPriceForAccount (String SSN, String accID){
         Customer desiredCustomer = customerController.findCustomer(SSN);
         String sortedTransactions = "";
-        sortedList = sortTransactionsByPriceInAcc(SSN, accID);
+        ArrayList<Transaction> sortedList = sortTransactionsByPriceInAcc(SSN, accID);
         for(Transaction transaction : sortedList){
             sortedTransactions += transaction;
         }
@@ -38,7 +36,7 @@ public class TransactionController {
     }
 
     public String descendingTransactionsByPriceForAccount (String SSN, String accID) {
-        sortedList = sortTransactionsByPriceInAcc(SSN, accID).sort(Comparator.reverseOrder());
+        ArrayList<Transaction> sortedList = sortTransactionsByPriceInAcc(SSN, accID).sort(Comparator.reverseOrder());
         String sortedTransactions = "";
         for (Transaction transaction : sortedList) {
             sortedTransactions += transaction;
