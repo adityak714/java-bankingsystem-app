@@ -30,6 +30,7 @@ public class EmployeeMenu {
     };
 
     public void show(){
+        CustomerController customerController = new CustomerController();
         Menu employeeMenu = new Menu(EMPLOYEE_HEADING, EMPLOYEE_OPTIONS);
         Menu employeeCustomerMenu = new Menu(EMPLOYEE_HEADING2, EMPLOYEE_OPTIONS2);
         Menu employeeApplicationMenu = new Menu(EMPLOYEE_HEADING3,EMPLOYEE_OPTIONS3);
@@ -59,17 +60,17 @@ public class EmployeeMenu {
                                 String residentalArea = UserIO.readStr();
                                 System.out.print("What is your occupation?: ");
                                 String occupation = UserIO.readStr();
-                                CustomerController.createCustomer(socialSecurityNumber,password, firstName,lastName, salary, residentalArea, occupation);
+                                customerController.createCustomer(socialSecurityNumber,password, firstName,lastName, salary, residentalArea, occupation);
                                 break;
                             case 2:
                                 System.out.println("You have chosen: Remove a customer.");
                                 System.out.print("What customer do you wish to remove? Enter SSN: ");
                                 String remove = UserIO.readStr();
-                                System.out.println(CustomerController.removeCustomer(remove));
+                                System.out.println(customerController.removeCustomer(remove));
                                 break;
                             case 3:
                                 System.out.println("You have chosen: Print all registered customers.");
-                                System.out.println(CustomerController.printAllCustomers());
+                                System.out.println(customerController.printAllCustomers());
                                 break;
                             case 4:
 
