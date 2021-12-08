@@ -9,14 +9,10 @@ import java.util.HashMap;
 
 public class CustomerController {
     private static final HashMap<String, Customer> allCustomers = new HashMap<>(); // "customerList" is a better name?
-    private final TransactionController transactionsController;
     private final ArrayList<Customer> customerList = new ArrayList<>();
 
-    public CustomerController(){
-        transactionsController = new TransactionController();
-    }
-
     public String createCustomer(String socialSecurityNumber, String password, String firstName, String lastName, double salary, String residentialArea, String occupation){
+        TransactionController transactionsController = new TransactionController();
             if(transactionsController.checkIfSSNUnique(socialSecurityNumber)){
                 Customer newCustomer = new Customer(socialSecurityNumber, password, firstName, lastName, salary, residentialArea, occupation);
                 allCustomers.put(socialSecurityNumber, newCustomer);
