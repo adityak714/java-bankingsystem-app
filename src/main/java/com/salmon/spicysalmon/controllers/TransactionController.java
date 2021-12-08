@@ -23,10 +23,6 @@ public class TransactionController {
         allTransactions.get(SSN2).get(accID2).add(transaction2);
     }
 
-    public TransactionController() {
-        allTransactions = new LinkedHashMap<>();
-    }
-
     public boolean checkIfSSNUnique(String SSN) { // Armin: use verb when naming methods
         return allTransactions.get(SSN) == null;
     }
@@ -34,7 +30,7 @@ public class TransactionController {
         String transactionForAnAccount="";
         Customer customer = customerController.findCustomer(SSN);
         if(customer!=null){
-            for(Transaction transaction : allTransactions.get(SSN).get(accID){
+            for(Transaction transaction : allTransactions.get(SSN).get(accID)){
                 transactionForAnAccount += transaction + Util.EOL;
             }
         }
