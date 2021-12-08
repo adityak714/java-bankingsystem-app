@@ -20,11 +20,27 @@ public class TransactionController {
         return allTransactions.get(SSN) == null;
     }
 
-    public String sortByPriceOneAccount (String SSN, String accID){
+    private ArrayList<Transaction> sortedList;
+
+    public String ascendingTransactionsByPriceForAccount (String SSN, String accID){
         Customer desiredCustomer = customerController.findCustomer(SSN);
         String sortedTransactions = "";
-        ArrayList <Transaction> sortedList = allTransactions.get(SSN).get(accID).sort(Comparator.comparingDouble(Transaction::getAMOUNT));
+        sortedList = sortTransactionsByPriceInAcc(SSN, accID);
         for(Transaction transaction : sortedList){
+            sortedTransactions += transaction;
+        }
+
+        return sortedTransactions;
+    }
+
+    public ArrayList<Transaction> sortTransactionsByPriceInAcc (String SSN, String accID){
+        return allTransactions.get(SSN).get(accID).sort(Comparator.comparingDouble(Transaction::getAMOUNT));
+    }
+
+    public String descendingTransactionsByPriceForAccount (String SSN, String accID) {
+        sortedList = sortTransactionsByPriceInAcc(SSN, accID).sort(Comparator.reverseOrder());
+        String sortedTransactions = "";
+        for (Transaction transaction : sortedList) {
             sortedTransactions += transaction;
         }
 
