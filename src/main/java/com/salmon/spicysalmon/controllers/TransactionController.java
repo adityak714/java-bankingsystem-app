@@ -1,10 +1,11 @@
 package com.salmon.spicysalmon.controllers;
 
 import com.salmon.spicysalmon.Util;
-import com.salmon.spicysalmon.models.BankAccountApplication;
 import com.salmon.spicysalmon.models.Customer;
 import com.salmon.spicysalmon.models.Transaction;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
 
 public class TransactionController {
@@ -26,6 +27,34 @@ public class TransactionController {
     public boolean checkIfSSNUnique(String SSN) { // Armin: use verb when naming methods
         return allTransactions.get(SSN) == null;
     }
+
+    public String ascendingTransactionsByPriceForAccount (String SSN, String accID){
+        Customer desiredCustomer = customerController.findCustomer(SSN);
+        ArrayList<Transaction> sortedList = sortTransactionsByPriceInAcc(SSN, accID);
+        String sortedTransactions = "";
+        for(Transaction transaction : sortedList){
+            sortedTransactions += transaction;
+        }
+
+        return sortedTransactions;
+    }
+
+    public ArrayList<Transaction> sortTransactionsByPriceInAcc (String SSN, String accID){
+        ArrayList<Transaction> sortedList = allTransactions.get(SSN).get(accID);
+        Collections.sort(sortedList);
+        return sortedList;
+    }
+
+    public String descendingTransactionsByPriceForAccount (String SSN, String accID) {
+        ArrayList<Transaction> sortedList = sortTransactionsByPriceInAcc(SSN, accID);
+        String sortedTransactions = "";
+        for(int i = sortedList.size(); i > 0; i--){
+            sortedTransactions += sortedList.get(i) + Util.EOL;
+        }
+
+        return sortedTransactions;
+    }
+
     public String printTransactionsForAnAccount(String SSN, String accID){
         String transactionForAnAccount="";
         Customer customer = customerController.findCustomer(SSN);
