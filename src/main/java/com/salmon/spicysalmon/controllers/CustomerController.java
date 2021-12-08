@@ -33,11 +33,9 @@ public class CustomerController {
     public Customer findCustomer(String SSN) {
         for (Customer customer : customerList) {
             if (customer.getSocialSecurityNumber().equals(SSN)) {
-                System.out.println("kladdkaka009");
                 return customer;
             }
         }
-        System.out.println("Kladdkaka2323");
         return null;
     }
 
@@ -93,6 +91,27 @@ public class CustomerController {
         }
     }
 
+    public String depositMoney(String SSN, String accountNumber, double depositAmount) {
+        BankAccount account = findBankAccount(SSN, accountNumber);
+        if (account == null) {
+            return "Account does not exist";
+        } else {
+            account.setBalance(depositAmount + account.getBalance());
+            System.out.println(account.getBalance());
+            return depositAmount + "has been added to account: " + accountNumber;
+        }
+    }
+
+    public BankAccount findBankAccount(String SSN, String accountNumber) {
+        Customer customer = findCustomer(SSN);
+        for (BankAccount account : customer.getCustomerAccounts()) {
+            if (account.getAccountNumber().equals(accountNumber)) {
+                return account;
+            }
+        }
+        return null;
+    }
+
     public String deleteBankAccount(String accountNumber){
         String SSN = accountNumber.substring(0,9);
         String accID = accountNumber.substring(10, 11);
@@ -103,7 +122,6 @@ public class CustomerController {
             return "Account was not found.";
         }
     }
-
 }
 
 
