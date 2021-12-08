@@ -80,8 +80,21 @@ public class Customer extends User {
 
 
     // no need to pass in any of the parameters, all are already attributes of the customer, however, should it in a name for the account
-    public void createBankAccount(String SSN, String firstName, String lastName) {
-        BankAccount bankAccount = new BankAccount(SSN, firstName, lastName);
+    public String createBankAccount(String accountName) {
+        String accID = customerAccounts.size() < 10 ? "0"+customerAccounts.size()+1 : customerAccounts.size()+1+"";
+        BankAccount bankAccount = new BankAccount(this.getSocialSecurityNumber()+accID, this.getFirstName(), this.getLastName(), accountName);
+        customerAccounts.add(bankAccount);
+        return "Account " + accountName + " created successfully.";
+    }
+
+    public String deleteBankAccount(String accID){
+        for(BankAccount acc : customerAccounts){
+            if(acc.getAccountNumber() == this.getSocialSecurityNumber()+accID){
+                customerAccounts.remove(acc);
+                return "Account deleted successfully.";
+            }
+        }
+        return "Account was not found.";
     }
 
     public int getNumberOfAccounts(){

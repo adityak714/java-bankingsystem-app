@@ -82,14 +82,12 @@ public class CustomerController {
         return printCustomer(customer.getSocialSecurityNumber());
     }
 
-    public String createBankAccount(String SSN, String accountNumber, String customerFirstName, String customerLastName){
+    public String createBankAccount(String SSN, String accountName){
         Customer customer = findCustomer(SSN);
         if(customer == null){
             return "Customer does not exist.";
         }else{
-            BankAccount newAccount = new BankAccount(accountNumber, customerFirstName, customerLastName);
-            customer.getCustomerAccounts().add(newAccount);
-            return "Account " + accountNumber + " created successfully.";
+            return customer.createBankAccount(accountName);
         }
     }
 
@@ -112,6 +110,17 @@ public class CustomerController {
             }
         }
         return null;
+    }
+
+    public String deleteBankAccount(String accountNumber){
+        String SSN = accountNumber.substring(0,9);
+        String accID = accountNumber.substring(10, 11);
+        Customer customer = findCustomer(SSN);
+        if(customer != null){
+            return customer.deleteBankAccount(accID);
+        } else{
+            return "Account was not found.";
+        }
     }
 }
 

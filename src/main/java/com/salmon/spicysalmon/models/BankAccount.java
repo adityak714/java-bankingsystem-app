@@ -9,7 +9,7 @@ public class BankAccount {
     private double balance;
     private HashMap transactionMap = new HashMap();
 
-    public BankAccount(String accountNumber, String customerFirstName, String customerLastName) {
+    public BankAccount(String number, String accountNumber, String customerFirstName, String customerLastName) {
         this.ACCOUNTNUMBER = accountNumber;
         this.CUSTOMERFIRSTNAME = customerFirstName;
         this.CUSTOMERLASTNAME = customerLastName;

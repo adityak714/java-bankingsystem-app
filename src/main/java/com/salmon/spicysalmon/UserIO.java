@@ -25,6 +25,7 @@ public class UserIO {
 
     public static int readInt(){
         int input = SCANNER.nextInt();
+        SCANNER.nextLine();
         return input;
     }
 

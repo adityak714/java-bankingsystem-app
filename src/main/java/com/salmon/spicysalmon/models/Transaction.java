@@ -1,5 +1,7 @@
 package com.salmon.spicysalmon.models;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.UUID;
 
 public class Transaction {
@@ -7,16 +9,17 @@ public class Transaction {
     public final String TO;
     public final String FROM;
     public final double AMOUNT;
-
-    // potentially add date
-
+    public final String DATE;
+    
     public Transaction(String to, String from, double amount){
         this.ID = UUID.randomUUID().toString().replace("-", "");
         this.TO = to;
         this.FROM = from;
         this.AMOUNT = amount;
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        Date date = new Date();
+        this.DATE = formatter.format(date);
     }
-
     public String getID() {
         return ID;
     }
