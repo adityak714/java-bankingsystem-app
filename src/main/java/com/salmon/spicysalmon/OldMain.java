@@ -131,14 +131,10 @@ public class OldMain {
                     System.out.println("You have chosen: Create bank account for a customer.");
                     System.out.print("Which customer do you wish to create an account for? Enter SSN: ");
                     String SSN = UserIO.readStr();
-                    System.out.print("Enter account number: ");
-                    String accountNumber = UserIO.readStr();
-                    System.out.print("Enter first name: ");
-                    firstName = UserIO.readStr();
-                    System.out.print("Enter last name: ");
-                    lastName = UserIO.readStr();
-                    customers.createBankAccount(SSN, accountNumber, firstName, lastName);
-                    System.out.println("\n " + customers.createBankAccount(SSN, accountNumber, firstName, lastName));
+                    System.out.print("Enter account name: ");
+                    String accountName = UserIO.readStr();
+                    customers.createBankAccount(SSN, accountName);
+                    System.out.println("\n " + customers.createBankAccount(SSN, accountName));
                     printOpenCustomerOptions();
                     break;
                 case 5:
