@@ -11,7 +11,6 @@ import java.util.LinkedHashMap;
 public class TransactionController {
 
     private static final LinkedHashMap<String, LinkedHashMap<String, ArrayList<Transaction>>> allTransactions = new LinkedHashMap<>();
-    CustomerController customerController = new CustomerController();
 
     public void createTransaction(String acc1, String acc2, double amount){
         Transaction transaction1 = new Transaction(acc1, acc2, 0-amount);
@@ -29,6 +28,7 @@ public class TransactionController {
     }
 
     public String ascendingTransactionsByPriceForAccount (String SSN, String accID){
+        CustomerController customerController = new CustomerController();
         Customer desiredCustomer = customerController.findCustomer(SSN);
         ArrayList<Transaction> sortedList = sortTransactionsByPriceInAcc(SSN, accID);
         String sortedTransactions = "";
@@ -56,6 +56,7 @@ public class TransactionController {
     }
 
     public String printTransactionsForAnAccount(String SSN, String accID){
+        CustomerController customerController = new CustomerController();
         String transactionForAnAccount="";
         Customer customer = customerController.findCustomer(SSN);
         if(customer!=null){
@@ -66,6 +67,7 @@ public class TransactionController {
         return transactionForAnAccount;
     }
     public String printTransactionsForAllAccounts(String SSN){
+        CustomerController customerController = new CustomerController();
         String transactionsForAllAccounts = "";
         Customer customer = customerController.findCustomer(SSN);
         if(customer!=null){
