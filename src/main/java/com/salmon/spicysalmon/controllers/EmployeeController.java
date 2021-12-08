@@ -44,11 +44,11 @@ public class EmployeeController {
         }
     }
 
-    public String toString(String SSN) throws Exception{
+    public String toString(String SSN){
         if (employeeAccounts.containsKey(SSN)) {
             return employeeAccounts.get(SSN).toString();
         }
-        else throw new Exception("Employee does not exist.");
+        return "";
     }
 
     public void setEmployeeTitle(String SSN, String newTitle){
