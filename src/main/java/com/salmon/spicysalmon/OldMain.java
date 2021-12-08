@@ -82,6 +82,7 @@ public class OldMain {
                 "3. Print all registered customers." + EOL +
                 "4. Create bank account for a customer." + EOL +
                 "5. Print a specific customer." + EOL +
+                "6. Deposit money" + EOL +
                 EOL +
 
                 "Type an option number: ");
@@ -147,6 +148,16 @@ public class OldMain {
                     SSN = UserIO.readStr();
                     System.out.println(customers.printSpecificCustomer(SSN));
                     printOpenCustomerOptions();
+                    break;
+                case 6:
+                    System.out.println("You have chosen: Deposit money.");
+                    System.out.print("Enter customer SSN: ");
+                    SSN = UserIO.readStr();
+                    System.out.print("Enter customer account number: ");
+                    accountNumber = UserIO.readStr();
+                    System.out.print("Enter deposit amount: ");
+                    double depositAmount = UserIO.readDouble();
+                    customers.depositMoney(SSN, accountNumber, depositAmount);
                     break;
                 default:
                     System.out.print("Invalid Option. Please try again: ");

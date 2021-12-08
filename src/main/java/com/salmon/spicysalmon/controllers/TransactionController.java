@@ -8,11 +8,11 @@ public class TransactionController {
 
     private final LinkedHashMap<String, ArrayList<Transaction>> allTransactions;
 
-    public TransactionController(){
+    public TransactionController() {
         allTransactions = new LinkedHashMap<>();
     }
 
-    public boolean checkIfSSNUnique(String SSN){ // Armin: use verb when naming methods
+    public boolean checkIfSSNUnique(String SSN) { // Armin: use verb when naming methods
         return allTransactions.get(SSN) == null;
     }
 }
