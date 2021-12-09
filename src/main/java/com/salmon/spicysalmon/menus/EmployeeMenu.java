@@ -30,8 +30,8 @@ public class EmployeeMenu {
     String EMPLOYEE_HEADING3 = "Account request handling menu: Please choose a valid option.";
     String[] EMPLOYEE_OPTIONS3 = {
             "Go back",
-            "approve customer account request",
-            "approve bank account requset",
+            "review specific customer account request",
+            "review specific bank account requset",
             "list all customer account request",
             "list all bank account request"
     };
@@ -91,16 +91,16 @@ public class EmployeeMenu {
         int userInput = employeeAccountRequestMenu.getValidOption();
         switch (userInput){
             case 1: // approve/deny customer application
-                approveOrDenyUserAccountRequest();
+                approveOrDenyUserAccountRequest(accountRequestController);
                 break;
             case 2: // approve/deny bank application
-                approveOrDenyBankAccountRequest();
+                approveOrDenyBankAccountRequest(accountRequestController);
                 break;
             case 3:
-                listAllCustomerAccountRequests();
+                listAllCustomerAccountRequests(accountRequestController);
                 break;
             case 4:
-                listAllBankAccountRequests();
+                listAllBankAccountRequests(accountRequestController);
                 break;
         }
     }
@@ -135,16 +135,27 @@ public class EmployeeMenu {
         System.out.println(customerController.printAllCustomers());
     }
 
-    public void approveOrDenyUserAccountRequest(){
+    public void approveOrDenyUserAccountRequest(ApplicationController accountRequestController){
+        String customer = Util.readLine("Which customers request do you want to look at?");
+        accountRequestController.getBankAccountRequests();
     }
-    public void approveOrDenyBankAccountRequest(){
-
+    public void approveOrDenyBankAccountRequest(ApplicationController accountRequestController){
+        String customer = Util.readLine("Which customers request do you want to look at?");
+        accountRequestController.getBankAccountRequests();
     }
-    public void listAllCustomerAccountRequests(){
-
+    public void listAllCustomerAccountRequests(ApplicationController accountRequestController){
+        accountRequestController.printallCustomerAccountRequests();
+        Util.readLine("Which request do you want to check out?");
     }
-    public void listAllBankAccountRequests(){
+    public void listAllBankAccountRequests(ApplicationController accountRequestController){
+        ArrayList<BankAccountRequest> requests = accountRequestController.getallBankAccountRequests();
+        accountRequestController.printallBankAccountRequests();
+        int requestNum = Util.readInt("Which request do you want to check out?");
+        BankAccountRequest request = requests.get(requestNum);
+        System.out.println(request.toString());
 
+
+        accountRequestController.get
     }
 
 }
