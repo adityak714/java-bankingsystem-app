@@ -12,19 +12,19 @@ import java.util.concurrent.ThreadPoolExecutor;
 public class EmployeeController {
     private final LinkedHashMap<String, Employee> employeeAccounts;
     private final TransactionController transactionsController;
-    private final ApplicationController applicationController;
+    private final AccountRequestController accountRequestController;
 
     public EmployeeController(){
         employeeAccounts = new LinkedHashMap<>();
         transactionsController =  new TransactionController();
-        applicationController = new ApplicationController();
+        accountRequestController = new AccountRequestController();
     }
 
     public Employee getEmployee(String SSN){
     return employeeAccounts.get(SSN);
     }
 
-    public void createEmployee(String socialSecurityNumber, String password, String firstName, String lastName, String title, String startDate)throws Exception {
+    public void createEmployee(String socialSecurityNumber, String password, String firstName, String lastName, String title, String startDate) {
             Employee employee = new Employee(socialSecurityNumber, password, firstName, lastName, title, startDate);
             employeeAccounts.put(socialSecurityNumber, employee);
     }

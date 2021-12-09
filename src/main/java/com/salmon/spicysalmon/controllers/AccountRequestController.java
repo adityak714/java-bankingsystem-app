@@ -1,8 +1,9 @@
 package com.salmon.spicysalmon.controllers;
 import com.salmon.spicysalmon.Util;
-import com.salmon.spicysalmon.models.Application;
-import com.salmon.spicysalmon.models.BankAccountApplication;
+
+import com.salmon.spicysalmon.models.*;
 import com.salmon.spicysalmon.models.Customer;
+
 
 import java.util.ArrayList;
 
