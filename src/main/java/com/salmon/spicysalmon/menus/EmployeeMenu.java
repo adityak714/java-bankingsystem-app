@@ -30,10 +30,10 @@ public class EmployeeMenu {
     String EMPLOYEE_HEADING3 = "Application handling menu: Please choose a valid option.";
     String[] EMPLOYEE_OPTIONS3 = {
             "Log out",
-            "approve customer application",
-            "approve bank application",
-            "list all customer applications",
-            "list all bank applications"
+            "approve customer request",
+            "approve bank requset",
+            "list all customer request",
+            "list all bank request"
     };
 
     public void show(){
@@ -41,7 +41,7 @@ public class EmployeeMenu {
         // pass in controller into methods
         // remove userinput as arguments
 
-        ApplicationController applicationController = new ApplicationController();
+        ApplicationController accountRequestController = new ApplicationController();
         CustomerController customerController = new CustomerController();
         EmployeeController employeeController = new EmployeeController();
 
