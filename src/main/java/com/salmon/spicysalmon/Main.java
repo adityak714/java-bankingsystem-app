@@ -46,7 +46,5 @@ public class Main {
                 cc.depositMoney(SSN, j+"", balance);
                 BankAccount newAccount = cc.findBankAccount(SSN, accID);
             }
-            Customer newCustomer = cc.getCustomer(SSN);
         }
     }
-}
