@@ -16,14 +16,14 @@ public class EmployeeMenu {
     };
     String EMPLOYEE_HEADING2 = "Customer handling menu: Please choose a valid option.";
     String[] EMPLOYEE_OPTIONS2 = {
-            "0. Go back",
-            "1. create customer",
-            "2. delete customer",
-            "3. Print all registered customers.",
+            "Go back",
+            "create customer",
+            "delete customer",
+            "Print all registered customers.",
             // is these 2 options (4, 5) agreed upon functions of the employee?
-            "4. deposit money into bank account ", // this function is used when a customer meets with an employee in person and has cash that they want to deposit
-            "5. withdraw money from bank account", // this function is used when a customer meets with an employee in person and has cash that they want to withdraw
-            "6."
+            "deposit money into bank account ", // this function is used when a customer meets with an employee in person and has cash that they want to deposit
+            "withdraw money from bank account", // this function is used when a customer meets with an employee in person and has cash that they want to withdraw
+            ""
             // Continue to add more options here and to the switch case as you see fit, it's ok to create submenus if anyone want to do that,
             // just make a switch case inside the switch case (or make a seperate method that is called inside the switch case)
     };
@@ -107,27 +107,19 @@ public class EmployeeMenu {
 
     public void createCustomer(CustomerController customerController){
         System.out.println("You have chosen: Create a customer.");
-        System.out.print("What is your SSN?: ");
-        String socialSecurityNumber = UserIO.readStr();
-        System.out.print("Create a new password: ");
-        String password = UserIO.readStr();
-        System.out.print("What is your first name?: ");
-        String firstName = UserIO.readStr();
-        System.out.print("What is your last name?: ");
-        String lastName = UserIO.readStr();
-        System.out.print("What is your salary?: ");
-        int salary = UserIO.readInt();
-        System.out.print("Where do you live?: ");
-        String residentalArea = UserIO.readStr();
-        System.out.print("What is your occupation?: ");
-        String occupation = UserIO.readStr();
+        String socialSecurityNumber = Util.readLine("What is your SSN?: ");
+        String password = Util.readLine("Create a new password: ");
+        String firstName = Util.readLine("What is your first name?: ");
+        String lastName = Util.readLine("What is your last name?: ");
+        int salary = Util.readInt("What is your salary?: ");
+        String residentalArea = Util.readLine("Where do you live?: ");
+        String occupation = Util.readLine("What is your occupation?: ");
         customerController.createCustomer(socialSecurityNumber,password, firstName,lastName, salary, residentalArea, occupation);
         // should prob remove the excepction
     }
     public void removeCustomer(CustomerController customerController){
         System.out.println("You have chosen: Remove a customer.");
-        System.out.print("What customer do you wish to remove? Enter SSN: ");
-        String remove = UserIO.readStr();
+        String remove = Util.readLine("What customer do you wish to remove? Enter SSN: ");
         System.out.println(customerController.removeCustomer(remove));
     }
     public void printAllCustomers(CustomerController customerController){
