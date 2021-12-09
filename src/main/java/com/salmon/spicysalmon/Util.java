@@ -1,5 +1,6 @@
 package com.salmon.spicysalmon;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Scanner;
 
@@ -19,7 +20,7 @@ public class Util {
     }
     public static String getDateAndTime(){
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-        Date date = new Date();
-        return formatter.format(date);
+        Calendar calendar = Calendar.getInstance();
+        return formatter.format(calendar.getTime());
     }
 }
