@@ -54,7 +54,7 @@ public class EmployeeMenu {
                 case 1:
                     showCustomerMenu(customerController);
                 case 2:
-                    showApplicationMenu(accountRequestController);
+                    showAccountRequestMenu(accountRequestController);
                     break;
                 default:
                     System.out.println("goodbye");
