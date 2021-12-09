@@ -35,7 +35,7 @@ public class EmployeeMenu {
             "list all customer account request",
             "list all bank account request"
     };
-
+    // the first menu the employee will see, this then branches of into a Customer and a Account request Menu
     public void show(){
         // use these objects to access the methods in the controllers
         // pass in controller into methods
@@ -54,7 +54,7 @@ public class EmployeeMenu {
                 case 1:
                     showCustomerMenu(customerController);
                 case 2:
-                    showApplicationMenu(applicationController);
+                    showApplicationMenu(accountRequestController);
                     break;
                 default:
                     System.out.println("goodbye");
@@ -62,6 +62,7 @@ public class EmployeeMenu {
             }
         }while (userInput != 0);
     }
+    // Customer menu that handles all the functionality were the Employee directly interacts with customers
     public void showCustomerMenu(CustomerController customerController){
         Menu employeeCustomerMenu = new Menu(EMPLOYEE_HEADING2, EMPLOYEE_OPTIONS2);
         int userInput = employeeCustomerMenu.getValidOption();
@@ -87,7 +88,8 @@ public class EmployeeMenu {
         }while (userInput != 0);
     }
 
-    public void showApplicationMenu(ApplicationController applicationController){
+    // Account request menu that handles all the functionality were the Employee directly interacts with Account Requests
+    public void showAccountRequestMenu(ApplicationController accountRequestController){
         Menu employeeApplicationMenu = new Menu(EMPLOYEE_HEADING3,EMPLOYEE_OPTIONS3);
         int userInput = employeeApplicationMenu.getValidOption();
         switch (userInput){
