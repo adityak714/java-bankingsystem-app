@@ -9,16 +9,16 @@
     "occupation": "Project Manager",
     "accounts": [
       {
-        "accountNumber": "981231678689",
-        "balance": 109000
+        "balance": 109000,
+        "accountName": "savings"
       },
       {
-        "accountNumber": "981231678691",
-        "balance": 59888
+        "balance": 59888,
+        "accountName": "investments"
       },
       {
-        "accountNumber": "981231678693",
-        "balance": 10
+        "balance": 10,
+        "accountName": "pension"
       }
     ]
   },
@@ -32,16 +32,16 @@
     "occupation": "Sitting on the train.",
     "accounts": [
       {
-        "accountNumber": "780102974389",
-        "balance": 109000
+        "balance": 109000,
+        "accountName": "savings"
       },
       {
-        "accountNumber": "780102974391",
-        "balance": 59888
+        "balance": 59888,
+        "accountName": "investments"
       },
       {
-        "accountNumber": "780102974393",
-        "balance": 10
+        "balance": 10,
+        "accountName": "pension"
       }
     ]
   },
@@ -55,16 +55,16 @@
     "occupation": "Working",
     "accounts": [
       {
-        "accountNumber": "100712768789",
-        "balance": 109000
+        "balance": 109000,
+        "accountName": "savings"
       },
       {
-        "accountNumber": "100712768791",
-        "balance": 598889
+        "balance": 59888,
+        "accountName": "investments"
       },
       {
-        "accountNumber": "100712768793",
-        "balance": 10
+        "balance": 10,
+        "accountName": "pension"
       }
     ]
   }

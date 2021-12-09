@@ -1,6 +1,7 @@
 package com.salmon.spicysalmon;
 import com.salmon.spicysalmon.controllers.CustomerController;
 import com.salmon.spicysalmon.menus.MainMenu;
+import com.salmon.spicysalmon.models.BankAccount;
 import com.salmon.spicysalmon.models.Customer;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -34,8 +35,16 @@ public class Main {
             String residentialArea = (String) customer.get("residentialArea");
             String occupation = (String) customer.get("occupation");
             cc.createCustomer(SSN, password, firstName, lastName, salary, residentialArea, occupation);
-            Customer newCustomer = cc.getCustomer(SSN);
-            System.out.println(newCustomer);
+            JSONArray accounts = (JSONArray) customer.get("accounts");
+            for(int j=0; j<accounts.size(); j++){
+                JSONObject account = (JSONObject) accounts.get(j);
+                double balance = (double) ((long)account.get("balance"));
+                String accountName = (String) account.get("accountName");
+                // get account ID formatting correct, in accordance with Customer.java createBankAccount method
+                String accID = j < 10 ? "0"+(j+1) : (j+1)+"";
+                cc.createBankAccount(SSN, accountName);
+                cc.depositMoney(SSN, j+"", balance);
+                BankAccount newAccount = cc.findBankAccount(SSN, accID);
+            }
         }
     }
-}

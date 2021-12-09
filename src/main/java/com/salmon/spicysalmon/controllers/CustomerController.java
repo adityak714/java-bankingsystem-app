@@ -88,14 +88,14 @@ public class CustomerController {
         }
     }
 
-    public String depositMoney(String SSN, String accountNumber, double depositAmount) {
-        BankAccount account = findBankAccount(SSN, accountNumber);
+    public String depositMoney(String SSN, String accID, double depositAmount) {
+        BankAccount account = findBankAccount(SSN, accID);
         if (account == null) {
             return "Account does not exist";
         } else {
             account.setBalance(depositAmount + account.getBalance());
             System.out.println(account.getBalance());
-            return depositAmount + "has been added to account: " + accountNumber;
+            return depositAmount + "has been added to account: " + accID;
         }
     }
 
@@ -107,8 +107,9 @@ public class CustomerController {
     }
 
 
-    public BankAccount findBankAccount(String SSN, String accountNumber) {
+    public BankAccount findBankAccount(String SSN, String accountID) {
         Customer customer = findCustomer(SSN);
+        String accountNumber = SSN+accountID;
         for (BankAccount account : customer.getCustomerAccounts()) {
             if (account.getAccountNumber().equals(accountNumber)) {
                 return account;
