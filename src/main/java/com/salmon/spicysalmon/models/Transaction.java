@@ -1,5 +1,7 @@
 package com.salmon.spicysalmon.models;
 
+import com.salmon.spicysalmon.Util;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
@@ -16,9 +18,7 @@ public class Transaction implements Comparable<Transaction>{
         this.TO = to;
         this.FROM = from;
         this.AMOUNT = amount;
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-        Date date = new Date();
-        this.DATE = formatter.format(date);
+        this.DATE = Util.getDateAndTime();
     }
     public String getID() {
         return ID;
