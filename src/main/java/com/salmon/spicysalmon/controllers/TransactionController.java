@@ -79,4 +79,28 @@ public class TransactionController {
         }
         return transactionsForAllAccounts;
     }
+
+    public ArrayList<Transaction> sortByDateEarliest(String SSN, String accID){
+        ArrayList<Transaction> sortedList = allTransactions.get(SSN).get(accID);
+        sortedList.sort(Comparator.comparing(Transaction::getDATE));
+        return sortedList;
+    }
+
+    public String printTransactionsSortedEarliest(String SSN, String accID){
+        String transactionsList = "";
+        for(Transaction transaction : sortByDateEarliest(SSN, accID)){
+            transactionsList += transaction + Util.EOL;
+        }
+
+        return transactionsList;
+    }
+
+    public String printTransactionsSortedLatest(String SSN, String accID){
+        ArrayList<Transaction> sortedList = sortByDateEarliest(SSN, accID);
+        String transactionsList = "";
+        for(int i=sortedList.size()-1; i>=0; i--){
+            transactionsList += sortedList.get(i) + Util.EOL;
+        }
+        return transactionsList;
+    }
 }
