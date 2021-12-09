@@ -7,64 +7,89 @@ import com.salmon.spicysalmon.models.Customer;
 
 import java.util.ArrayList;
 
-/* Maybe Customers should have an ArrayList with their applications instead or both?
-   Not sure if we can have the Customers see the status of their applications,
+/* Maybe Customers should have an ArrayList with their requests instead or both?
+   Not sure if we can have the Customers see the status of their requests,
    but this is maybe solved once we connect the GUI?
  */
-public class ApplicationController {
-    public final ArrayList<BankAccountApplication> allApplications;
+public class AccountRequestController {
+    public final ArrayList<BankAccountRequest> allBankAccountRequests;
+    public final ArrayList<CustomerAccountRequest> allCustomerAccountRequests;
+    public static CustomerController customerController;
+    public AccountRequestController() {
+        allBankAccountRequests = new ArrayList<>();
+        allCustomerAccountRequests = new ArrayList<>();
+        customerController = new CustomerController();
+    }
 
-    public ApplicationController() {
-        allApplications = new ArrayList<>();
+    public ArrayList<BankAccountRequest> getallBankAccountRequests() {
+        return allBankAccountRequests;
     }
-    public ArrayList<BankAccountApplication> getAllApplications() {
-        return allApplications;
+
+    public ArrayList<CustomerAccountRequest> getAllCustomerAccountRequests() {
+        return allCustomerAccountRequests;
     }
-    public String printAllApplications() {
-        return allApplications.toString();
+
+    public String printallBankAccountRequests() {
+        return allBankAccountRequests.toString();
     }
-    public ArrayList<String> getApplications(String SSN) { //Returns list of all applications for the input SSN.
+
+    public ArrayList<String> getBankAccountRequests(String SSN) { //Returns list of all requests for the input SSN.
         ArrayList<String> specificUserAccountList = new ArrayList<>();
-        for (BankAccountApplication application : allApplications) {
-            if (application.getRequestee().getSocialSecurityNumber().equals(SSN)) {
-                specificUserAccountList.add(application.toString() + "\n");
+        for (BankAccountRequest request : allBankAccountRequests) {
+            if (request.getRequestee().getSocialSecurityNumber().equals(SSN)) {
+                specificUserAccountList.add(request.toString() + "\n");
             }
         }
         return specificUserAccountList;
     }
-    public ArrayList<String> getApplications(Customer customer) { //Returns list of all applications for the requested Customer object.
+
+    public ArrayList<String> getBankAccountRequests(Customer customer) { //Returns list of all requests for the requested Customer object.
         ArrayList<String> specificUserAccountList = new ArrayList<>();
-        for (BankAccountApplication application : allApplications) {
-            if (application.getRequestee().getSocialSecurityNumber().equals(customer.getSocialSecurityNumber())) {
-                specificUserAccountList.add(application.toString() + "\n");
+        for (BankAccountRequest request : allBankAccountRequests) {
+            if (request.getRequestee().getSocialSecurityNumber().equals(customer.getSocialSecurityNumber())) {
+                specificUserAccountList.add(request.toString() + "\n");
             }
         }
         return specificUserAccountList;
     }
-    public String getApplicationStatus(String SSN) { //Returns status of all BankAccountApplications for a specific Customer.
-        String output = "";                          //Maybe not needed depending on if we want to delete applications from the list when they are denied or approved.
-        for (BankAccountApplication application : allApplications) {
-            if (application.getRequestee().getSocialSecurityNumber().equals(SSN)) {
-                output += application.getApprovalStatus() + "\n";
+
+    public String getBankAccountRequestStatus(String SSN) { //Returns status of all BankAccountRequests for a specific Customer.
+        String output = "";                          //Maybe not needed depending on if we want to delete requests from the list when they are denied or approved.
+        for (BankAccountRequest request : allBankAccountRequests) {
+            if (request.getRequestee().getSocialSecurityNumber().equals(SSN)) {
+                output += request.getApprovalStatus() + "\n";
             }
         }
         return output;
     }
-    public void createApplication(Customer customer, String accountName) { //Creates a new application and puts in the ArrayList of applications
-        allApplications.add(new BankAccountApplication(customer, accountName));
+
+    public void createBankAccountRequest(Customer customer, String accountName) { //Creates a new request and puts in the ArrayList of requests
+        allBankAccountRequests.add(new BankAccountRequest(customer, accountName));
     }
-    public void addApplication(BankAccountApplication application) { //Adds
-        allApplications.add(application);
+
+    public void addBankAccountRequest(BankAccountRequest request) { //Adds
+        allBankAccountRequests.add(request);
     }
-    public void deleteApplication(BankAccountApplication application) { //Deletes the specified application
-        allApplications.remove(application);
+
+    public void deleteBankAccountRequest(BankAccountRequest request) { //Deletes the specified request
+        allBankAccountRequests.remove(request);
     }
-    public void approveApplication(BankAccountApplication application) {    //Sets the Boolean isApproved of the Customer object that is referenced in the specified application to true.
-        application.approveApplication(); //And creates a new BankAccount for the Customer and puts it in the HashMap of BankAccounts.
-        application.getRequestee().createBankAccount(application.getRequestee().getSocialSecurityNumber(), application.getRequestee().getFirstName(), application.getRequestee().getLastName());
+
+    public void approveBankAccountRequest(BankAccountRequest request, String message) {    //Sets the Boolean isApproved of the Customer object that is referenced in the specified request to true.
+        request.approveRequest(message); //And creates a new BankAccount for the Customer and puts it in the HashMap of BankAccounts.
+        request.getRequestee().createBankAccount(request.getRequestee().getSocialSecurityNumber(), request.getRequestee().getFirstName(), request.getRequestee().getLastName());
     }
-    public void denyApplication(BankAccountApplication application, String denyMessage){
-        application.denyApplication(denyMessage); //Passes message to the customer why the application was denied
+
+    public void approveCustomerAccountRequest(CustomerAccountRequest request, String message) throws Exception{
+        request.approveRequest(message);
+        customerController.createCustomer(request.getSOCIALSECURITYNUMBER(), request.getPassword(),
+                                            request.getFirstName(), request.getLastName(), request.getSalary(),
+                                            request.getResidentialArea(), request.getOccupation());
+
+    }
+
+    public void denyAccountRequest(AccountRequest request, String denyMessage){
+        request.denyRequest(denyMessage); //Passes message to the customer why the request was denied
     }
 }
 
