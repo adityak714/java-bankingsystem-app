@@ -36,6 +36,10 @@ public class Transaction implements Comparable<Transaction>{
         return AMOUNT;
     }
 
+    public String getDATE() {
+        return DATE;
+    }
+
     @Override
     public int compareTo(Transaction o) {
         return Double.compare(this.AMOUNT, o.AMOUNT);
