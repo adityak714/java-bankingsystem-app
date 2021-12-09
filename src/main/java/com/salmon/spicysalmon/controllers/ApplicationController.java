@@ -1,5 +1,6 @@
 package com.salmon.spicysalmon.controllers;
 import com.salmon.spicysalmon.Util;
+import com.salmon.spicysalmon.models.Application;
 import com.salmon.spicysalmon.models.BankAccountApplication;
 import com.salmon.spicysalmon.models.Customer;
 
@@ -15,15 +16,12 @@ public class ApplicationController {
     public ApplicationController() {
         allApplications = new ArrayList<>();
     }
-
     public ArrayList<BankAccountApplication> getAllApplications() {
         return allApplications;
     }
-
     public String printAllApplications() {
         return allApplications.toString();
     }
-
     public ArrayList<String> getApplications(String SSN) { //Returns list of all applications for the input SSN.
         ArrayList<String> specificUserAccountList = new ArrayList<>();
         for (BankAccountApplication application : allApplications) {
@@ -51,11 +49,9 @@ public class ApplicationController {
         }
         return output;
     }
-
     public void createApplication(Customer customer, String accountName) { //Creates a new application and puts in the ArrayList of applications
         allApplications.add(new BankAccountApplication(customer, accountName));
     }
-
     public void addApplication(BankAccountApplication application) { //Adds
         allApplications.add(application);
     }
@@ -66,9 +62,8 @@ public class ApplicationController {
         application.approveApplication(); //And creates a new BankAccount for the Customer and puts it in the HashMap of BankAccounts.
         application.getRequestee().createBankAccount(application.getRequestee().getSocialSecurityNumber(), application.getRequestee().getFirstName(), application.getRequestee().getLastName());
     }
-    public void denyApplication(BankAccountApplication application){
-        application.denyApplication();
-        //Customer probably want to know why application was denied
+    public void denyApplication(BankAccountApplication application, String denyMessage){
+        application.denyApplication(denyMessage); //Passes message to the customer why the application was denied
     }
 }
 

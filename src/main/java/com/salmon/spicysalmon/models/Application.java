@@ -17,7 +17,7 @@ public abstract class Application {
     public void denyApplication(){
         this.isApproved = false;
     }
-    public Boolean getApprovalStatus(){
+    public Boolean getIsApproved(){
      return this.isApproved;
     }
 }
