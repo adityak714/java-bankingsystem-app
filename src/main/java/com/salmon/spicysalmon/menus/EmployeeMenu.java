@@ -27,13 +27,13 @@ public class EmployeeMenu {
             // Continue to add more options here and to the switch case as you see fit, it's ok to create submenus if anyone want to do that,
             // just make a switch case inside the switch case (or make a seperate method that is called inside the switch case)
     };
-    String EMPLOYEE_HEADING3 = "Application handling menu: Please choose a valid option.";
+    String EMPLOYEE_HEADING3 = "Account request handling menu: Please choose a valid option.";
     String[] EMPLOYEE_OPTIONS3 = {
             "Log out",
-            "approve customer request",
-            "approve bank requset",
-            "list all customer request",
-            "list all bank request"
+            "approve customer account request",
+            "approve bank account requset",
+            "list all customer account request",
+            "list all bank account request"
     };
 
     public void show(){
