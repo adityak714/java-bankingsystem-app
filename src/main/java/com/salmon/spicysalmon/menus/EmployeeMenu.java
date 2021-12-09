@@ -1,7 +1,10 @@
 package com.salmon.spicysalmon.menus;
 
 import com.salmon.spicysalmon.UserIO;
+import com.salmon.spicysalmon.Util;
+import com.salmon.spicysalmon.controllers.ApplicationController;
 import com.salmon.spicysalmon.controllers.CustomerController;
+import com.salmon.spicysalmon.controllers.EmployeeController;
 import com.salmon.spicysalmon.models.Menu;
 
 public class EmployeeMenu {
@@ -29,81 +32,122 @@ public class EmployeeMenu {
             "Log out",
             "approve customer application",
             "approve bank application",
+            "list all customer applications",
+            "list all bank applications"
     };
 
     public void show(){
+        // use these objects to access the methods in the controllers
+        // pass in controller into methods
+        // remove userinput as arguments
+
+        ApplicationController applicationController = new ApplicationController();
         CustomerController customerController = new CustomerController();
+        EmployeeController employeeController = new EmployeeController();
+
         Menu employeeMenu = new Menu(EMPLOYEE_HEADING, EMPLOYEE_OPTIONS);
-        Menu employeeCustomerMenu = new Menu(EMPLOYEE_HEADING2, EMPLOYEE_OPTIONS2);
-        Menu employeeApplicationMenu = new Menu(EMPLOYEE_HEADING3,EMPLOYEE_OPTIONS3);
         int userInput = 0;
         do {
             System.out.println(employeeMenu);
             userInput = employeeMenu.getValidOption();
             switch (userInput){
                 case 1:
-                    do {
-                        System.out.println("Customer Menu"); // ADD LOGIC HERE
-                        System.out.println(employeeCustomerMenu);
-                        switch (userInput){
-                            case 1:
-                                System.out.println("You have chosen: Create a customer.");
-                                System.out.print("What is your SSN?: ");
-                                String socialSecurityNumber = UserIO.readStr();
-                                System.out.print("Create a new password: ");
-                                String password = UserIO.readStr();
-                                System.out.print("What is your first name?: ");
-                                String firstName = UserIO.readStr();
-                                System.out.print("What is your last name?: ");
-                                String lastName = UserIO.readStr();
-                                System.out.print("What is your salary?: ");
-                                int salary = UserIO.readInt();
-                                System.out.print("Where do you live?: ");
-                                String residentalArea = UserIO.readStr();
-                                System.out.print("What is your occupation?: ");
-                                String occupation = UserIO.readStr();
-                                customerController.createCustomer(socialSecurityNumber,password, firstName,lastName, salary, residentalArea, occupation);
-                                // we should probably remove the exceptionhandling
-                                break;
-                            case 2:
-                                System.out.println("You have chosen: Remove a customer.");
-                                System.out.print("What customer do you wish to remove? Enter SSN: ");
-                                String remove = UserIO.readStr();
-                                System.out.println(customerController.removeCustomer(remove));
-                                break;
-                            case 3:
-                                System.out.println("You have chosen: Print all registered customers.");
-                                System.out.println(customerController.printAllCustomers());
-                                break;
-                            case 4:
-
-                                break;
-                            case 5:
-
-                                break;
-                        }
-                        break;
-                    }while (userInput != 0);
+                    showCustomerMenu(customerController);
                 case 2:
-                    System.out.println("Application Menu"); // ADD LOGIC HERE
-                    System.out.println(employeeApplicationMenu);
-                    userInput = employeeMenu.getValidOption();
-                    switch (userInput){
-                        case 1:
-                            break;
-                        case 2:
-                            break;
-                        case 3:
-                            break;
-                        case 4:
-                            break;
-                    }
+                    showApplicationMenu(applicationController);
                     break;
                 default:
                     System.out.println("goodbye");
                     break;
             }
         }while (userInput != 0);
+    }
+    public void showCustomerMenu(CustomerController customerController){
+        Menu employeeCustomerMenu = new Menu(EMPLOYEE_HEADING2, EMPLOYEE_OPTIONS2);
+        int userInput = employeeCustomerMenu.getValidOption();
+        do {
+            switch (userInput){
+                case 1:
+                    createCustomer(customerController);
+                    break;
+                case 2:
+                    removeCustomer(customerController);
+                    break;
+                case 3:
+                    printallCustomers(customerController);
+                    break;
+                case 4:
+
+                    break;
+                case 5:
+
+                    break;
+            }
+            break;
+        }while (userInput != 0);
+    }
+
+    public void showApplicationMenu(ApplicationController applicationController){
+        Menu employeeApplicationMenu = new Menu(EMPLOYEE_HEADING3,EMPLOYEE_OPTIONS3);
+        int userInput = employeeApplicationMenu.getValidOption();
+        switch (userInput){
+            case 1:
+                //approve/deny customer application
+                approveOrDenyUserAccountRequest();
+                break;
+            case 2:
+                //approve/deny bank application
+                approveOrDenyBankAccountRequest();
+                break;
+            case 3:
+                listAllCustomerAccountRequests();
+                break;
+            case 4:
+                listAllBankAccountRequests();
+                break;
+        }
+    }
+
+    public void createCustomer(CustomerController customerController){
+        System.out.println("You have chosen: Create a customer.");
+        System.out.print("What is your SSN?: ");
+        String socialSecurityNumber = UserIO.readStr();
+        System.out.print("Create a new password: ");
+        String password = UserIO.readStr();
+        System.out.print("What is your first name?: ");
+        String firstName = UserIO.readStr();
+        System.out.print("What is your last name?: ");
+        String lastName = UserIO.readStr();
+        System.out.print("What is your salary?: ");
+        int salary = UserIO.readInt();
+        System.out.print("Where do you live?: ");
+        String residentalArea = UserIO.readStr();
+        System.out.print("What is your occupation?: ");
+        String occupation = UserIO.readStr();
+        customerController.createCustomer(socialSecurityNumber,password, firstName,lastName, salary, residentalArea, occupation);
+        // should prob remove the excepction
+    }
+    public void removeCustomer(CustomerController customerController){
+        System.out.println("You have chosen: Remove a customer.");
+        System.out.print("What customer do you wish to remove? Enter SSN: ");
+        String remove = UserIO.readStr();
+        System.out.println(customerController.removeCustomer(remove));
+    }
+    public void printallCustomers(CustomerController customerController){
+        System.out.println("You have chosen: Print all registered customers.");
+        System.out.println(customerController.printAllCustomers());
+    }
+
+    public void approveOrDenyUserAccountRequest(){
+    }
+    public void approveOrDenyBankAccountRequest(){
+
+    }
+    public void listAllCustomerAccountRequests(){
+
+    }
+    public void listAllBankAccountRequests(){
+
     }
 
 }
