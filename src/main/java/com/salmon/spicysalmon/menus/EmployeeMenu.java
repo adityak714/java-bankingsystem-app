@@ -16,11 +16,11 @@ public class EmployeeMenu {
     };
     String EMPLOYEE_HEADING2 = "Customer handling menu: Please choose a valid option.";
     String[] EMPLOYEE_OPTIONS2 = {
-            "0. Log out",
+            "0. Go back",
             "1. create customer",
             "2. delete customer",
             "3. Print all registered customers.",
-            // is these 2 methods agreed upon functions of the employee?
+            // is these 2 options (4, 5) agreed upon functions of the employee?
             "4. deposit money into bank account ", // this function is used when a customer meets with an employee in person and has cash that they want to deposit
             "5. withdraw money from bank account", // this function is used when a customer meets with an employee in person and has cash that they want to withdraw
             "6."
@@ -29,7 +29,7 @@ public class EmployeeMenu {
     };
     String EMPLOYEE_HEADING3 = "Account request handling menu: Please choose a valid option.";
     String[] EMPLOYEE_OPTIONS3 = {
-            "Log out",
+            "Go back",
             "approve customer account request",
             "approve bank account requset",
             "list all customer account request",
@@ -64,13 +64,13 @@ public class EmployeeMenu {
         int userInput = employeeCustomerMenu.getValidOption();
         do {
             switch (userInput){
-                case 1:
+                case 1: // create customer
                     createCustomer(customerController);
                     break;
-                case 2:
+                case 2: // remove customer
                     removeCustomer(customerController);
                     break;
-                case 3:
+                case 3: // print all customers
                     printAllCustomers(customerController);
                     break;
                 case 4:
@@ -90,12 +90,10 @@ public class EmployeeMenu {
         System.out.println(employeeAccountRequestMenu);
         int userInput = employeeAccountRequestMenu.getValidOption();
         switch (userInput){
-            case 1:
-                //approve/deny customer application
+            case 1: // approve/deny customer application
                 approveOrDenyUserAccountRequest();
                 break;
-            case 2:
-                //approve/deny bank application
+            case 2: // approve/deny bank application
                 approveOrDenyBankAccountRequest();
                 break;
             case 3:
