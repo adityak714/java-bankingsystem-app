@@ -50,21 +50,17 @@ public class EmployeeMenu {
         do {
             System.out.println(employeeMenu);
             userInput = employeeMenu.getValidOption();
-            switch (userInput){
-                case 1:
-                    showCustomerMenu(customerController);
-                case 2:
-                    showAccountRequestMenu(accountRequestController);
-                    break;
-                default:
-                    System.out.println("goodbye");
-                    break;
+            switch (userInput) {
+                case 0 -> System.out.println("goodbye");
+                case 1 -> showCustomerMenu(customerController);
+                case 2 -> showAccountRequestMenu(accountRequestController);
             }
         }while (userInput != 0);
     }
     // Customer menu that handles all the functionality were the Employee directly interacts with customers
     public void showCustomerMenu(CustomerController customerController){
         Menu employeeCustomerMenu = new Menu(EMPLOYEE_HEADING2, EMPLOYEE_OPTIONS2);
+        System.out.println(employeeCustomerMenu);
         int userInput = employeeCustomerMenu.getValidOption();
         do {
             switch (userInput){
@@ -75,7 +71,7 @@ public class EmployeeMenu {
                     removeCustomer(customerController);
                     break;
                 case 3:
-                    printallCustomers(customerController);
+                    printAllCustomers(customerController);
                     break;
                 case 4:
 
@@ -90,8 +86,9 @@ public class EmployeeMenu {
 
     // Account request menu that handles all the functionality were the Employee directly interacts with Account Requests
     public void showAccountRequestMenu(ApplicationController accountRequestController){
-        Menu employeeApplicationMenu = new Menu(EMPLOYEE_HEADING3,EMPLOYEE_OPTIONS3);
-        int userInput = employeeApplicationMenu.getValidOption();
+        Menu employeeAccountRequestMenu = new Menu(EMPLOYEE_HEADING3,EMPLOYEE_OPTIONS3);
+        System.out.println(employeeAccountRequestMenu);
+        int userInput = employeeAccountRequestMenu.getValidOption();
         switch (userInput){
             case 1:
                 //approve/deny customer application
@@ -135,7 +132,7 @@ public class EmployeeMenu {
         String remove = UserIO.readStr();
         System.out.println(customerController.removeCustomer(remove));
     }
-    public void printallCustomers(CustomerController customerController){
+    public void printAllCustomers(CustomerController customerController){
         System.out.println("You have chosen: Print all registered customers.");
         System.out.println(customerController.printAllCustomers());
     }
