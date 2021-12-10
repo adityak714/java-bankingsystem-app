@@ -1,5 +1,4 @@
 package com.salmon.spicysalmon.controllers;
-import com.salmon.spicysalmon.Util;
 
 import com.salmon.spicysalmon.models.*;
 import com.salmon.spicysalmon.models.Customer;
@@ -21,7 +20,7 @@ public class AccountRequestController {
         customerController = new CustomerController();
     }
 
-    public ArrayList<BankAccountRequest> getallBankAccountRequests() {
+    public ArrayList<BankAccountRequest> getAllBankAccountRequests() {
         return allBankAccountRequests;
     }
 
@@ -29,14 +28,17 @@ public class AccountRequestController {
         return allCustomerAccountRequests;
     }
 
-    public String printallBankAccountRequests() {
+    public String printAllBankAccountRequests() {
         return allBankAccountRequests.toString();
+    }
+    public String printAllCustomerAccountRequests(){
+        return allCustomerAccountRequests.toString();
     }
 
     public ArrayList<String> getBankAccountRequests(String SSN) { //Returns list of all requests for the input SSN.
         ArrayList<String> specificUserAccountList = new ArrayList<>();
         for (BankAccountRequest request : allBankAccountRequests) {
-            if (request.getRequestee().getSocialSecurityNumber().equals(SSN)) {
+            if (request.getREQUESTEE().getSocialSecurityNumber().equals(SSN)) {
                 specificUserAccountList.add(request.toString() + "\n");
             }
         }
@@ -46,18 +48,28 @@ public class AccountRequestController {
     public ArrayList<String> getBankAccountRequests(Customer customer) { //Returns list of all requests for the requested Customer object.
         ArrayList<String> specificUserAccountList = new ArrayList<>();
         for (BankAccountRequest request : allBankAccountRequests) {
-            if (request.getRequestee().getSocialSecurityNumber().equals(customer.getSocialSecurityNumber())) {
+            if (request.getREQUESTEE().getSocialSecurityNumber().equals(customer.getSocialSecurityNumber())) {
                 specificUserAccountList.add(request.toString() + "\n");
             }
         }
         return specificUserAccountList;
     }
 
+
     public String getBankAccountRequestStatus(String SSN) { //Returns status of all BankAccountRequests for a specific Customer.
         String output = "";                          //Maybe not needed depending on if we want to delete requests from the list when they are denied or approved.
         for (BankAccountRequest request : allBankAccountRequests) {
-            if (request.getRequestee().getSocialSecurityNumber().equals(SSN)) {
+            if (request.getREQUESTEE().getSocialSecurityNumber().equals(SSN)) {
                 output += request.getApprovalStatus() + "\n";
+            }
+        }
+        return output;
+    }
+    public String getCustomerAccountRequestStatus(String SSN) { //Returns status of all BankAccountRequests for a specific Customer.
+        String output = "";                          //Maybe not needed depending on if we want to delete requests from the list when they are denied or approved.
+        for (CustomerAccountRequest request : allCustomerAccountRequests) {
+            if (request.getSOCIALSECURITYNUMBER().equals(SSN)) {
+                output += super.toString() + "\n";
             }
         }
         return output;
@@ -77,7 +89,7 @@ public class AccountRequestController {
 
     public void approveBankAccountRequest(BankAccountRequest request, String message) {    //Sets the Boolean isApproved of the Customer object that is referenced in the specified request to true.
         request.approveRequest(message); //And creates a new BankAccount for the Customer and puts it in the HashMap of BankAccounts.
-        request.getRequestee().createBankAccount(request.getRequestee().getSocialSecurityNumber(), request.getRequestee().getFirstName(), request.getRequestee().getLastName());
+        request.getREQUESTEE().createBankAccount(request.getREQUESTEE().getSocialSecurityNumber(), request.getREQUESTEE().getFirstName(), request.getREQUESTEE().getLastName());
     }
 
     public void approveCustomerAccountRequest(CustomerAccountRequest request, String message) throws Exception{
@@ -85,9 +97,7 @@ public class AccountRequestController {
         customerController.createCustomer(request.getSOCIALSECURITYNUMBER(), request.getPassword(),
                                             request.getFirstName(), request.getLastName(), request.getSalary(),
                                             request.getResidentialArea(), request.getOccupation());
-
     }
-
     public void denyAccountRequest(AccountRequest request, String denyMessage){
         request.denyRequest(denyMessage); //Passes message to the customer why the request was denied
     }
