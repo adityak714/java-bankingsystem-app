@@ -3,10 +3,10 @@ package com.salmon.spicysalmon.controllers;
 import com.salmon.spicysalmon.Util;
 import com.salmon.spicysalmon.models.Customer;
 import com.salmon.spicysalmon.models.Transaction;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.LinkedHashMap;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class TransactionController {
 
@@ -102,5 +102,38 @@ public class TransactionController {
             transactionsList += sortedList.get(i) + Util.EOL;
         }
         return transactionsList;
+    }
+
+    public String sortByDateInterval (String SSN, String accID, String startInterval, String endInterval){
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+        Calendar calendar = Calendar.getInstance();
+        String limitedTransactionList = "";
+        ArrayList<Transaction> desiredAccount = allTransactions.get(SSN).get(accID);
+
+        try {
+            Date lowerBoundDate = formatter.parse(startInterval);
+            Date upperBoundDate = formatter.parse(endInterval);
+            Date currentDay = calendar.getTime();
+
+            //If the customer sets an upperbound of ex. 2034, the method sets it back to the current date
+            if(upperBoundDate.after(currentDay)){
+                upperBoundDate = currentDay;
+            }
+
+            //filtering Transactions in given bounds happens here
+            for (Transaction transaction : desiredAccount) {
+                Date toBeCompared = formatter.parse(transaction.getDATE());
+                if (!(toBeCompared.before(lowerBoundDate) || toBeCompared.after(upperBoundDate))) {
+                    limitedTransactionList += transaction + System.lineSeparator();
+                }
+            }
+        }
+
+        catch (ParseException p){
+            return "Error 404";
+            //to be fixed later (will probably show a retry message)
+        }
+
+        return limitedTransactionList;
     }
 }
