@@ -13,11 +13,10 @@ import java.util.ArrayList;
 public class AccountRequestController {
     public final ArrayList<BankAccountRequest> allBankAccountRequests;
     public final ArrayList<CustomerAccountRequest> allCustomerAccountRequests;
-    public static CustomerController customerController;
+    
     public AccountRequestController() {
         allBankAccountRequests = new ArrayList<>();
         allCustomerAccountRequests = new ArrayList<>();
-        customerController = new CustomerController();
     }
 
     public ArrayList<BankAccountRequest> getAllBankAccountRequests() {
@@ -93,6 +92,7 @@ public class AccountRequestController {
     }
 
     public void approveCustomerAccountRequest(CustomerAccountRequest request, String message) throws Exception{
+        CustomerController customerController = new CustomerController();
         request.approveRequest(message);
         customerController.createCustomer(request.getSOCIALSECURITYNUMBER(), request.getPassword(),
                                             request.getFirstName(), request.getLastName(), request.getSalary(),
