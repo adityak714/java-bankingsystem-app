@@ -5,6 +5,7 @@ import com.salmon.spicysalmon.Util;
 import com.salmon.spicysalmon.controllers.ApplicationController;
 import com.salmon.spicysalmon.controllers.CustomerController;
 import com.salmon.spicysalmon.controllers.EmployeeController;
+import com.salmon.spicysalmon.models.BankAccount;
 import com.salmon.spicysalmon.models.Menu;
 
 public class EmployeeMenu {
@@ -128,17 +129,24 @@ public class EmployeeMenu {
     }
 
     public void approveOrDenyUserAccountRequest(ApplicationController accountRequestController){
-        String customer = Util.readLine("Which customers request do you want to look at?");
-        accountRequestController.getBankAccountRequests();
+        String SSN = Util.readLine("Which customers request do you want to look at?");
+        CustomerAccountRequest CAR = accountRequestController.getCustomerAccountRequests(SSN);
+        System.out.println(CAR.toString());
+        Util.readLine("Approve" + Util.EOL + "Deny");
     }
+
     public void approveOrDenyBankAccountRequest(ApplicationController accountRequestController){
-        String customer = Util.readLine("Which customers request do you want to look at?");
-        accountRequestController.getBankAccountRequests();
+        String SSN = Util.readLine("Which customers request do you want to look at?");
+        BankAccountRequest BAR = accountRequestController.getBankAccountRequests(SSN);
+        BAR.toString();
+        Util.readLine("Approve" + Util.EOL + "Deny");
     }
+
     public void listAllCustomerAccountRequests(ApplicationController accountRequestController){
         accountRequestController.printallCustomerAccountRequests();
-        Util.readLine("Which request do you want to check out?");
+        // Util.readLine("Which request do you want to check out?");
     }
+
     public void listAllBankAccountRequests(ApplicationController accountRequestController){
         ArrayList<BankAccountRequest> requests = accountRequestController.getallBankAccountRequests();
         accountRequestController.printallBankAccountRequests();
@@ -147,7 +155,6 @@ public class EmployeeMenu {
         System.out.println(request.toString());
 
 
-        accountRequestController.get
     }
 
 }
