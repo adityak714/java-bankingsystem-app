@@ -31,7 +31,7 @@ public class EmployeeMenu {
             "approve bank application",
     };
 
-    public void show(){
+    public void show(String SSN){
         CustomerController customerController = new CustomerController();
         Menu employeeMenu = new Menu(EMPLOYEE_HEADING, EMPLOYEE_OPTIONS);
         Menu employeeCustomerMenu = new Menu(EMPLOYEE_HEADING2, EMPLOYEE_OPTIONS2);

@@ -10,24 +10,17 @@ import java.util.LinkedHashMap;
 import java.util.concurrent.ThreadPoolExecutor;
 
 public class EmployeeController {
-    private final LinkedHashMap<String, Employee> employeeAccounts;
-    private final TransactionController transactionsController;
-    private final ApplicationController applicationController;
-
-    public EmployeeController(){
-        employeeAccounts = new LinkedHashMap<>();
-        transactionsController =  new TransactionController();
-        applicationController = new ApplicationController();
-    }
+    private static final LinkedHashMap<String, Employee> employeeAccounts = new LinkedHashMap<>();
 
     public Employee getEmployee(String SSN){
-    return employeeAccounts.get(SSN);
+        return employeeAccounts.get(SSN);
     }
 
-    public void createEmployee(String socialSecurityNumber, String password, String firstName, String lastName, String title, String startDate)throws Exception {
-            Employee employee = new Employee(socialSecurityNumber, password, firstName, lastName, title, startDate);
+    public void createEmployee(String socialSecurityNumber, String password, String firstName, String lastName, String startDate){
+            Employee employee = new Employee(socialSecurityNumber, password, firstName, lastName, startDate);
             employeeAccounts.put(socialSecurityNumber, employee);
     }
+
     public LinkedHashMap<String, Employee> getAllEmployees(){
         return employeeAccounts;
     }
@@ -51,11 +44,4 @@ public class EmployeeController {
         return "";
     }
 
-    public void setEmployeeTitle(String SSN, String newTitle){
-        employeeAccounts.get(SSN).setTitle(newTitle);
-    }
-
-    public void approveApplication(){
-
-    }
 }

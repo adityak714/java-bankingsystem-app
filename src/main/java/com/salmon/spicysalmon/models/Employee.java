@@ -1,63 +1,22 @@
 package com.salmon.spicysalmon.models;
 
-public class Employee extends User{
-    // delete vacation part
-    private String title;
-    private int vacationDays;
-    private final String STARTDATE;
+import com.salmon.spicysalmon.Util;
 
-   public Employee(String socialSecurityNumber, String password, String firstName, String lastName, String title, String STARTDATE){
-        super(password, firstName, lastName, socialSecurityNumber);
-        this.title = title;
-        this.STARTDATE = STARTDATE;
+public class Employee extends User{
+    private final String startDate;
+
+   public Employee(String socialSecurityNumber, String password, String firstName, String lastName, String date){
+        super(socialSecurityNumber, password, firstName, lastName);
+        this.startDate = date;
    }
 
-    public String getTitle(){
-        return this.title;
-    }
-
-    public String getStartDate(){
-        return this.STARTDATE;
-    }
-
-    public int getVacationDays() {
-        return this.vacationDays;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setVacationDays(int vacationDays) {
-        this.vacationDays = vacationDays;
-    }
+   public String getStartDate(){
+       return startDate;
+   }
 
     public String toString(){
-        return getFirstName() + " " + getLastName() + "\n"
-                + getSocialSecurityNumber() + "\n"
-                + getTitle() + "\n"
-                + getStartDate() + "\n"
-                + getVacationDays();
-    }
-    /*public String deleteAccount(String ID) throws Exception{
-
-        if (ID.length() == 10 && ID.startsWith("5")){
-            String userID = ID.substring(2, 8); //Check if this should start at 1
-            String accountID = ID.substring(9, 10);
-            if (getUsersCollection().containsKey(userID) && getUsersCollection().get(userID).getAccounts().containsKey(accountID)) {
-                getUsersCollection().get(userID).getAccounts().remove(accountID);
-
-                return "Account removed successfully.";
-            }
-            else return "Account number not found.";
-        }
-        return "Invalid account number";
-    }*/
-    public String reviewApplication(){
-
-        return "";
-    }
-    public String certifyLoan(){
-        return "";
+        return getFirstName() + " " + getLastName() + Util.EOL
+                + getSocialSecurityNumber() + Util.EOL
+                + getStartDate() + Util.EOL;
     }
 }
