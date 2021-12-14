@@ -10,7 +10,7 @@ public class MainMenu {
     private final String[] MAIN_OPTIONS = {
             "Close System",
             "Login",
-            "Apply for account",
+            "Sign up for account",
             "Authorized Personnel"
     };
 
