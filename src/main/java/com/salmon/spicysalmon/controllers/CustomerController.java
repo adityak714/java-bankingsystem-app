@@ -16,13 +16,11 @@ public class CustomerController {
         transactionsController = new TransactionController();
     }
 
-    public void createCustomer(String socialSecurityNumber, String password, String firstName, String lastName, double salary, String residentialArea, String occupation) throws Exception{
+    public void createCustomer(String socialSecurityNumber, String password, String firstName, String lastName, double salary, String residentialArea, String occupation){
             if(transactionsController.checkIfSSNUnique(socialSecurityNumber)){
                 Customer newCustomer = new Customer(socialSecurityNumber, password, firstName, lastName, salary, residentialArea, occupation);
                 allCustomers.put(socialSecurityNumber, newCustomer);
                 customerList.add(newCustomer);
-            } else {
-                throw new Exception("A customer with that social security number already exists!");
             }
     }
 

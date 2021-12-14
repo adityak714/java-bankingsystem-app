@@ -90,6 +90,8 @@ public class EmployeeMenu {
         Menu employeeAccountRequestMenu = new Menu(EMPLOYEE_HEADING3,EMPLOYEE_OPTIONS3);
         System.out.println(employeeAccountRequestMenu);
         int userInput = employeeAccountRequestMenu.getValidOption();
+        /*
+
         switch (userInput){
             case 1: // approve/deny customer application
                 approveOrDenyUserAccountRequest(accountRequestController);
@@ -104,6 +106,8 @@ public class EmployeeMenu {
                 listAllBankAccountRequests(accountRequestController);
                 break;
         }
+
+         */
     }
 
     public void createCustomer(CustomerController customerController){
@@ -127,7 +131,7 @@ public class EmployeeMenu {
         System.out.println("You have chosen: Print all registered customers.");
         System.out.println(customerController.printAllCustomers());
     }
-
+/*
     public void approveOrDenyUserAccountRequest(ApplicationController accountRequestController){
         String SSN = Util.readLine("Which customers request do you want to look at?");
         CustomerAccountRequest CAR = accountRequestController.getCustomerAccountRequests(SSN);
@@ -138,12 +142,15 @@ public class EmployeeMenu {
     public void approveOrDenyBankAccountRequest(ApplicationController accountRequestController){
         String SSN = Util.readLine("Which customers request do you want to look at?");
         BankAccountRequest BAR = accountRequestController.getBankAccountRequests(SSN);
-        BAR.toString();
+        System.out.println(BAR.toString());
         Util.readLine("Approve" + Util.EOL + "Deny");
     }
 
     public void listAllCustomerAccountRequests(ApplicationController accountRequestController){
         accountRequestController.printallCustomerAccountRequests();
+        int requestNum = Util.readInt("Which request do you want to check out?");
+        BankAccountRequest request = requests.get(requestNum);
+        System.out.println(request.toString());
         // Util.readLine("Which request do you want to check out?");
     }
 
@@ -156,6 +163,8 @@ public class EmployeeMenu {
 
 
     }
+
+ */
 
 }
 
