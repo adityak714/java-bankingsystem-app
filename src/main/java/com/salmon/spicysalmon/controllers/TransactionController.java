@@ -123,15 +123,14 @@ public class TransactionController {
             //filtering Transactions in given bounds happens here
             for (Transaction transaction : desiredAccount) {
                 Date toBeCompared = formatter.parse(transaction.getDATE());
-                if (!(toBeCompared.before(lowerBoundDate) || toBeCompared.after(upperBoundDate))) {
+                if (toBeCompared.after(lowerBoundDate) && toBeCompared.before(upperBoundDate)) {
                     limitedTransactionList += transaction + System.lineSeparator();
                 }
             }
         }
 
         catch (ParseException p){
-            return "Error 404";
-            //to be fixed later (will probably show a retry message)
+            return "Please enter the date in the form YYYY/MM/DD";
         }
 
         return limitedTransactionList;
