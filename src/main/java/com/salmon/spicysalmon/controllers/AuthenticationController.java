@@ -4,6 +4,7 @@ import com.salmon.spicysalmon.Util;
 import com.salmon.spicysalmon.controllers.CustomerController;
 import com.salmon.spicysalmon.controllers.EmployeeController;
 import com.salmon.spicysalmon.menus.CustomerMenu;
+import com.salmon.spicysalmon.menus.EmployeeMenu;
 import com.salmon.spicysalmon.models.Customer;
 import com.salmon.spicysalmon.models.Employee;
 import com.salmon.spicysalmon.models.Menu;
@@ -36,11 +37,12 @@ public class AuthenticationController {
         String SSN = loginInfo[0];
         String password = loginInfo[1];
         EmployeeController employeeController = new EmployeeController();
-//        Employee loggedInEmployee = employeeController.getEmployee(SSN);
-//        if (loggedInEmployee != null && loggedInEmployee.verifyPassword(password)){
-//            showEmployeeMenu();
-//        }else {
-//            System.out.println("Username or password incorrect");
-//        }
+        Employee loggedInEmployee = employeeController.getEmployee(SSN);
+        if (loggedInEmployee != null && loggedInEmployee.verifyPassword(password)){
+            EmployeeMenu employeeMenu = new EmployeeMenu();
+            employeeMenu.show();
+        }else {
+            System.out.println("Username or password incorrect");
+        }
     }
 }
