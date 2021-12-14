@@ -11,14 +11,14 @@ import com.salmon.spicysalmon.models.Menu;
 
 public class AuthenticationController {
 
-    private String[] getLoginInfo(){
+    private String[] getLoginInfo() {
         System.out.println(Util.EOL + "Login: Please fill in your details!");
         String SSN = Util.readLine("Social Security Number: ");
         String password = Util.readLine("Password: ");
         return new String[]{SSN, password};
     }
 
-    public void customerLogin(){
+    public void customerLogin() {
         CustomerController customerController = new CustomerController();
         String[] loginInfo = getLoginInfo();
         String SSN = loginInfo[0];
@@ -32,16 +32,16 @@ public class AuthenticationController {
         }
     }
 
-    public void employeeLogin(){
+    public void employeeLogin() {
         String[] loginInfo = getLoginInfo();
         String SSN = loginInfo[0];
         String password = loginInfo[1];
         EmployeeController employeeController = new EmployeeController();
         Employee loggedInEmployee = employeeController.getEmployee(SSN);
-        if (loggedInEmployee != null && loggedInEmployee.verifyPassword(password)){
+        if (loggedInEmployee != null && loggedInEmployee.verifyPassword(password)) {
             EmployeeMenu employeeMenu = new EmployeeMenu();
-            employeeMenu.show();
-        }else {
+            employeeMenu.show(SSN);
+        } else {
             System.out.println("Username or password incorrect");
         }
     }

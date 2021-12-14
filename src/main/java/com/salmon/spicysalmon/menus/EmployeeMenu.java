@@ -36,8 +36,9 @@ public class EmployeeMenu {
             "list all customer account request",
             "list all bank account request"
     };
+
     // the first menu the employee will see, this then branches of into a Customer and a Account request Menu
-    public void show(){
+    public void show(String SSN){
         // use these objects to access the methods in the controllers
         // pass in controller into methods
         // remove userinput as arguments

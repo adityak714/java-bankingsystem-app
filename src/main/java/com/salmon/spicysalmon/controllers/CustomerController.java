@@ -80,16 +80,15 @@ public class CustomerController {
     }
      */
 
-    public void createBankAccount(String SSN, String ID, String firstName, String lastName, String accountName) {
+    public String createBankAccount(String SSN, String accountName){
         Customer customer = findCustomer(SSN);
-        if (customer == null) {
-            System.out.println("kladdkaka 10");
-        } else {
-            System.out.println("kladdkaka 18");
-            BankAccount bankAccount = new BankAccount(SSN, ID, firstName, lastName, accountName);
-            customer.getCustomerAccounts().add(bankAccount);
+        if(customer == null){
+            return "Customer does not exist.";
+        }else{
+            return customer.createBankAccount(accountName);
         }
     }
+
 
     // method needs to call createTransaction from TransactionController
     public String depositMoney(String SSN, String accID, double depositAmount) {
