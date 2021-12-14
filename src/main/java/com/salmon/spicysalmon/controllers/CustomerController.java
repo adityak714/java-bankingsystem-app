@@ -1,55 +1,46 @@
 package com.salmon.spicysalmon.controllers;
 
-import com.salmon.spicysalmon.UserIO;
 import com.salmon.spicysalmon.models.BankAccount;
 import com.salmon.spicysalmon.models.Customer;
-import java.util.ArrayList;
+
 import java.util.HashMap;
 
 public class CustomerController {
-    // private static final HashMap<String, Customer> allCustomers = new HashMap<>(); // "customerList" is a better name?
-    private final ArrayList<Customer> customerList = new ArrayList<>();
+    private static final HashMap<String, Customer> customersList = new HashMap<>(); // "customerList" is a better name?
 
-
-    public String createCustomer(String SSN, String password, String firstName, String lastName, double salary, String residentialArea, String occupation) {
+    public String createCustomer(String socialSecurityNumber, String password, String firstName, String lastName, double salary, String residentialArea, String occupation){
         TransactionController transactionsController = new TransactionController();
-        if (transactionsController.checkIfSSNUnique(SSN)) {
-            Customer newCustomer = new Customer(SSN, password, firstName, lastName, salary, residentialArea, occupation);
-            // allCustomers.put(socialSecurityNumber, newCustomer);
-            customerList.add(newCustomer);
-            return "Customer " + firstName + " " + lastName + " created successfully.";
+        if(transactionsController.checkIfSSNUnique(socialSecurityNumber)){
+            Customer newCustomer = new Customer(socialSecurityNumber, password, firstName, lastName, salary, residentialArea, occupation);
+            customersList.put(socialSecurityNumber, newCustomer);
+            return "Customer "+firstName+" "+lastName+" created successfully.";
         } else {
             return "A customer with that social security number already exists!";
         }
     }
 
-    public Customer findCustomer(String SSN) {
-        System.out.println("kladdkaka 09");
-        for (Customer customer : customerList) {
-            if (customer.getSocialSecurityNumber().equals(SSN)) {
-                return customer;
-            }
-        }
-        return null;
+    public Customer findCustomer(String SSN){
+        return customersList.get(SSN);
     }
+
 
     public String removeCustomer(String SSN) {
         Customer customer = findCustomer(SSN);
-
         if (customer == null) {
             return ("Customer " + SSN + " could not be removed.");
         }
-        customerList.remove(customer);
+        customersList.remove(customer);
         return ("Customer " + SSN + " was successfully removed.");
     }
 
     public String printAllCustomers() {
         String EOL = System.lineSeparator();
-        if (customerList.isEmpty()) {
+        if (customersList.isEmpty()) {
             return "No customers registered yet.";
         }
         String message = "All registered customers:" + EOL + "-------------------------" + EOL;
-        for (Customer customer : customerList) {
+        for (String SSN : customersList.keySet()) {
+            Customer customer = customersList.get(SSN);
             message += printCustomer(customer.getSocialSecurityNumber()) + EOL;
         }
         return message;
