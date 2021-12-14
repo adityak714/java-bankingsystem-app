@@ -22,7 +22,7 @@ public class AuthenticationController {
         String[] loginInfo = getLoginInfo();
         String SSN = loginInfo[0];
         String password = loginInfo[1];
-        Customer loggedInCustomer = customerController.getCustomer(SSN);
+        Customer loggedInCustomer = customerController.findCustomer(SSN);
         if (loggedInCustomer != null && loggedInCustomer.verifyPassword(password)) {
             CustomerMenu customerMenu = new CustomerMenu();
             customerMenu.show();
