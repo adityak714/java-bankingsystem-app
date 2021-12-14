@@ -11,7 +11,7 @@ import java.io.IOException;
 
 public class JSONController {
 
-    public void readDate() throws Exception{
+    public void readData() throws Exception{
         this.readCustomers();
         this.readEmployees();
     }
@@ -58,7 +58,6 @@ public class JSONController {
             String lastName = (String) employee.get("lastName");
             String startDate = (String) employee.get("startDate");
             employeeController.createEmployee(SSN, password, firstName, lastName, startDate);
-            System.out.println(employeeController.getEmployee(SSN));
         }
     }
 }

@@ -6,7 +6,7 @@ public class Main {
     public static void main(String[] args) {
         try {
             JSONController jsonController = new JSONController();
-            jsonController.readDate();
+            jsonController.readData();
         } catch (Exception e) {
             e.printStackTrace();
         }
