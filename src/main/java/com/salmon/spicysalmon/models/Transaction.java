@@ -1,22 +1,25 @@
 package com.salmon.spicysalmon.models;
 
+import com.salmon.spicysalmon.Util;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.UUID;
 
-public class Transaction {
+public class Transaction implements Comparable<Transaction>{
     public final String ID;
     public final String TO;
     public final String FROM;
     public final double AMOUNT;
-
-    // potentially add date
-
+    public final String DATE;
+    
     public Transaction(String to, String from, double amount){
         this.ID = UUID.randomUUID().toString().replace("-", "");
         this.TO = to;
         this.FROM = from;
         this.AMOUNT = amount;
+        this.DATE = Util.getDateAndTime();
     }
-
     public String getID() {
         return ID;
     }
@@ -31,5 +34,14 @@ public class Transaction {
 
     public double getAMOUNT() {
         return AMOUNT;
+    }
+
+    public String getDATE() {
+        return DATE;
+    }
+
+    @Override
+    public int compareTo(Transaction o) {
+        return Double.compare(this.AMOUNT, o.AMOUNT);
     }
 }

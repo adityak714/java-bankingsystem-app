@@ -1,4 +1,7 @@
 package com.salmon.spicysalmon;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Scanner;
 
 public class Util {
@@ -11,9 +14,13 @@ public class Util {
         input.nextLine();
         return userInt;
     }
-
     public static String readLine(String message){
         System.out.print(message);
         return input.nextLine();
+    }
+    public static String getDateAndTime(){
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        Calendar calendar = Calendar.getInstance();
+        return formatter.format(calendar.getTime());
     }
 }
