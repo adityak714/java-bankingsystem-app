@@ -10,10 +10,6 @@ public class Customer extends User {
     private String residentialArea;
     private String occupation;
 
-    public ArrayList<BankAccount> getCustomerAccounts() {
-        return customerAccounts;
-    }
-
     public Customer(String socialSecurity, String password, String firstName, String lastName, double salary, String residentialArea, String occupation) {
         super(socialSecurity, password, firstName, lastName);
         this.customerAccounts = new ArrayList<>();
@@ -56,9 +52,13 @@ public class Customer extends User {
                 '}';
     }
 
-    public double getTotalBalance(String accName){
-        //return accounts.get(accName).getBalance();
-        return 0.0;
+    public double getTotalBalance(){
+        BankAccount bankAccount = customerAccounts.get(0);
+        return bankAccount.getBalance();
+    }
+
+    public ArrayList<BankAccount> getCustomerAccounts() {
+        return customerAccounts;
     }
 
     public double deposit(String accountID, double amount) throws Exception {
