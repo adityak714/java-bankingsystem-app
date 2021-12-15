@@ -3,6 +3,7 @@ package com.salmon.spicysalmon.menus;
 import com.salmon.spicysalmon.UserIO;
 import com.salmon.spicysalmon.Util;
 import com.salmon.spicysalmon.controllers.ApplicationController;
+import com.salmon.spicysalmon.controllers.AuthenticationController;
 import com.salmon.spicysalmon.controllers.CustomerController;
 import com.salmon.spicysalmon.controllers.EmployeeController;
 import com.salmon.spicysalmon.models.BankAccount;
@@ -18,6 +19,7 @@ public class EmployeeMenu {
     String EMPLOYEE_HEADING2 = "Customer handling menu: Please choose a valid option.";
     String[] EMPLOYEE_OPTIONS2 = {
             "Go back",
+            "Access specific customer",
             "create customer",
             "delete customer",
             "Print all registered customers.",
@@ -46,6 +48,7 @@ public class EmployeeMenu {
         ApplicationController accountRequestController = new ApplicationController();
         CustomerController customerController = new CustomerController();
         EmployeeController employeeController = new EmployeeController();
+        AuthenticationController authenticationController = new AuthenticationController();
 
         Menu employeeMenu = new Menu(EMPLOYEE_HEADING, EMPLOYEE_OPTIONS);
         int userInput = 0;
@@ -54,31 +57,34 @@ public class EmployeeMenu {
             userInput = employeeMenu.getValidOption();
             switch (userInput) {
                 case 0 -> System.out.println("goodbye");
-                case 1 -> showCustomerMenu(customerController);
+                case 1 -> showCustomerMenu(customerController, authenticationController);
                 case 2 -> showAccountRequestMenu(accountRequestController);
             }
         }while (userInput != 0);
     }
     // Customer menu that handles all the functionality were the Employee directly interacts with customers
-    public void showCustomerMenu(CustomerController customerController){
+    public void showCustomerMenu(CustomerController customerController, AuthenticationController authenticationController){
         Menu employeeCustomerMenu = new Menu(EMPLOYEE_HEADING2, EMPLOYEE_OPTIONS2);
         System.out.println(employeeCustomerMenu);
         int userInput = employeeCustomerMenu.getValidOption();
         do {
             switch (userInput){
-                case 1: // create customer
+                case 1:
+                    goToCustomer(authenticationController);
+                    break;
+                case 2: // create customer
                     createCustomer(customerController);
                     break;
-                case 2: // remove customer
+                case 3: // remove customer
                     removeCustomer(customerController);
                     break;
-                case 3: // print all customers
+                case 4: // print all customers
                     printAllCustomers(customerController);
                     break;
-                case 4:
+                case 5:
 
                     break;
-                case 5:
+                case 6:
 
                     break;
             }
@@ -109,6 +115,11 @@ public class EmployeeMenu {
         }
 
          */
+    }
+
+    public void goToCustomer(AuthenticationController authenticationController){
+        System.out.println("type in the login info of the customer you want to access");
+        authenticationController.customerLogin();
     }
 
     public void createCustomer(CustomerController customerController){
