@@ -26,7 +26,7 @@ public class AuthenticationController {
         Customer loggedInCustomer = customerController.findCustomer(SSN);
         if (loggedInCustomer != null && loggedInCustomer.verifyPassword(password)) {
             CustomerMenu customerMenu = new CustomerMenu();
-            customerMenu.show();
+            customerMenu.show(SSN); //Added the SSN in the brackets
         } else {
             System.out.println("Username or password incorrect.");
         }

@@ -1,5 +1,6 @@
 package com.salmon.spicysalmon.controllers;
 
+import com.salmon.spicysalmon.Util;
 import com.salmon.spicysalmon.models.BankAccount;
 import com.salmon.spicysalmon.models.Customer;
 
@@ -144,6 +145,56 @@ public class CustomerController {
             System.out.println(customer.getTotalBalance());
         }
     }
+    public void transferMoneyWithinCustomerAccounts(String SSNSender, double amount, String accountNumber1, String accountNumber2) {
+        BankAccount account = findBankAccount(SSNSender, accountNumber2);
+        if(account == null) {
+            System.out.print("The other bank account does not exist!!");
+        } else {
+            depositMoney(SSNSender, accountNumber2, amount);
+            withdrawMoney(SSNSender, accountNumber1, amount);
+        }
+    }
+    public void transferMoneyToOtherCustomer(String SSNSender, String SSNReceiver,  double amount, String accountNumber1, String accountNumber2) {
+        BankAccount accountReceiver = findBankAccount(SSNReceiver, accountNumber2);
+
+        if(accountReceiver == null) {
+            System.out.print("The other bank account does not exist!!");
+        } else {
+            depositMoney(SSNReceiver, accountNumber2, amount);
+            withdrawMoney(SSNSender, accountNumber1, amount);
+        }
+    }
+    public String printAllAccounts(String SSN) {
+
+        //Assuming the customer is logged in already
+        Customer customer = findCustomer(SSN);
+        if (customer.getCustomerAccounts().size() == 0) {
+            return "No bank accounts exist for you";
+
+        } else {
+            String message = "";
+            for (BankAccount account : customer.getCustomerAccounts()) {
+                message += account + Util.EOL;
+
+            }
+            return message;
+        }
+    }
+    //Added this so we can show this to the customer
+    public void printSpecificAccount(String SSN, String accountNumber)  {
+        BankAccount account = findBankAccount(SSN, accountNumber);
+        if (account == null) {
+            System.out.println("Account does not exist");
+        }
+        else {
+            System.out.println(account);
+        }
+
+    }
+
+
+
+
 }
 
 
