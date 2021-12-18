@@ -24,6 +24,7 @@ public class Util {
         System.out.print(message);
         return input.nextLine();
     }
+
     public static String getDateAndTime(){
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         Calendar calendar = Calendar.getInstance();
