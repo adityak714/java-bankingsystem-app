@@ -170,7 +170,7 @@ public class EmployeeMenu {
     public void listAllCustomerAccountRequests(AccountRequestController accountRequestController){
         ArrayList<CustomerAccountRequest> requests = accountRequestController.getAllCustomerAccountRequests();
         accountRequestController.printAllCustomerAccountRequests();
-        int requestNum = Util.readInt("Which request do you want to check out?");
+        int userInput = (Util.readInt("Which request do you want to look at?")) - 1;
         CustomerAccountRequest request = requests.get(requestNum);
         System.out.println(request.toString());
         // Util.readLine("Which request do you want to check out?");
