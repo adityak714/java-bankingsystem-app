@@ -2,7 +2,7 @@ package com.salmon.spicysalmon.models;
 
 import com.salmon.spicysalmon.Util;
 
-public class CustomerAccountRequest extends AccountRequest{
+public class CustomerAccountRequest extends AccountRequest implements Comparable<CustomerAccountRequest>{
 
     private String firstName;
     private String lastName;
@@ -72,10 +72,22 @@ public class CustomerAccountRequest extends AccountRequest{
                  line = line.repeat(5 + this.getFirstName().length() + this.getLastName().length());                            // compares length of SSN and first + last name to decide how many dashes to use
                                                                                                                             // could just use more than necessary I guess.
                  else line = line.repeat(5 + this.getSOCIALSECURITYNUMBER().length());
+        String status = "";
+        if (this.getIsApproved() == null)
+            status =  "Status: Pending" + Util.EOL
+                    + this.getCREATIONDATE(); //If the request is pending we show creation date.
+        if (this.getIsApproved())
+            status = "Status: Approved" + Util.EOL
+                    + "Request was created: " + this.getCREATIONDATE() + Util.EOL //If the request was approved/denied we also show when it was resolved.
+                    + "Request was approved: " + this.getRESOLVEDDATE();
+        else
+            status = "Status: Denied" + Util.EOL
+                    + "Request was created: " + this.getCREATIONDATE() + Util.EOL
+                    + "Request was denied: " + this.getRESOLVEDDATE();
         return
                 line + Util.EOL
                 + "Customer Account Request" + Util.EOL
-                + getApprovalStatus() + Util.EOL
+                + status + Util.EOL
                 + line
                 + "REQUESTEE INFORMATION"
                 + line
@@ -85,5 +97,17 @@ public class CustomerAccountRequest extends AccountRequest{
                 + "Occupation: " + this.occupation + Util.EOL
                 + "Salary: " + this.salary + Util.EOL
                 + line + Util.EOL;
+    }
+    public int compareTo(CustomerAccountRequest otherCustomerAccountRequest) { //Compare last name letter by letter
+        int nameLength = Math.max(this.getLastName().length(), otherCustomerAccountRequest.getLastName().length()); //Checks which last name is longer
+        for (int i = 0; i < nameLength; i++) {
+            if (this.getLastName().toLowerCase().charAt(i) < otherCustomerAccountRequest.getLastName().toLowerCase().charAt(i)){
+                return -1;
+            }
+            if (this.getLastName().toLowerCase().charAt(i) > otherCustomerAccountRequest.getLastName().toLowerCase().charAt(i)){
+                return 1;
+            }
+        }
+        return 0;
     }
 }
