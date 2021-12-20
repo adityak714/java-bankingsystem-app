@@ -1,12 +1,13 @@
 package com.salmon.spicysalmon.menus;
 
-import com.salmon.spicysalmon.UserIO;
 import com.salmon.spicysalmon.Util;
-import com.salmon.spicysalmon.controllers.ApplicationController;
+import com.salmon.spicysalmon.controllers.AccountRequestController;
+import com.salmon.spicysalmon.controllers.AuthenticationController;
 import com.salmon.spicysalmon.controllers.CustomerController;
 import com.salmon.spicysalmon.controllers.EmployeeController;
-import com.salmon.spicysalmon.models.BankAccount;
-import com.salmon.spicysalmon.models.Menu;
+import com.salmon.spicysalmon.models.*;
+
+import java.util.ArrayList;
 
 public class EmployeeMenu {
     String EMPLOYEE_HEADING = "Employee Menu: Please choose a valid option.";
@@ -18,6 +19,7 @@ public class EmployeeMenu {
     String EMPLOYEE_HEADING2 = "Customer handling menu: Please choose a valid option.";
     String[] EMPLOYEE_OPTIONS2 = {
             "Go back",
+            "Access specific customer account",
             "create customer",
             "delete customer",
             "Print all registered customers.",
@@ -43,9 +45,10 @@ public class EmployeeMenu {
         // pass in controller into methods
         // remove userinput as arguments
 
-        ApplicationController accountRequestController = new ApplicationController();
+        AccountRequestController accountRequestController = new AccountRequestController();
         CustomerController customerController = new CustomerController();
         EmployeeController employeeController = new EmployeeController();
+        AuthenticationController authenticationController = new AuthenticationController();
 
         Menu employeeMenu = new Menu(EMPLOYEE_HEADING, EMPLOYEE_OPTIONS);
         int userInput = 0;
@@ -54,31 +57,34 @@ public class EmployeeMenu {
             userInput = employeeMenu.getValidOption();
             switch (userInput) {
                 case 0 -> System.out.println("goodbye");
-                case 1 -> showCustomerMenu(customerController);
-                case 2 -> showAccountRequestMenu(accountRequestController);
+                case 1 -> showCustomerMenu(customerController, authenticationController);
+                case 2 -> showAccountRequestMenu(accountRequestController, customerController);
             }
         }while (userInput != 0);
     }
     // Customer menu that handles all the functionality were the Employee directly interacts with customers
-    public void showCustomerMenu(CustomerController customerController){
+    public void showCustomerMenu(CustomerController customerController, AuthenticationController authenticationController){
         Menu employeeCustomerMenu = new Menu(EMPLOYEE_HEADING2, EMPLOYEE_OPTIONS2);
         System.out.println(employeeCustomerMenu);
         int userInput = employeeCustomerMenu.getValidOption();
         do {
             switch (userInput){
-                case 1: // create customer
+                case 1: // login to a specific customer account
+                    goToCustomer(authenticationController);
+                    break;
+                case 2: // create customer
                     createCustomer(customerController);
                     break;
-                case 2: // remove customer
+                case 3: // remove customer
                     removeCustomer(customerController);
                     break;
-                case 3: // print all customers
+                case 4: // print all customers
                     printAllCustomers(customerController);
                     break;
-                case 4:
+                case 5:
 
                     break;
-                case 5:
+                case 6:
 
                     break;
             }
@@ -87,28 +93,29 @@ public class EmployeeMenu {
     }
 
     // Account request menu that handles all the functionality were the Employee directly interacts with Account Requests
-    public void showAccountRequestMenu(ApplicationController accountRequestController){
+    public void showAccountRequestMenu(AccountRequestController accountRequestController, CustomerController customerController){
         Menu employeeAccountRequestMenu = new Menu(EMPLOYEE_HEADING3,EMPLOYEE_OPTIONS3);
         System.out.println(employeeAccountRequestMenu);
         int userInput = employeeAccountRequestMenu.getValidOption();
-        /*
-
         switch (userInput){
             case 1: // approve/deny customer application
-                approveOrDenyUserAccountRequest(accountRequestController);
+                specificCustomerAccountRequest(accountRequestController, customerController);
                 break;
             case 2: // approve/deny bank application
-                approveOrDenyBankAccountRequest(accountRequestController);
+                specificBankBankAccountRequest(accountRequestController, customerController);
                 break;
-            case 3:
+            case 3: // look att all the customer account requests, then pick one you want to approve/deny
                 listAllCustomerAccountRequests(accountRequestController);
                 break;
-            case 4:
+            case 4: // look att all the bank account requests, then pick one you want to approve/deny
                 listAllBankAccountRequests(accountRequestController);
                 break;
         }
+    }
 
-         */
+    public void goToCustomer(AuthenticationController authenticationController){
+        System.out.println("type in the login info of the customer you want to access");
+        authenticationController.customerLogin();
     }
 
     public void createCustomer(CustomerController customerController){
@@ -121,7 +128,6 @@ public class EmployeeMenu {
         String residentalArea = Util.readLine("Where do you live?: ");
         String occupation = Util.readLine("What is your occupation?: ");
         customerController.createCustomer(socialSecurityNumber,password, firstName,lastName, salary, residentalArea, occupation);
-        // should prob remove the excepction
     }
     public void removeCustomer(CustomerController customerController){
         System.out.println("You have chosen: Remove a customer.");
@@ -132,40 +138,84 @@ public class EmployeeMenu {
         System.out.println("You have chosen: Print all registered customers.");
         System.out.println(customerController.printAllCustomers());
     }
-/*
-    public void approveOrDenyUserAccountRequest(ApplicationController accountRequestController){
+
+    public void specificCustomerAccountRequest(AccountRequestController accountRequestController, CustomerController customerController){
         String SSN = Util.readLine("Which customers request do you want to look at?");
-        CustomerAccountRequest CAR = accountRequestController.getCustomerAccountRequests(SSN);
-        System.out.println(CAR.toString());
-        Util.readLine("Approve" + Util.EOL + "Deny");
+        ArrayList<String> CARs = accountRequestController.getCustomerAccountRequests(SSN); // CARs = Customer Account Requests
+        System.out.println(CARs.toString());
+        if (CARs.size() == 1){
+            approveDenyCustomerAccountRequest(SSN, accountRequestController, customerController);
+        } else {
+            int userInput = (Util.readInt("Which request do you want to look at?")) - 1;
+            String CAR = CARs.get(userInput);
+            System.out.println(CAR);
+            approveDenyCustomerAccountRequest(SSN, accountRequestController, customerController);
+        }
     }
 
-    public void approveOrDenyBankAccountRequest(ApplicationController accountRequestController){
+    public void specificBankBankAccountRequest(AccountRequestController accountRequestController, CustomerController customerController){
         String SSN = Util.readLine("Which customers request do you want to look at?");
-        BankAccountRequest BAR = accountRequestController.getBankAccountRequests(SSN);
-        System.out.println(BAR.toString());
-        Util.readLine("Approve" + Util.EOL + "Deny");
+        ArrayList<String> BARs = accountRequestController.getBankAccountRequests(SSN); // BARs = Bank Account Requests
+        System.out.println(BARs.toString());
+        if (BARs.size() == 1){
+            approveDenyBankAccountRequest(SSN, accountRequestController, customerController);
+        }else {
+            int userInput = (Util.readInt("Which request do you want to look at?")) - 1;
+            String BAR = BARs.get(userInput);
+            System.out.println(BAR);
+            approveDenyBankAccountRequest(SSN, accountRequestController, customerController);
+        }
     }
 
-    public void listAllCustomerAccountRequests(ApplicationController accountRequestController){
-        accountRequestController.printallCustomerAccountRequests();
+    public void listAllCustomerAccountRequests(AccountRequestController accountRequestController){
+        ArrayList<CustomerAccountRequest> requests = accountRequestController.getAllCustomerAccountRequests();
+        accountRequestController.printAllCustomerAccountRequests();
         int requestNum = Util.readInt("Which request do you want to check out?");
-        BankAccountRequest request = requests.get(requestNum);
+        CustomerAccountRequest request = requests.get(requestNum);
         System.out.println(request.toString());
         // Util.readLine("Which request do you want to check out?");
     }
 
-    public void listAllBankAccountRequests(ApplicationController accountRequestController){
-        ArrayList<BankAccountRequest> requests = accountRequestController.getallBankAccountRequests();
-        accountRequestController.printallBankAccountRequests();
+    public void listAllBankAccountRequests(AccountRequestController accountRequestController){
+        ArrayList<BankAccountRequest> requests = accountRequestController.getAllBankAccountRequests();
+        accountRequestController.printAllBankAccountRequests();
         int requestNum = Util.readInt("Which request do you want to check out?");
         BankAccountRequest request = requests.get(requestNum);
         System.out.println(request.toString());
 
-
+    }
+    public void approveDenyCustomerAccountRequest(String SSN, AccountRequestController accountRequestController, CustomerController customerController){
+        String stringUserInput = "";
+        do {
+            stringUserInput = Util.readLine("Please type in: approve or deny");
+            if (stringUserInput.equals("approve")) {
+                //Util.readLine("Please type in the reason for the approval:"); do we need message for approval?
+                Customer customer = customerController.findCustomer(SSN);
+                accountRequestController.approveCustomerAccountRequest();
+            } else if (stringUserInput.equals("deny")) {
+                String message = Util.readLine("Please type in the reason for the denial:");
+                Customer customer = customerController.findCustomer(SSN);
+                accountRequestController.denyCustomerAccountRequest(, message);
+            }
+        }while (!(stringUserInput.equals("approve") || stringUserInput.equals("deny")));
     }
 
- */
+    public void approveDenyBankAccountRequest(String SSN, AccountRequestController accountRequestController, CustomerController customerController){
+        String stringUserInput = "";
+        do {
+            stringUserInput = Util.readLine("Please type in: approve or deny");
+            if (stringUserInput.equals("approve")) {
+                //Util.readLine("Please type in the reason for the approval:"); do we need message for approval?
+                Customer customer = customerController.findCustomer(SSN);
+                accountRequestController.approveBankAccountRequest();
+            } else if (stringUserInput.equals("deny")) {
+                String message = Util.readLine("Please type in the reason for the denial:");
+                Customer customer = customerController.findCustomer(SSN);
+                accountRequestController.denyAccountRequest(, message);
+            }
+        }while (!(stringUserInput.equals("approve") || stringUserInput.equals("deny")));
+    }
+
 
 }
 
