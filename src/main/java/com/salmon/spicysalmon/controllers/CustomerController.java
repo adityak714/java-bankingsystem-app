@@ -98,16 +98,17 @@ public class CustomerController {
             return "Account does not exist";
         } else {
             account.setBalance(depositAmount + account.getBalance());
-            System.out.println(account.getBalance());
             return depositAmount + "has been added to account: " + accID;
         }
     }
 
     // method needs to call createTransaction from TransactionController
-    public void withdrawMoney(String SSN, String accountNumber, double amount) {
-        BankAccount account = findBankAccount(SSN, accountNumber);
+    public void withdrawMoney(String SSN, String accountID, double amount) {
+
+        BankAccount account = findBankAccount(SSN, accountID);
         if (account != null && amount < account.getBalance()) {
             account.setBalance(account.getBalance() - amount);
+
             System.out.println("kladdkaka 72");
         }
     }
@@ -135,7 +136,19 @@ public class CustomerController {
             return "Account was not found.";
         }
     }
+    ///Made new method to check balance of a specific account
+    public void checkBalance(String SSN, String accountID) {
+        BankAccount bankAccount = findBankAccount(SSN, accountID);
+        if(bankAccount == null) {
+            System.out.print("Your bank account does not exist");
+        }
+        else {
+            double balance = bankAccount.getBalance();
+            System.out.print("Balance: " + balance + " SEK.");
+        }
 
+    }
+    //This method will only print the total balance of all existing bank accounts."Should be refactored"
     public void printBalance(String SSN) {
         System.out.println("kladdkaka 34");
         Customer customer = findCustomer(SSN);
@@ -145,23 +158,31 @@ public class CustomerController {
             System.out.println(customer.getTotalBalance());
         }
     }
-    public void transferMoneyWithinCustomerAccounts(String SSNSender, double amount, String accountNumber1, String accountNumber2) {
-        BankAccount account = findBankAccount(SSNSender, accountNumber2);
+
+    public void transferMoneyWithinCustomerAccounts(String SSNSender, double amount, String accountID1, String accountID2) {
+        TransactionController transactionController = new TransactionController();
+        BankAccount account = findBankAccount(SSNSender, accountID1);
         if(account == null) {
             System.out.print("The other bank account does not exist!!");
         } else {
-            depositMoney(SSNSender, accountNumber2, amount);
-            withdrawMoney(SSNSender, accountNumber1, amount);
+            depositMoney(SSNSender, accountID2, amount);
+            withdrawMoney(SSNSender,accountID1,  amount);
+            //Create a transaction here right
+            transactionController.createTransaction(SSNSender+accountID1, SSNSender+accountID2, amount);
         }
     }
-    public void transferMoneyToOtherCustomer(String SSNSender, String SSNReceiver,  double amount, String accountNumber1, String accountNumber2) {
-        BankAccount accountReceiver = findBankAccount(SSNReceiver, accountNumber2);
+    public void transferMoneyToOtherCustomer(String SSNSender, String SSNReceiver,  double amount, String accountID1, String accountID2) {
+        TransactionController transactionController = new TransactionController();
+        BankAccount accountReceiver = findBankAccount(SSNReceiver, accountID1);
 
         if(accountReceiver == null) {
             System.out.print("The other bank account does not exist!!");
         } else {
-            depositMoney(SSNReceiver, accountNumber2, amount);
-            withdrawMoney(SSNSender, accountNumber1, amount);
+            depositMoney(SSNReceiver, accountID2, amount);
+            withdrawMoney(SSNSender, accountID1, amount);
+            //Make a transaction here too
+            transactionController.createTransaction(SSNSender+accountID1, SSNReceiver+accountID2, amount);
+
         }
     }
     public String printAllAccounts(String SSN) {
@@ -181,8 +202,8 @@ public class CustomerController {
         }
     }
     //Added this so we can show this to the customer
-    public void printSpecificAccount(String SSN, String accountNumber)  {
-        BankAccount account = findBankAccount(SSN, accountNumber);
+    public void printSpecificAccount(String SSN, String accountID)  {
+        BankAccount account = findBankAccount(SSN, accountID);
         if (account == null) {
             System.out.println("Account does not exist");
         }
