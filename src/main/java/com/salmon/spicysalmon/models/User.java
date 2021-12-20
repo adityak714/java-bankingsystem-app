@@ -56,7 +56,7 @@ public abstract class User{
         if (this.password.equals(testPassword)) {
             this.password = newPassword;
         } else {
-            throw new Exception("Incorrect current password");
+            throw new Exception("Incorrect old password. Try again!!");
         }
     }
 }

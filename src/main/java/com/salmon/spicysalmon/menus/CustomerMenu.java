@@ -4,6 +4,7 @@ import com.salmon.spicysalmon.UserIO;
 import com.salmon.spicysalmon.Util;
 import com.salmon.spicysalmon.controllers.CustomerController;
 import com.salmon.spicysalmon.controllers.TransactionController;
+import com.salmon.spicysalmon.models.Customer;
 import com.salmon.spicysalmon.models.Menu;
 
 
@@ -12,7 +13,6 @@ public class CustomerMenu {
     String CUSTOMER_HEADING = "Customer Menu: Please choose a valid option.";
     String[] CUSTOMER_OPTIONS = {
             "Log out",
-
             "View all bank accounts",
             "Show My Applications",
             "Apply for new Bank Account",
@@ -38,9 +38,14 @@ public class CustomerMenu {
             "Show All Transactions",
             "Show Transactions By Ascending Order Of Price",
             "Show Transactions By Descending Order Of Price"
-
-
-
+    };
+    String ACCOUNT_SETTINGSHEADING = "Welcome to Account Settings: Please choose a valid option";
+    String[] ACCOUNT_SETTINGSOPTIONS =  {
+            "Return to Customer Menu",
+            "Update Password",
+            "Update Residential Area",
+            "Update Occupation Status",
+            "My Information"
 
     };
 
@@ -55,28 +60,20 @@ public class CustomerMenu {
             System.out.print(customerMenu);
             userInput = customerMenu.getValidOption();
             switch (userInput) {
-
                 case 1:
                     showBankAccountMenu(customerController, transactionController, SSN);
                     break;
                 case 2:
-
+                    //Show Applications
                     break;
                 case 3:
-                    //
                     ///Apply for bank accounts
                     break;
-                case 4:
-                    //Show Applications
-                case 5:///Transactions for all accounts
+                case 4:///Transactions for all accounts
                     System.out.print(transactionController.printTransactionsForAllAccounts(SSN));
                     break;
-                case 6:///Account settings(Customer can change) Need to know what can change in an account
-                    System.out.print("Account settings");
-                    //Change password
-                    //Change occupation
-                    //Change salary
-                    //Location
+                case 5:///Account settings(Customer can change) Need to know what can change in an account
+                    showAccountSettings(SSN, customerController);
                     break;
                 default:
 
@@ -109,6 +106,20 @@ public class CustomerMenu {
 
         } while (userInput != 0);
     }
+    public void showAccountSettings(String SSN, CustomerController customerController) {
+        Menu accountSettingsMenu = new Menu(ACCOUNT_SETTINGSHEADING, ACCOUNT_SETTINGSOPTIONS);
+        int userOption = 0;
+        do {
+            System.out.print(accountSettingsMenu);
+            userOption = accountSettingsMenu.getValidOption();
+            switch (userOption) {
+                case 1 -> changePassword(customerController, SSN);
+                case 2 -> changeOccupation(customerController, SSN);
+                case 3 -> changeResidentialArea(customerController, SSN);
+                case 4 -> showUserInfo(customerController, SSN);
+            }
+        } while (userOption!= 0);
+    }
 
 
 
@@ -116,82 +127,68 @@ public class CustomerMenu {
 
     ////Having the functionality in methods is the best for design instead of being in the switch block
     public void printSpecificAccount(CustomerController customerController, String SSN) {
-
         String accountNumber = Util.readLine("Enter your account ID: ");
-
         customerController.printSpecificAccount(SSN, accountNumber);
         System.out.println("______________________");
     }
     public void transactionsSortedInAscendingOrder(TransactionController transactionController, String SSN, String accID) {
-
-
         System.out.print(transactionController.ascendingTransactionsByPriceForAccount(SSN, accID));
     }
     public void transactionsSortedInDescendingOrder(TransactionController transactionController, String SSN, String accID) {
-
-
         System.out.print(transactionController.descendingTransactionsByPriceForAccount(SSN, accID));
     }
 
     public void depositMoney(CustomerController customerController, String SSN, String accountID) {
-
-
         System.out.print("Enter the deposit amount: ");
         double depositAmount = UserIO.readDouble();
         customerController.depositMoney(SSN, accountID, depositAmount);
-        System.out.print("You have deposited "+ depositAmount + " SEK into your account!!");
-
     }
     public void withdrawMoney(CustomerController customerController, String SSN, String accountID) {
-
-
         System.out.print("Enter the withdraw amount: ");
         double withdrawAmount = UserIO.readDouble();
         customerController.withdrawMoney(SSN, accountID, withdrawAmount);
-        System.out.print("You have withdrawn "+ withdrawAmount + " SEK from your account!!");
     }
     public void showBalance(CustomerController customerController, String SSN, String accountID) {
-
-
         customerController.checkBalance(SSN, accountID);
     }
     public void transferWithinAccounts(CustomerController customerController, String SSN, String accountID) {
-
-
         String accountID2 = Util.readLine("Enter your second bank account ID: ");
         System.out.print("Enter the amount: ");
         double amount = UserIO.readDouble();
         customerController.transferMoneyWithinCustomerAccounts(SSN, amount, accountID, accountID2);
         System.out.println("You have transferred " + amount + " SEK successfully!!");
-
     }
     public void transferToOtherCustomer(CustomerController customerController, String SSN, String accountID1) {
-
-
         String accountNumber = Util.readLine("Enter the account number of the recipient: ");
-
         System.out.print("Enter the amount: ");
         double amount = UserIO.readDouble();
         customerController.transferMoneyToOtherCustomer(SSN, accountNumber, amount, accountID1);
         System.out.println("You have transferred " + amount + " SEK successfully!!");
-
     }
     public void showRecentTransactions(TransactionController transactionController, String SSN, String accID) {
-
-
         System.out.print(transactionController.printTransactionsSortedLatest(SSN, accID));
     }
     public void showEarliestTransactions(TransactionController transactionController, String SSN, String accID) {
-
-
         System.out.print(transactionController.printTransactionsSortedEarliest(SSN, accID));
-
-
     }
     public void showTransactionsForAnAccount(TransactionController transactionController, String SSN, String accID) {
-
-
         System.out.print(transactionController.printTransactionsForAnAccount(SSN, accID));
+    }
+    public void changePassword(CustomerController customerController, String SSN) {
+        String testPassword = Util.readLine("Enter your old password: ");
+        String newPassword = Util.readLine("Enter your new password: ");
+        customerController.changePassword(testPassword, newPassword, SSN);
+    }
+    public void changeOccupation(CustomerController customerController, String SSN) {
+        String occupation = Util.readLine("Enter your new occupation: ");
+        customerController.changeOccupation(occupation,  SSN);
+    }
+    public void changeResidentialArea(CustomerController customerController, String SSN) {
+        String residentialArea = Util.readLine("Enter your new residential area: ");
+        customerController.changeOccupation(residentialArea, SSN);
+    }
+    public void showUserInfo(CustomerController customerController, String SSN) {
+        System.out.print(customerController.printCustomer(SSN));
     }
 
 

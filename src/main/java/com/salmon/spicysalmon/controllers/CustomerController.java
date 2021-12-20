@@ -61,7 +61,6 @@ public class CustomerController {
 
     public String printSpecificCustomer(String SSN) {
         Customer customer = findCustomer(SSN);
-        System.out.println("kladdkaka 45");
         if (customer == null) {
             return ("Customer " + SSN + " could not be found.");
         }
@@ -95,9 +94,15 @@ public class CustomerController {
     public void depositMoney(String SSN, String accID, double depositAmount) {
         BankAccount account = findBankAccount(SSN, accID);
         if (account == null) {
-            System.out.print("Account does not exist");
+            System.out.print("Account does not exist!!");
         } else {
-            account.setBalance(depositAmount + account.getBalance());
+            if (depositAmount < 0) {
+                System.out.print("That amount of money cannot be deposited!!");
+            } else {
+                account.setBalance(depositAmount + account.getBalance());
+                System.out.print("You have deposited "+ depositAmount + " SEK into your account!!");
+            }
+
 
         }
     }
@@ -108,8 +113,11 @@ public class CustomerController {
         BankAccount account = findBankAccount(SSN, accountID);
         if (account != null && amount < account.getBalance()) {
             account.setBalance(account.getBalance() - amount);
+            System.out.print("You have withdrawn " + amount  + " SEK from your account!!");
 
 
+        } else if (account!= null && amount > account.getBalance()) {
+            System.out.print("The amount you are trying to withdraw is large!!");
         }
     }
 
@@ -217,7 +225,37 @@ public class CustomerController {
         }
 
     }
-
+    public void changePassword(String testPassword, String newPassword, String SSN) {
+        Customer customer = findCustomer(SSN);
+        if (customer == null) {
+            System.out.print("Customer does not exist.");
+        } else {
+            try {
+                customer.changePassword(testPassword, newPassword);
+                System.out.print("Password changed successfully!!");
+            } catch(Exception ex) {
+                System.out.print(ex.getMessage());
+            }
+        }
+    }
+    public void changeOccupation(String occupation, String SSN) {
+        Customer customer = findCustomer(SSN);
+        if (customer == null) {
+            System.out.print("Customer does not exist.");
+        } else {
+            customer.setOccupation(occupation);
+            System.out.print("Occupation changed successfully");
+        }
+    }
+    public void changeResidentialArea(String residentialArea, String SSN) {
+        Customer customer = findCustomer(SSN);
+        if (customer == null) {
+            System.out.print("Customer does not exist.");
+        } else {
+            customer.setResidentialArea(residentialArea);
+            System.out.print("Residential Area changed successfully!!");
+        }
+    }
 
 
 
