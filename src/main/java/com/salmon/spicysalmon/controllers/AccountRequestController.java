@@ -230,9 +230,12 @@ public class AccountRequestController {
         }
         throw new Exception("There are no account requests for this SSN.");
     }
+
     //Return String of all Pending bank account requests for all customers, probably standard view for employees since you don't really care for requests that have already been resolved.
     public String printAllPendingBankAccountRequests() throws Exception {
        String output = "";
+       String separatorLine = "|" + "-".repeat(30);
+       int requestNumber = 1;
         for (BankAccountRequest request : allBankAccountRequests) {
             if (request.getIsApproved() == null) {
                 output += "|<" + requestNumber + ">" + Util.EOL + separatorLine + Util.EOL + "|Name: " + request.getREQUESTEE().getFirstName()
@@ -248,5 +251,26 @@ public class AccountRequestController {
             output = " All Pending Bank Account Requests" + Util.EOL + separatorLine + output;
         return output;
     }
+
+    //Gets a list of all requests that has been neither approved nor denied.
+    public ArrayList<BankAccountRequest> getAllPendingBankAccountRequests() {
+        ArrayList<BankAccountRequest> returnList = new ArrayList<>();
+        for (BankAccountRequest request : allBankAccountRequests) {
+            if (request.getIsApproved() == null) {
+                returnList.add(request);
+            }
+        }
+        return returnList;
+    }
+
+    //Gets a stringified specific request from the "getAllPendingBankAccountRequests" method.This is done to show the request information
+    public String getSpecificBankAccountRequestFromList(int input) throws Exception{
+        if (input < 1 || input-1 > getAllPendingBankAccountRequests().size()){
+            throw new Exception("Invalid input.");
+        } else {
+            return getAllPendingBankAccountRequests().get(input-1).toString();
+        }
+    }
+
 }
 
