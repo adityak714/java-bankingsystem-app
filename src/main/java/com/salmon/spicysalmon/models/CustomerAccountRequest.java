@@ -2,7 +2,7 @@ package com.salmon.spicysalmon.models;
 
 import com.salmon.spicysalmon.Util;
 
-public class CustomerAccountRequest extends AccountRequest implements Comparable<CustomerAccountRequest>{
+public class CustomerAccountRequest extends AccountRequest{
 
     private String firstName;
     private String lastName;
@@ -35,7 +35,7 @@ public class CustomerAccountRequest extends AccountRequest implements Comparable
         return password;
     }
 
-    public String getSOCIALSECURITYNUMBER() {
+    public String getSocialSecurityNumber() {
         return SOCIALSECURITYNUMBER;
     }
 
@@ -68,10 +68,10 @@ public class CustomerAccountRequest extends AccountRequest implements Comparable
     public String toString(){
         String line = "-"; //Separator line to segment customer and request information
 
-                 if (this.getFirstName().length() + this.getLastName().length() > this.getSOCIALSECURITYNUMBER().length()) //Adds some -------- between request dates and requestee information
+                 if (this.getFirstName().length() + this.getLastName().length() > this.getSocialSecurityNumber().length()) //Adds some -------- between request dates and requestee information
                  line = line.repeat(5 + this.getFirstName().length() + this.getLastName().length());                            // compares length of SSN and first + last name to decide how many dashes to use
                                                                                                                             // could just use more than necessary I guess.
-                 else line = line.repeat(5 + this.getSOCIALSECURITYNUMBER().length());
+                 else line = line.repeat(5 + this.getSocialSecurityNumber().length());
         String status = "";
         if (this.getIsApproved() == null)
             status =  "Status: Pending" + Util.EOL
@@ -85,20 +85,20 @@ public class CustomerAccountRequest extends AccountRequest implements Comparable
                     + "Request was created: " + this.getCREATIONDATE() + Util.EOL
                     + "Request was denied: " + this.getRESOLVEDDATE();
         return
-                line + Util.EOL
-                + "Customer Account Request" + Util.EOL
-                + status + Util.EOL
-                + line
-                + "REQUESTEE INFORMATION"
-                + line
-                + "Name: " + this.firstName + " " + this.lastName + Util.EOL
-                + "SSN: " + this.SOCIALSECURITYNUMBER + Util.EOL
-                + "Address: " + this.residentialArea + Util.EOL
-                + "Occupation: " + this.occupation + Util.EOL
-                + "Salary: " + this.salary + Util.EOL
-                + line + Util.EOL;
+                "|" + "-".repeat(40) + Util.EOL
+                        + "Bank Account Request" + Util.EOL
+                        + status + Util.EOL
+                        + "|" + "-".repeat(40)
+                        + "|CUSTOMER INFORMATION"
+                        + "|" + "-".repeat(40)
+                        + "|Name: " +this.getFirstName() + " " + this.getLastName() + Util.EOL
+                        + "|SSN: " +this.getSocialSecurityNumber() + Util.EOL
+                        + "|Address: " + this.getResidentialArea() + Util.EOL
+                        + "|Occupation " + this.getOccupation() + Util.EOL
+                        + "|Salary: " + this.getSalary() + Util.EOL
+                        + "|" + "-".repeat(40) + Util.EOL;
     }
-    public int compareTo(CustomerAccountRequest otherCustomerAccountRequest) { //Compare last name letter by letter
+   /* public int compareTo(CustomerAccountRequest otherCustomerAccountRequest) { //Compare last name letter by letter
         int nameLength = Math.max(this.getLastName().length(), otherCustomerAccountRequest.getLastName().length()); //Checks which last name is longer
         for (int i = 0; i < nameLength; i++) {
             if (this.getLastName().toLowerCase().charAt(i) < otherCustomerAccountRequest.getLastName().toLowerCase().charAt(i)){
@@ -109,5 +109,5 @@ public class CustomerAccountRequest extends AccountRequest implements Comparable
             }
         }
         return 0;
-    }
+    }*/
 }

@@ -22,10 +22,12 @@ public abstract class AccountRequest {
     public void approveRequest(String approveMessage){
         this.isApproved = true;
         this.message = approveMessage;
+        this.RESOLVEDDATE = Util.getDateAndTime();
     }
     public void denyRequest(String denyMessage){
         this.isApproved = false;
         this.message = denyMessage;
+        this.RESOLVEDDATE = Util.getDateAndTime();
     }
 
     public String getCREATIONDATE() {
@@ -33,9 +35,6 @@ public abstract class AccountRequest {
     }
     public String getRESOLVEDDATE() {
         return RESOLVEDDATE;
-    }
-    public void setRESOLVEDDATE(){
-        this.RESOLVEDDATE = Util.getDateAndTime();
     }
     public Boolean getIsApproved(){
         return this.isApproved;
