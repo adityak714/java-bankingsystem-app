@@ -3,8 +3,14 @@ package com.salmon.spicysalmon.controllers;
 import com.salmon.spicysalmon.Util;
 import com.salmon.spicysalmon.models.*;
 import com.salmon.spicysalmon.models.Customer;
+import com.sun.tools.jconsole.JConsoleContext;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 
 
+import javax.tools.JavaCompiler;
+import java.awt.*;
+import java.io.Console;
 import java.lang.reflect.Array;
 import java.nio.charset.StandardCharsets;
 import java.security.AllPermission;
@@ -71,13 +77,13 @@ public class AccountRequestController {
     }
 
     //Returns an ArrayList of Strings for all BankAccountRequests
-    public ArrayList<String> getAllBankAccountRequests() {
-        ArrayList<String> requestList = new ArrayList();
+    public String getAllBankAccountRequests() {
+        String output = "";
         for (BankAccountRequest request : allBankAccountRequests) {
-                requestList.add(request.getID() + " " + request.getREQUESTEE().getSocialSecurityNumber() + " " + request.getREQUESTEE().getFirstName()
-                                + " " + request.getREQUESTEE().getLastName() + " " + request.getAccountName() + " " + "(" + request.getCREATIONDATE() + ")" + Util.EOL);
+               output += request.getID() + " " + request.getREQUESTEE().getSocialSecurityNumber() + " " + request.getREQUESTEE().getFirstName()
+                                + " " + request.getREQUESTEE().getLastName() + " " + request.getAccountName() + " " + "(" + request.getCREATIONDATE() + ")" + Util.EOL;
         }
-        return requestList;
+        return output;
     }
     //Returns the specific BankAccountRequest associated with the ID (UUID 36 char auto-generated) So that you can manipulate it via the menu
     public BankAccountRequest getSpecificBankAccountRequest(String ID){
@@ -89,12 +95,12 @@ public class AccountRequestController {
         return null;
     }
     //Returns an ArrayList of Strings that we can print
-    public ArrayList<String> getAllCustomerAccountRequests(){
-        ArrayList<String> requestList = new ArrayList();
+    public String getAllCustomerAccountRequests(){
+        String output = "";
         for (CustomerAccountRequest request : allCustomerAccountRequests) {
-            requestList.add(request.getSOCIALSECURITYNUMBER() + " " + request.getFirstName() + " " + request.getLastName() + "(" + request.getCREATIONDATE() + ")" + Util.EOL);
+            output += request.getSOCIALSECURITYNUMBER() + " " + request.getFirstName() + " " + request.getLastName() + "(" + request.getCREATIONDATE() + ")" + Util.EOL;
         }
-        return requestList;
+        return output;
     }
     public CustomerAccountRequest getSpecificCustomerAccountRequest(String ID){
         for ( CustomerAccountRequest request : allCustomerAccountRequests){
