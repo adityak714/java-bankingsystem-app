@@ -22,6 +22,7 @@ public class EmployeeMenu {
             "Access specific customer account",
             "create customer",
             "delete customer",
+            "delete bank account",
             "Print all registered customers.",
             // is these 2 options (4, 5) agreed upon functions of the employee?
             "deposit money into bank account ", // this function is used when a customer meets with an employee in person and has cash that they want to deposit
@@ -34,17 +35,13 @@ public class EmployeeMenu {
     String[] EMPLOYEE_OPTIONS3 = {
             "Go back",
             "review specific customer account request",
-            "review specific bank account requset",
+            "review specific bank account request",
             "list all customer account request",
             "list all bank account request"
     };
 
     // the first menu the employee will see, this then branches of into a Customer and a Account request Menu
     public void show(String SSN){
-        // use these objects to access the methods in the controllers
-        // pass in controller into methods
-        // remove userinput as arguments
-
         AccountRequestController accountRequestController = new AccountRequestController();
         CustomerController customerController = new CustomerController();
         EmployeeController employeeController = new EmployeeController();
@@ -78,11 +75,11 @@ public class EmployeeMenu {
                 case 3: // remove customer
                     removeCustomer(customerController);
                     break;
-                case 4: // print all customers
-                    printAllCustomers(customerController);
+                case 4: // delete a bank account
+                    deleteBankAccount(customerController);
                     break;
-                case 5:
-
+                case 5: // print all customers
+                    printAllCustomers(customerController);
                     break;
                 case 6:
 
@@ -133,6 +130,10 @@ public class EmployeeMenu {
         System.out.println("You have chosen: Remove a customer.");
         String remove = Util.readLine("What customer do you wish to remove? Enter SSN: ");
         System.out.println(customerController.removeCustomer(remove));
+    }
+    public void deleteBankAccount(CustomerController customerController){
+        String accountNumber = Util.readLine("Type in the account number of the bank account do you want to remove");
+        customerController.deleteBankAccount(accountNumber);
     }
     public void printAllCustomers(CustomerController customerController){
         System.out.println("You have chosen: Print all registered customers.");
