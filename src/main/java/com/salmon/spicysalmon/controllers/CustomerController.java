@@ -91,27 +91,49 @@ public class CustomerController {
 
 
     // method needs to call createTransaction from TransactionController
-    public void depositMoney(String SSN, String accID, double depositAmount)  {
+    public String depositMoney(String SSN, String accID, double depositAmount)  {
+
         BankAccount account = findBankAccount(SSN, accID);
         if (account == null) {
-            System.out.print("Account does not exist!!");
+            return "Account does not exist";
         } else {
-            if (depositAmount > 0) {
+            String message = "";
+            if (depositAmount < 0) {
+
+                message = "Amount to be deposited is too small";
+            }else {
                 account.setBalance(depositAmount + account.getBalance());
+                message = "You have deposited " + depositAmount + " SEK successfully!!";
+
             }
+            return message;
+
 
 
         }
     }
 
     // method needs to call createTransaction from TransactionController
-    public void withdrawMoney(String SSN, String accountID, double amount)  {
+    public String  withdrawMoney(String SSN, String accountID, double amount)  {
 
         BankAccount account = findBankAccount(SSN, accountID);
-        if (account != null && amount < account.getBalance()) {
-            account.setBalance(account.getBalance() - amount);
-            //System.out.print("You have withdrawn " + amount  + " SEK from your account!!");
+        if (account == null) {
+            return "Account does not exist";
         }
+        else {
+            String message = "";
+            if (amount < 0 || amount > account.getBalance())  {
+                message = "Withdrawal unsuccessful!!";
+            } else {
+                account.setBalance(account.getBalance() - amount);
+                message = "You have withdrawn "+ amount + " SEK successfully!!";
+
+            }
+            return message;
+        }
+
+
+
     }
 
     public BankAccount findBankAccount(String SSN, String accountID) {
@@ -131,22 +153,27 @@ public class CustomerController {
         String accID = accountNumber.substring(10, 11);
         Customer customer = findCustomer(SSN);
         if (customer != null) {
-            System.out.println("kladdkaka 54");
+
             return customer.deleteBankAccount(accID);
         } else {
             return "Account was not found.";
         }
     }
     ///Made new method to check balance of a specific account
-    public void checkBalance(String SSN, String accountID) {
+    public String checkBalance(String SSN, String accountID) {
+
         BankAccount bankAccount = findBankAccount(SSN, accountID);
         if(bankAccount == null) {
-            System.out.print("Your bank account does not exist");
+            return "Your bank account does not exist.";
         }
         else {
+            String message = "";
             double balance = bankAccount.getBalance();
-            System.out.print("Balance: " + balance + " SEK.");
+            message = "Balance: " + balance + " SEK.";
+            return message;
+
         }
+
 
     }
     //This method will only print the total balance of all existing bank accounts."Should be refactored"

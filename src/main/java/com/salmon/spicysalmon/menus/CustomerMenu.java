@@ -38,7 +38,8 @@ public class CustomerMenu {
             "Show Oldest Transactions",
             "Show All Transactions",
             "Show Transactions By Ascending Order Of Price",
-            "Show Transactions By Descending Order Of Price"
+            "Show Transactions By Descending Order Of Price",
+            "Show Transactions Between Two Given Dates"
     };
     String ACCOUNT_SETTINGSHEADING = "Welcome to Account Settings: Please choose a valid option";
     String[] ACCOUNT_SETTINGSOPTIONS =  {
@@ -104,6 +105,7 @@ public class CustomerMenu {
                 case 8 -> showTransactionsForAnAccount(transactionController, SSN, accountID);
                 case 9 -> transactionsSortedInAscendingOrder(transactionController,SSN, accountID);
                 case 10 -> transactionsSortedInDescendingOrder(transactionController, SSN, accountID);
+                case 11 -> showTransactionsBetweenDates(transactionController, SSN, accountID);
             }
 
         } while (userInput != 0);
@@ -143,64 +145,27 @@ public class CustomerMenu {
     public void depositMoney(CustomerController customerController, String SSN, String accountID) {
         System.out.print("Enter the deposit amount: ");
         double depositAmount = UserIO.readDouble();
-
-        if (depositAmount < 0) {
-            System.out.print("Amount is too small to be deposited");
-        } else {
-            customerController.depositMoney(SSN, accountID, depositAmount);
-            System.out.print("You have deposited "+ depositAmount + " SEK successfully!!");
-        }
-
-
-
+        System.out.print(customerController.depositMoney(SSN, accountID, depositAmount));
     }
     public void withdrawMoney(CustomerController customerController, String SSN, String accountID) {
-        BankAccount account = customerController.findBankAccount(SSN, accountID);
-
         System.out.print("Enter the withdraw amount: ");
         double withdrawAmount = UserIO.readDouble();
-        if (withdrawAmount < 0 || withdrawAmount > account.getBalance())  {
-            System.out.print("Amount too low!!");
-        } else {
-            customerController.withdrawMoney(SSN, accountID, withdrawAmount);
-            System.out.print("You have withdrawn "+ withdrawAmount + " SEK successfully!!");
-        }
-
-
+        System.out.println(customerController.withdrawMoney(SSN, accountID, withdrawAmount));
     }
     public void showBalance(CustomerController customerController, String SSN, String accountID) {
-        customerController.checkBalance(SSN, accountID);
+        System.out.println(customerController.checkBalance(SSN, accountID));
     }
     public void transferWithinAccounts(CustomerController customerController, String SSN, String accountID) {
-        BankAccount account1 = customerController.findBankAccount(SSN, accountID);
         String accountID2 = Util.readLine("Enter your second bank account ID: ");
-
-
         System.out.print("Enter the amount: ");
         double amount = UserIO.readDouble();
-        if (amount < account1.getBalance() && amount > 0) {
-            customerController.transferMoneyWithinCustomerAccounts(SSN, amount, accountID, accountID2);
-            System.out.println("You have transferred " + amount + " SEK successfully!!");
-        } else {
-            System.out.println("Transfer unsuccessful!!");
-        }
-
-
-
+        customerController.transferMoneyWithinCustomerAccounts(SSN, amount, accountID, accountID2);
     }
     public void transferToOtherCustomer(CustomerController customerController, String SSN, String accountID1)  {
-        BankAccount account1 = customerController.findBankAccount(SSN, accountID1);
         String accountNumber = Util.readLine("Enter the account number of the recipient: ");
         System.out.print("Enter the amount: ");
         double amount = UserIO.readDouble();
-        if (amount < account1.getBalance() && amount > 0) {
-            customerController.transferMoneyToOtherCustomer(SSN, accountNumber, amount, accountID1);
-            System.out.println("You have transferred " + amount + " SEK successfully!!");
-
-        } else {
-            System.out.println("Transfer unsuccessful!!");
-        }
-
+        customerController.transferMoneyToOtherCustomer(SSN, accountNumber, amount, accountID1);
     }
     public void showRecentTransactions(TransactionController transactionController, String SSN, String accID) {
         System.out.print(transactionController.printTransactionsSortedLatest(SSN, accID));
@@ -208,22 +173,33 @@ public class CustomerMenu {
     public void showEarliestTransactions(TransactionController transactionController, String SSN, String accID) {
         System.out.print(transactionController.printTransactionsSortedEarliest(SSN, accID));
     }
+    public void showTransactionsBetweenDates(TransactionController transactionController, String SSN, String accID) {
+        String startDate = Util.readLine("Enter the start date: ");
+        String endDate = Util.readLine("Enter the end date: ");
+        System.out.print(transactionController.sortByDateInterval(SSN, accID, startDate, endDate));
+    }
+
     public void showTransactionsForAnAccount(TransactionController transactionController, String SSN, String accID) {
         System.out.print(transactionController.printTransactionsForAnAccount(SSN, accID));
     }
+    //Method to change customer's password
     public void changePassword(CustomerController customerController, String SSN) {
         String testPassword = Util.readLine("Enter your old password: ");
         String newPassword = Util.readLine("Enter your new password: ");
         customerController.changePassword(testPassword, newPassword, SSN);
     }
+
+    ///Forwards our new occupation to the method in customer controller to be updated
     public void changeOccupation(CustomerController customerController, String SSN) {
         String occupation = Util.readLine("Enter your new occupation: ");
         customerController.changeOccupation(occupation,  SSN);
     }
+    /// Method to change residential status
     public void changeResidentialArea(CustomerController customerController, String SSN) {
         String residentialArea = Util.readLine("Enter your new residential area: ");
         customerController.changeOccupation(residentialArea, SSN);
     }
+    // Methods that displays all our information
     public void showUserInfo(CustomerController customerController, String SSN) {
         System.out.print(customerController.printCustomer(SSN));
     }
