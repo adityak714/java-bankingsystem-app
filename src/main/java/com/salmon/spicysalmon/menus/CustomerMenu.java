@@ -4,6 +4,7 @@ import com.salmon.spicysalmon.UserIO;
 import com.salmon.spicysalmon.Util;
 import com.salmon.spicysalmon.controllers.CustomerController;
 import com.salmon.spicysalmon.controllers.TransactionController;
+import com.salmon.spicysalmon.models.BankAccount;
 import com.salmon.spicysalmon.models.Customer;
 import com.salmon.spicysalmon.models.Menu;
 
@@ -43,8 +44,8 @@ public class CustomerMenu {
     String[] ACCOUNT_SETTINGSOPTIONS =  {
             "Return to Customer Menu",
             "Update Password",
-            "Update Residential Area",
             "Update Occupation Status",
+            "Update Residential Area",
             "My Information"
 
     };
@@ -68,6 +69,7 @@ public class CustomerMenu {
                     break;
                 case 3:
                     ///Apply for bank accounts
+                    ///Ask for account name
                     break;
                 case 4:///Transactions for all accounts
                     System.out.print(transactionController.printTransactionsForAllAccounts(SSN));
@@ -141,29 +143,64 @@ public class CustomerMenu {
     public void depositMoney(CustomerController customerController, String SSN, String accountID) {
         System.out.print("Enter the deposit amount: ");
         double depositAmount = UserIO.readDouble();
-        customerController.depositMoney(SSN, accountID, depositAmount);
+
+        if (depositAmount < 0) {
+            System.out.print("Amount is too small to be deposited");
+        } else {
+            customerController.depositMoney(SSN, accountID, depositAmount);
+            System.out.print("You have deposited "+ depositAmount + " SEK successfully!!");
+        }
+
+
+
     }
     public void withdrawMoney(CustomerController customerController, String SSN, String accountID) {
+        BankAccount account = customerController.findBankAccount(SSN, accountID);
+
         System.out.print("Enter the withdraw amount: ");
         double withdrawAmount = UserIO.readDouble();
-        customerController.withdrawMoney(SSN, accountID, withdrawAmount);
+        if (withdrawAmount < 0 || withdrawAmount > account.getBalance())  {
+            System.out.print("Amount too low!!");
+        } else {
+            customerController.withdrawMoney(SSN, accountID, withdrawAmount);
+            System.out.print("You have withdrawn "+ withdrawAmount + " SEK successfully!!");
+        }
+
+
     }
     public void showBalance(CustomerController customerController, String SSN, String accountID) {
         customerController.checkBalance(SSN, accountID);
     }
     public void transferWithinAccounts(CustomerController customerController, String SSN, String accountID) {
+        BankAccount account1 = customerController.findBankAccount(SSN, accountID);
         String accountID2 = Util.readLine("Enter your second bank account ID: ");
+
+
         System.out.print("Enter the amount: ");
         double amount = UserIO.readDouble();
-        customerController.transferMoneyWithinCustomerAccounts(SSN, amount, accountID, accountID2);
-        System.out.println("You have transferred " + amount + " SEK successfully!!");
+        if (amount < account1.getBalance() && amount > 0) {
+            customerController.transferMoneyWithinCustomerAccounts(SSN, amount, accountID, accountID2);
+            System.out.println("You have transferred " + amount + " SEK successfully!!");
+        } else {
+            System.out.println("Transfer unsuccessful!!");
+        }
+
+
+
     }
-    public void transferToOtherCustomer(CustomerController customerController, String SSN, String accountID1) {
+    public void transferToOtherCustomer(CustomerController customerController, String SSN, String accountID1)  {
+        BankAccount account1 = customerController.findBankAccount(SSN, accountID1);
         String accountNumber = Util.readLine("Enter the account number of the recipient: ");
         System.out.print("Enter the amount: ");
         double amount = UserIO.readDouble();
-        customerController.transferMoneyToOtherCustomer(SSN, accountNumber, amount, accountID1);
-        System.out.println("You have transferred " + amount + " SEK successfully!!");
+        if (amount < account1.getBalance() && amount > 0) {
+            customerController.transferMoneyToOtherCustomer(SSN, accountNumber, amount, accountID1);
+            System.out.println("You have transferred " + amount + " SEK successfully!!");
+
+        } else {
+            System.out.println("Transfer unsuccessful!!");
+        }
+
     }
     public void showRecentTransactions(TransactionController transactionController, String SSN, String accID) {
         System.out.print(transactionController.printTransactionsSortedLatest(SSN, accID));

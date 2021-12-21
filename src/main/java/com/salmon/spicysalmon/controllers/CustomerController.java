@@ -91,16 +91,13 @@ public class CustomerController {
 
 
     // method needs to call createTransaction from TransactionController
-    public void depositMoney(String SSN, String accID, double depositAmount) {
+    public void depositMoney(String SSN, String accID, double depositAmount)  {
         BankAccount account = findBankAccount(SSN, accID);
         if (account == null) {
             System.out.print("Account does not exist!!");
         } else {
-            if (depositAmount < 0) {
-                System.out.print("That amount of money cannot be deposited!!");
-            } else {
+            if (depositAmount > 0) {
                 account.setBalance(depositAmount + account.getBalance());
-                System.out.print("You have deposited "+ depositAmount + " SEK into your account!!");
             }
 
 
@@ -108,16 +105,12 @@ public class CustomerController {
     }
 
     // method needs to call createTransaction from TransactionController
-    public void withdrawMoney(String SSN, String accountID, double amount) {
+    public void withdrawMoney(String SSN, String accountID, double amount)  {
 
         BankAccount account = findBankAccount(SSN, accountID);
         if (account != null && amount < account.getBalance()) {
             account.setBalance(account.getBalance() - amount);
-            System.out.print("You have withdrawn " + amount  + " SEK from your account!!");
-
-
-        } else if (account!= null && amount > account.getBalance()) {
-            System.out.print("The amount you are trying to withdraw is large!!");
+            //System.out.print("You have withdrawn " + amount  + " SEK from your account!!");
         }
     }
 
@@ -169,10 +162,10 @@ public class CustomerController {
 
      */
 
-    public void transferMoneyWithinCustomerAccounts(String SSNSender, double amount, String accountID1, String accountID2) {
+    public void transferMoneyWithinCustomerAccounts(String SSNSender, double amount, String accountID1, String accountID2)  {
         TransactionController transactionController = new TransactionController();
         BankAccount account = findBankAccount(SSNSender, accountID1);
-        if(account == null) {
+        if (account == null) {
             System.out.print("The other bank account does not exist!!");
         } else {
             depositMoney(SSNSender, accountID2, amount);
@@ -183,9 +176,11 @@ public class CustomerController {
     }
     public void transferMoneyToOtherCustomer(String SSNSender, String accountNumber,  double amount, String accountID1) {
         TransactionController transactionController = new TransactionController();
+
         String SSNReceiver = accountNumber.substring(0, 9);
         String accID2 = accountNumber.substring(10, 11);
         BankAccount accountReceiver = findBankAccount(SSNReceiver, accID2);
+
 
         if(accountReceiver == null) {
             System.out.print("The other bank account does not exist!!");
@@ -197,6 +192,9 @@ public class CustomerController {
             transactionController.createTransaction(SSNSender+accountID1, accountNumber, amount);
 
         }
+
+
+
     }
     public String printAllAccounts(String SSN) {
 
