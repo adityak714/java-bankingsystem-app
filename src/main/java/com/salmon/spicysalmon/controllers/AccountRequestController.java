@@ -106,27 +106,27 @@ public class AccountRequestController {
     }
 
     //Print all pending CustomerAccountRequests
-    public ArrayList<String> printAllPendingCustomerAccountRequests() throws Exception{
-        ArrayList<String> pendingCustomerAccountRequests = new ArrayList<>();
+    public String printAllPendingCustomerAccountRequests() throws Exception{
+        String output = "";
         for (CustomerAccountRequest request : allCustomerAccountRequests) {
             if(request.getIsApproved() == null) {
-                pendingCustomerAccountRequests.add(request.getStatusToString() + request.getID() + " " + request.getSOCIALSECURITYNUMBER() + " "
-                        + request.getFirstName() + " " + request.getLastName() + "(" + request.getCREATIONDATE() + ")" + Util.EOL);
+                output += request.getStatusToString() + request.getID() + " " + request.getSOCIALSECURITYNUMBER() + " "
+                        + request.getFirstName() + " " + request.getLastName() + "(" + request.getCREATIONDATE() + ")" + Util.EOL;
             }
-        } if (pendingCustomerAccountRequests.isEmpty()){throw new Exception("There are no pending customer account requests.");}
-        else return pendingCustomerAccountRequests;
+        } if (output.isEmpty()){throw new Exception("There are no pending customer account requests.");}
+        else return output;
     }
-    //Returns an ArrayList of Strings that we can print with a su
-    public ArrayList<String> printSpecificCustomerBankAccountRequests(String SSN) { //Returns list of all requests for the input SSN.
-        ArrayList<String> specificUserAccountList = new ArrayList<>();
+    //Returns a String that we can print with a su
+    public String printSpecificCustomerBankAccountRequests(String SSN) throws Exception { //Returns list of all requests for the input SSN.
+        String output = "";
         String dash = "-";
         for (BankAccountRequest request : allBankAccountRequests) {
             if (request.getREQUESTEE().getSocialSecurityNumber().equals(SSN)) {
-                specificUserAccountList.add(request.getID() + Util.EOL + specificUserAccountList.size()+1 + dash.repeat(request.getID().length()) + Util.EOL + request.getREQUESTEE().getSocialSecurityNumber() + " " + request.getREQUESTEE().getFirstName()
-                        + " " + request.getREQUESTEE().getLastName() + " " + request.getAccountName() + Util.EOL);
+                output += request.getID() + Util.EOL + request.getREQUESTEE().getSocialSecurityNumber() + " " + request.getREQUESTEE().getFirstName()
+                        + " " + request.getREQUESTEE().getLastName() + " " + request.getAccountName() + Util.EOL;
             }
-        }
-        return specificUserAccountList;
+        }if (output.isEmpty()){throw new Exception("This customer has no bank account requests.");}
+        return output;
     }
     /* //Don't think we need this?
     public String getBankAccountRequestStatus(String SSN) { //Returns status of all BankAccountRequests for a specific Customer.
@@ -172,18 +172,18 @@ public class AccountRequestController {
         }
         throw new Exception("There are no account requests for this SSN.");
     }
-    //Return ArrayList of Strings for all pending BankAccountRequests
-    public ArrayList<String> printAllPendingBankAccountRequests() throws Exception {
-        ArrayList<String> pendingRequests = new ArrayList<>();
+    //Return String of all Pending bank account requests for all customers, probably standard view for employees since you don't really care for requests that have already been resolved.
+    public String printAllPendingBankAccountRequests() throws Exception {
+       String output = "";
         for (BankAccountRequest request : allBankAccountRequests) {
             if (request.getIsApproved() == null) {
-                pendingRequests.add(request.getID() + " " + request.getREQUESTEE().getSocialSecurityNumber() + " " + request.getREQUESTEE().getFirstName()
-                        + " " + request.getREQUESTEE().getLastName() + " " + request.getAccountName() + Util.EOL);
+                output += request.getID() + " " + request.getREQUESTEE().getSocialSecurityNumber() + " " + request.getREQUESTEE().getFirstName() //Not sure how we want to do with ID (36 digit UUID)
+                        + " " + request.getREQUESTEE().getLastName() + " " + request.getAccountName() + Util.EOL;                               //Probably don't want to show it, but we want to use it to find the specific request
             }
         }
-        if (pendingRequests.isEmpty()){throw new Exception("There are no pending bank account requests.");}
+        if (output.isEmpty()){throw new Exception("There are no pending bank account requests.");}
         else
-        return pendingRequests;
+        return output;
     /*  int input = Util.readInt("Select a request");
       methodName(input);
 
