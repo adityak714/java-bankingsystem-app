@@ -9,15 +9,22 @@ public class Util {
     private static final Scanner input = new Scanner(System.in);
 
     public static int readInt(String message){
-        System.out.print(message);
-        int userInt = input.nextInt();
-        input.nextLine();
-        return userInt;
+        int input = -1;
+        do{
+            try{
+                String potentialInteger = readLine(message);
+                input = Integer.parseInt(potentialInteger);
+            } catch(Exception e){
+                System.out.println("Please enter a valid integer.");
+            }
+        }while(input == -1);
+        return input;
     }
     public static String readLine(String message){
         System.out.print(message);
         return input.nextLine();
     }
+
     public static String getDateAndTime(){
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         Calendar calendar = Calendar.getInstance();
