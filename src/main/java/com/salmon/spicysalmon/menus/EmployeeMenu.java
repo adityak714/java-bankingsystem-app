@@ -119,7 +119,7 @@ public class EmployeeMenu {
     public void createCustomer(CustomerController customerController){
         System.out.println("You have chosen: Create a customer.");
         String socialSecurityNumber = Util.readLine("What is your SSN?: ");
-        String password = Util.readLine("Create a new password: ");
+        String password = passwordCreation();
         String firstName = Util.readLine("What is your first name?: ");
         String lastName = Util.readLine("What is your last name?: ");
         int salary = Util.readInt("What is your salary?: ");
@@ -127,6 +127,26 @@ public class EmployeeMenu {
         String occupation = Util.readLine("What is your occupation?: ");
         customerController.createCustomer(socialSecurityNumber,password, firstName,lastName, salary, residentalArea, occupation);
     }
+    public String passwordCreation(){
+        String password = "";
+        do {
+            password = Util.readLine("Create a new password, it has to have:"
+                    + Util.EOL + "Both upper-case and lower-case letters"
+                    + Util.EOL + "One number"
+                    + Util.EOL + "Longer than 8 characters" + Util.EOL);
+
+            if(password.equals(password.toLowerCase()))System.out.println("Your password did not have a uppercase Character");
+            if(password.equals(password.toUpperCase()))System.out.println("Your password did not have a lowercase Character");
+            if(!password.matches(".*[1234567890].*"))System.out.println("Your password did not have a number");
+            if(password.length() < 8)System.out.println("Your password was not longer than 8 characters");
+            System.out.println();
+        }while (!(password.length() > 8
+                && !password.equals(password.toLowerCase())
+                && !password.equals(password.toUpperCase())
+                && password.matches(".*[1234567890].*")));
+        return password;
+    }
+
     // removes a customer with the specified SSN
     public void removeCustomer(CustomerController customerController){
         System.out.println("You have chosen: Remove a customer.");
