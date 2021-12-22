@@ -21,14 +21,8 @@ public class CustomerController {
         }
     }
 
-    public Customer findCustomer(String SSN) throws Exception{
-        //return customersList.get(SSN);
-        if(customersList.get(SSN) == null) {
-            throw new Exception("Customer does not exist");
-        }
-        else {
-            return customersList.get(SSN);
-        }
+    public Customer findCustomer(String SSN){
+        return customersList.get(SSN);
     }
 
     public String removeCustomer(String SSN) {
