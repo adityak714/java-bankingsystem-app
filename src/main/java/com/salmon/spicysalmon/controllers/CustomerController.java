@@ -3,6 +3,7 @@ package com.salmon.spicysalmon.controllers;
 import com.salmon.spicysalmon.Util;
 import com.salmon.spicysalmon.models.BankAccount;
 import com.salmon.spicysalmon.models.Customer;
+import com.salmon.spicysalmon.models.Transaction;
 
 import java.util.HashMap;
 
@@ -29,7 +30,6 @@ public class CustomerController {
             return customersList.get(SSN);
         }
     }
-
 
     public String removeCustomer(String SSN) {
         try {
@@ -91,7 +91,6 @@ public class CustomerController {
      */
 
     public String createBankAccount(String SSN, String accountName){
-
         try {
             Customer customer = findCustomer(SSN);
             return customer.createBankAccount(accountName);
@@ -103,35 +102,25 @@ public class CustomerController {
 
     // method needs to call createTransaction from TransactionController
     public String depositMoney(String SSN, String accID, double depositAmount)  {
-
-        BankAccount account = findBankAccount(SSN, accID);
-        if (account == null) {
-            return "Account does not exist";
-        } else {
+        try {
+            BankAccount account = findBankAccount(SSN, accID);
             String message = "";
             if (depositAmount < 0) {
-
                 message = "Amount to be deposited is too small";
             }else {
                 account.setBalance(depositAmount + account.getBalance());
                 message = "You have deposited " + depositAmount + " SEK successfully!!";
-
             }
             return message;
-
-
-
+        } catch(Exception accountNotFound){
+            return accountNotFound.getMessage();
         }
     }
 
     // method needs to call createTransaction from TransactionController
-    public String  withdrawMoney(String SSN, String accountID, double amount)  {
-
-        BankAccount account = findBankAccount(SSN, accountID);
-        if (account == null) {
-            return "Account does not exist";
-        }
-        else {
+    public String withdrawMoney(String SSN, String accountID, double amount)  {
+        try {
+            BankAccount account = findBankAccount(SSN, accountID);
             String message = "";
             if (amount < 0 || amount > account.getBalance())  {
                 message = "Withdrawal unsuccessful!!";
@@ -141,10 +130,9 @@ public class CustomerController {
 
             }
             return message;
+        } catch (Exception accountNotFound){
+            return accountNotFound.getMessage();
         }
-
-
-
     }
 
     public BankAccount findBankAccount(String SSN, String accountID) throws Exception {
@@ -157,46 +145,34 @@ public class CustomerController {
                     desiredAccount = account;
                 }
             }
-            } catch(Exception customerNotFound){
-                System.out.print(customerNotFound.getMessage());
-            }
-        if (desiredAccount == null ) {
-            throw new Exception("Account could not be found.");
-        } else {
-            return desiredAccount;
+        } catch(Exception customerNotFound){
+            System.out.print(customerNotFound.getMessage());
         }
 
+        if (desiredAccount == null ) { throw new Exception("Account could not be found."); }
+        else { return desiredAccount; }
     }
-
-
 
     public String deleteBankAccount(String accountNumber) {
         String SSN = accountNumber.substring(0, 9);
         String accID = accountNumber.substring(10, 11);
-        Customer customer = findCustomer(SSN);
-        if (customer != null) {
 
+        try {
+            Customer customer = findCustomer(SSN);
             return customer.deleteBankAccount(accID);
-        } else {
-            return "Account was not found.";
+        } catch(Exception customerNotFound) {
+            return customerNotFound.getMessage();
         }
     }
     ///Made new method to check balance of a specific account
     public String checkBalance(String SSN, String accountID) {
-
-        BankAccount bankAccount = findBankAccount(SSN, accountID);
-        if(bankAccount == null) {
-            return "Your bank account does not exist.";
-        }
-        else {
-            String message = "";
+        try {
+            BankAccount bankAccount = findBankAccount(SSN, accountID);
             double balance = bankAccount.getBalance();
-            message = "Balance: " + balance + " SEK.";
-            return message;
-
+            return "Balance: " + balance + " SEK.";
+        } catch (Exception accountNotFound) {
+            return accountNotFound.getMessage();
         }
-
-
     }
     //This method will only print the total balance of all existing bank accounts."Should be refactored"
     /*public void printBalance(String SSN) {
@@ -211,108 +187,96 @@ public class CustomerController {
 
      */
 
-    public void transferMoneyWithinCustomerAccounts(String SSNSender, double amount, String accountID1, String accountID2)  {
+    public String transferMoneyWithinCustomerAccounts(String SSNSender, double amount, String accountID1, String accountID2)  {
         //TransactionController transactionController = new TransactionController();
-        BankAccount account = findBankAccount(SSNSender, accountID1);
-        if (account == null) {
-            System.out.print("The other bank account does not exist!!");
-        } else {
+        try {
+            BankAccount to = findBankAccount(SSNSender, accountID2);
             depositMoney(SSNSender, accountID2, amount);
-            withdrawMoney(SSNSender,accountID1,  amount);
-
+            withdrawMoney(SSNSender,accountID1, amount);
+            return "Successfully transferred " + amount + " SEK from Account " + accountID1 + " to Account " + accountID2 + ". ";
+        } catch (Exception accountNotFound) {
+            return accountNotFound.getMessage();
+        }
             //Create a transaction here right
            // transactionController.createTransaction(SSNSender+accountID1, SSNSender+accountID2, amount);
-        }
     }
-    public void transferMoneyToOtherCustomer(String SSNSender, String accountNumber,  double amount, String accountID1) {
-        // transactionController = new TransactionController();
 
+    public String transferMoneyToOtherCustomer(String SSNSender, String accountNumber, double amount, String accountID1) {
         String SSNReceiver = accountNumber.substring(0, 9);
         String accID2 = accountNumber.substring(10, 11);
-        BankAccount accountReceiver = findBankAccount(SSNReceiver, accID2);
-
-
-        if(accountReceiver == null) {
-            System.out.print("The other bank account does not exist!!");
-        } else {
-
+        try {
+            TransactionController transactionController = new TransactionController();
+            BankAccount accountReceiver = findBankAccount(SSNReceiver, accID2);
             depositMoney(SSNReceiver, accID2, amount);
             withdrawMoney(SSNSender, accountID1, amount);
-            //Make a transaction here too
-           // transactionController.createTransaction(SSNSender+accountID1, accountNumber, amount);
-
+            transactionController.createTransaction(SSNSender+accountID1, accountNumber, amount);
+            return "Successfully transferred " + amount + " SEK to " + accountNumber;
+            // Make a transaction here too
+        } catch (Exception accountNotFound){
+          return accountNotFound.getMessage();
         }
-
-
-
     }
+
     public String printAllAccounts(String SSN) {
-
-        //Assuming the customer is logged in already
-        Customer customer = findCustomer(SSN);
-        if (customer.getCustomerAccounts().size() == 0) {
-            return "No bank accounts exist for you";
-
-        } else {
+        try {
+            //Assuming the customer is logged in already
+            Customer customer = findCustomer(SSN);
             String message = "";
-            for (BankAccount account : customer.getCustomerAccounts()) {
-                message += account + Util.EOL;
-
+            if (customer.getCustomerAccounts().size() == 0) {
+                return "No bank accounts exist for you";
+            } else {
+                for (BankAccount account : customer.getCustomerAccounts()) {
+                    message += account + Util.EOL;
+                }
+                return message;
             }
-            return message;
+        } catch(Exception customerNotFound){
+            return customerNotFound.getMessage();
         }
     }
+
     //Added this so we can show this to the customer
-    public void printSpecificAccount(String SSN, String accountID)  {
-        BankAccount account = findBankAccount(SSN, accountID);
-        if (account == null) {
-            System.out.println("Account does not exist");
-        }
-        else {
-            System.out.println(account);
-        }
-
-    }
-    public String  changePassword(String testPassword, String newPassword, String SSN) {
-        Customer customer = findCustomer(SSN);
-        if (customer == null) {
-            return "Customer does not exist.";
-        } else {
-            String message = "";
-            try {
-                customer.changePassword(testPassword, newPassword);
-                message = "Password changed successfully!!";
-            } catch(Exception exception ) {
-                return exception.getMessage();
-            }
-            return message;
+    public String printSpecificAccount(String SSN, String accountID)  {
+        try {
+            BankAccount account = findBankAccount(SSN, accountID);
+            return account.toString();
+        } catch (Exception accountNotFound) {
+            return accountNotFound.getMessage();
         }
     }
-    public void changeOccupation(String occupation, String SSN) throws Exception{
-        Customer customer = findCustomer(SSN);
 
+    public String changePassword(String testPassword, String newPassword, String SSN) {
+        String message = "";
+        try {
+            Customer customer = findCustomer(SSN);
+            customer.changePassword(testPassword, newPassword);
+            message = "Password changed successfully.";
+        } catch (Exception accountNotFound) {
+            return accountNotFound.getMessage();
+        }
+        return message;
+    }
 
-       /* if (customer == null) {
-            System.out.print("Customer does not exist.");
-        } else {
+    public String changeOccupation(String occupation, String SSN) {
+        try {
+            Customer customer = findCustomer(SSN);
             customer.setOccupation(occupation);
-            System.out.print("Occupation changed successfully");
+            return "Occupation changed successfully.";
+            // Should an application be sent for changes like this?
+        } catch (Exception customerNotFound){
+            return customerNotFound.getMessage();
         }
-
-        */
     }
-    public void changeResidentialArea(String residentialArea, String SSN) {
-        Customer customer = findCustomer(SSN);
-        if (customer == null) {
-            System.out.print("Customer does not exist.");
-        } else {
+
+    public String changeResidentialArea(String residentialArea, String SSN) {
+        try {
+            Customer customer = findCustomer(SSN);
             customer.setResidentialArea(residentialArea);
-            System.out.print("Residential Area changed successfully!!");
+            return "Residential Area changed successfully.";
+        } catch (Exception customerNotFound) {
+            return customerNotFound.getMessage();
         }
     }
-
-
-
 }
 
 

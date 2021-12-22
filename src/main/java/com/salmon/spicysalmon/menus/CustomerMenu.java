@@ -159,13 +159,13 @@ public class CustomerMenu {
         String accountID2 = Util.readLine("Enter your second bank account ID: ");
         System.out.print("Enter the amount: ");
         double amount = UserIO.readDouble();
-        customerController.transferMoneyWithinCustomerAccounts(SSN, amount, accountID, accountID2);
+        System.out.println(customerController.transferMoneyWithinCustomerAccounts(SSN, amount, accountID, accountID2));
     }
     public void transferToOtherCustomer(CustomerController customerController, String SSN, String accountID1)  {
         String accountNumber = Util.readLine("Enter the account number of the recipient: ");
         System.out.print("Enter the amount: ");
         double amount = UserIO.readDouble();
-        customerController.transferMoneyToOtherCustomer(SSN, accountNumber, amount, accountID1);
+        System.out.println(customerController.transferMoneyToOtherCustomer(SSN, accountNumber, amount, accountID1));
     }
     public void showRecentTransactions(TransactionController transactionController, String SSN, String accID) {
         System.out.print(transactionController.printTransactionsSortedLatest(SSN, accID));
@@ -192,12 +192,12 @@ public class CustomerMenu {
     ///Forwards our new occupation to the method in customer controller to be updated
     public void changeOccupation(CustomerController customerController, String SSN) {
         String occupation = Util.readLine("Enter your new occupation: ");
-        customerController.changeOccupation(occupation,  SSN);
+        System.out.println(customerController.changeOccupation(occupation, SSN));
     }
     /// Method to change residential status
     public void changeResidentialArea(CustomerController customerController, String SSN) {
         String residentialArea = Util.readLine("Enter your new residential area: ");
-        customerController.changeOccupation(residentialArea, SSN);
+        System.out.println(customerController.changeOccupation(residentialArea, SSN));
     }
     // Methods that displays all our information
     public void showUserInfo(CustomerController customerController, String SSN) {
