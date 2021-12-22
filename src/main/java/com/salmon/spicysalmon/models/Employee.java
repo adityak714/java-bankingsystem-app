@@ -1,44 +1,24 @@
 package com.salmon.spicysalmon.models;
 import  com.salmon.spicysalmon.Util;
 
-public class Employee extends User{
-    // delete vacation part
-    private String title;
-    private int vacationDays;
-    private final String STARTDATE;
+import com.salmon.spicysalmon.Util;
 
-   public Employee(String socialSecurityNumber, String password, String firstName, String lastName, String title, String STARTDATE){
-        super(password, firstName, lastName, socialSecurityNumber);
-        this.title = title;
-        this.STARTDATE = STARTDATE;
+public class Employee extends User{
+    private final String startDate;
+
+   public Employee(String socialSecurityNumber, String password, String firstName, String lastName, String date){
+        super(socialSecurityNumber, password, firstName, lastName);
+        this.startDate = date;
    }
 
-    public String getTitle(){
-        return this.title;
-    }
-
-    public String getStartDate(){
-        return this.STARTDATE;
-    }
-
-    public int getVacationDays() {
-        return this.vacationDays;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setVacationDays(int vacationDays) {
-        this.vacationDays = vacationDays;
-    }
+   public String getStartDate(){
+       return startDate;
+   }
 
     public String toString(){
         return getFirstName() + " " + getLastName() + Util.EOL
                 + getSocialSecurityNumber() + Util.EOL
-                + getTitle() + Util.EOL
-                + getStartDate() + Util.EOL
-                + getVacationDays();
+                + getStartDate() + Util.EOL;
     }
     /*public String deleteAccount(String ID) throws Exception{
 
@@ -54,11 +34,4 @@ public class Employee extends User{
         }
         return "Invalid account number";
     }*/
-    public String reviewApplication(){
-
-        return "";
-    }
-    public String certifyLoan(){
-        return "";
-    }
 }

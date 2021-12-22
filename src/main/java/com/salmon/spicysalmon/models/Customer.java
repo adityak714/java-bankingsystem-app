@@ -10,10 +10,6 @@ public class Customer extends User {
     private String residentialArea;
     private String occupation;
 
-    public ArrayList<BankAccount> getCustomerAccounts(){
-        return customerAccounts;
-    }
-
     public Customer(String socialSecurity, String password, String firstName, String lastName, double salary, String residentialArea, String occupation) {
         super(socialSecurity, password, firstName, lastName);
         this.customerAccounts = new ArrayList<>();
@@ -48,40 +44,41 @@ public class Customer extends User {
 
     @Override
     public String toString() {
-        return "Customer{" +
+        return super.toString()+" Customer{" +
+                "customerAccounts=" + customerAccounts +
                 ", salary=" + salary +
                 ", residentialArea='" + residentialArea + '\'' +
                 ", occupation='" + occupation + '\'' +
                 '}';
     }
 
-    public double getTotalBalance(String accName){
-        //return accounts.get(accName).getBalance();
-        return 0.0;
+    public double getTotalBalance(){
+        BankAccount bankAccount = customerAccounts.get(0);
+        return bankAccount.getBalance();
     }
 
-    public double deposit(String accountID, double amount) throws Exception {
-        // Find account
-        /*for (String key : accounts.keySet()) {
-            if (accountID.equals(key)) {
-                BankAccount myBankAccount = accounts.get(accountID);
-                if (amount <= 0) {
-                    throw new Exception("Amount to be deposited is invalid");
-                } else {
-                    return myBankAccount.getBalance() + amount;
-                }
-
-            } else {
-                System.out.println("Account could not be found.");
-            }
-        }*/
-        return 0.0;
+    public ArrayList<BankAccount> getCustomerAccounts() {
+        return customerAccounts;
     }
+
 
 
     // no need to pass in any of the parameters, all are already attributes of the customer, however, should it in a name for the account
-    public void createBankAccount(String SSN, String firstName, String lastName) {
-        BankAccount bankAccount = new BankAccount(SSN, firstName, lastName);
+    public String createBankAccount(String accountName) {
+        String accID = customerAccounts.size() < 10 ? "0"+(customerAccounts.size()+1) : (customerAccounts.size()+1)+"";
+        BankAccount bankAccount = new BankAccount(this.getSocialSecurityNumber(), accID, this.getFirstName(), this.getLastName(), accountName);
+        customerAccounts.add(bankAccount);
+        return "Account " + accountName + " created successfully.";
+    }
+
+    public String deleteBankAccount(String accID){
+        for(BankAccount acc : customerAccounts){
+            if(acc.getAccountNumber() == this.getSocialSecurityNumber()+accID){
+                customerAccounts.remove(acc);
+                return "Account deleted successfully.";
+            }
+        }
+        return "Account was not found.";
     }
 
     public int getNumberOfAccounts(){

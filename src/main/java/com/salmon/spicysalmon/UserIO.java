@@ -25,12 +25,12 @@ public class UserIO {
 
     public static int readInt(){
         int input = SCANNER.nextInt();
-        SCANNER.next();
+        SCANNER.nextLine();
         return input;
     }
 
     public static String readStr(){
-        String str = SCANNER.nextLine();
+        String str = SCANNER.next();
         return str;
     }
 

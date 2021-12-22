@@ -3,16 +3,10 @@ package com.salmon.spicysalmon.controllers;
 import com.salmon.spicysalmon.Util;
 import com.salmon.spicysalmon.models.*;
 import com.salmon.spicysalmon.models.Customer;
-import com.sun.tools.jconsole.JConsoleContext;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
 
 /* Maybe Customers should have an ArrayList with their requests instead or both?
    Not sure if we can have the Customers see the status of their requests,
@@ -61,7 +55,7 @@ public class AccountRequestController {
     public void approveBankAccountRequest(BankAccountRequest request, String message) {    //Sets the Boolean isApproved of the Customer object that is referenced in the specified request to true.
         request.approveRequest(message); //And creates a new BankAccount for the Customer and puts it in the HashMap of BankAccounts.
 
-        request.getREQUESTEE().createBankAccount(request.getREQUESTEE().getSocialSecurityNumber(), request.getREQUESTEE().getFirstName(), request.getREQUESTEE().getLastName());
+        request.getREQUESTEE().createBankAccount(request.getAccountName());
     }
 
     //Approve a specific CustomerAccountRequest and create a Customer with the info from the Request

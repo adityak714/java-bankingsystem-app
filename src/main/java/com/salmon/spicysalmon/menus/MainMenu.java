@@ -9,8 +9,8 @@ public class MainMenu {
     private final String MAIN_HEADING = "Main Menu: Please choose an option below.";
     private final String[] MAIN_OPTIONS = {
             "Close System",
-            "Login",
-            "Apply for account",
+            "Login as an existing user",
+            "Sign up for account",
             "Authorized Personnel"
     };
 
