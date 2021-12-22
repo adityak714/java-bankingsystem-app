@@ -255,7 +255,8 @@ public class AccountRequestController {
         return output;
     }
 
-     */
+
+
     //Return an ArrayList of BankAccountRequest objects (A customer can have more than one request) for the specified SSN
     public ArrayList<BankAccountRequest> getSpecificCustomerBankAccountRequests(String SSN) throws Exception {
         ArrayList<BankAccountRequest> bankAccountRequestsList = new ArrayList<>();
@@ -267,6 +268,30 @@ public class AccountRequestController {
         if (bankAccountRequestsList.isEmpty()) {
             throw new Exception("There are no bank account requests for this user.");
         } else return bankAccountRequestsList;
+    }
+
+    //Returns a String with the all bank account requests for the specified customer, for employee
+    public String printBankAccountRequestsForSpecificCustomer(String SSN) throws Exception { //Returns list of all requests for the input SSN.
+        String output = "";
+        String name = ""; //Used to store Customer name for use later
+        int requestNumber = 1;  //Used to number the different requests if more than one
+
+        for (BankAccountRequest request : getSpecificCustomerBankAccountRequests(SSN)) {
+            name = request.getREQUESTEE().getFirstName() + request.getREQUESTEE().getLastName(); //Stores the Customer name to put in return string later
+            output += " ".repeat(1) + requestNumber + " ".repeat(13) + request.getStatusToString() + " ".repeat(14-request.getStatusToString().length()) + request.getREQUESTEE().getFirstName()
+                    + " " + request.getREQUESTEE().getLastName().charAt(0) +"." + " ".repeat(14-request.getREQUESTEE().getFirstName().length()-3)
+                    + request.getREQUESTEE().getSocialSecurityNumber() + " ".repeat(11-request.getREQUESTEE().getSocialSecurityNumber().length())
+                    + request.getAccountName() + " ".repeat(18-request.getAccountName().length()) + request.getCREATIONDATE() + Util.EOL;
+            requestNumber += 1;
+        }
+        if (output.isEmpty()) {
+            throw new Exception("This customer has no bank account requests.");
+        }
+        output = "All Bank Account Requests for " + name + Util.EOL
+                + "-".repeat(80) + Util.EOL
+                + "Number      " + "Status        " + "Customer     " + "SSN           " + "Account Name      " + "Created   " + Util.EOL
+                + "-".repeat(80) +  Util.EOL + output + Util.EOL + "-".repeat(80) + Util.EOL;
+        return output;
     }
 
     //Return the CustomerAccountRequest object for the specified SSN so that we can manipulate it (Approve / Deny)
