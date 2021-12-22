@@ -1,11 +1,8 @@
 package com.salmon.spicysalmon.menus;
 
-import com.salmon.spicysalmon.UserIO;
 import com.salmon.spicysalmon.Util;
-import com.salmon.spicysalmon.controllers.ApplicationController;
 import com.salmon.spicysalmon.controllers.CustomerController;
 import com.salmon.spicysalmon.controllers.EmployeeController;
-import com.salmon.spicysalmon.models.BankAccount;
 import com.salmon.spicysalmon.models.Menu;
 
 public class EmployeeMenu {

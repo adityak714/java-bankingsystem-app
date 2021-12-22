@@ -1,13 +1,8 @@
 package com.salmon.spicysalmon.controllers;
 
-import com.salmon.spicysalmon.models.Customer;
 import com.salmon.spicysalmon.models.Employee;
-import com.salmon.spicysalmon.models.User;
 
-import javax.swing.*;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.concurrent.ThreadPoolExecutor;
 
 public class EmployeeController {
     private static final LinkedHashMap<String, Employee> employeeAccounts = new LinkedHashMap<>();
