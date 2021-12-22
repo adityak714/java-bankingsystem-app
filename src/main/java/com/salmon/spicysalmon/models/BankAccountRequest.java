@@ -38,38 +38,32 @@ public class BankAccountRequest extends AccountRequest{
 
         public String toString(){
             AccountRequestController accountRequestController = new AccountRequestController();
-            String line = "-"; //Separator line to segment customer and request information
-
-            if (REQUESTEE.getFirstName().length() + REQUESTEE.getLastName().length() > REQUESTEE.getSocialSecurityNumber().length()) //Adds some -------- between request dates and requestee information
-                line = line.repeat(5 + REQUESTEE.getFirstName().length() + REQUESTEE.getLastName().length());                            // compares length of SSN and first + last name to decide how many dashes to use
-                                                                                                                                    // could just use more than necessary I guess.
-            else line = line.repeat(5 + REQUESTEE.getSocialSecurityNumber().length());
+            String line = "-".repeat(50); //Separator line to segment things
             String status = "";
             if (this.getIsApproved() == null)
-                status =  "Status: Pending" + Util.EOL
-                        + this.getCREATIONDATE(); //If the request is pending we show creation date.
+                status =  "|Status: Pending" + Util.EOL
+                        + "|Created: " + this.getCREATIONDATE(); //If the request is pending we show creation date.
             if (this.getIsApproved())
                 status = "|Status: Approved" + Util.EOL
-                        + "|Request was created: " + this.getCREATIONDATE() + Util.EOL //If the request was approved/denied we also show when it was resolved.
-                        + "|Request was approved: " + this.getRESOLVEDDATE();
+                        + "|Created: " + this.getCREATIONDATE() + Util.EOL //If the request was approved/denied we also show when it was resolved.
+                        + "|Resolved : " + this.getRESOLVEDDATE();
             else
-                 status = "|Status: Denied" + Util.EOL
-                        + "|Request was created: " + this.getCREATIONDATE() + Util.EOL
-                        + "|Request was denied: " + this.getRESOLVEDDATE();
-
+                status = "|Status: Denied" + Util.EOL
+                        + "|Created: " + this.getCREATIONDATE() + Util.EOL
+                        + "|Resolved : " + this.getRESOLVEDDATE();
             return
-                            "|" + "-".repeat(40) + Util.EOL
+                            "|" + line + Util.EOL
                             + "Bank Account Request" + Util.EOL
                             + status + Util.EOL
-                            + "|" + "-".repeat(40)
+                            + "|" + line + Util.EOL
                             + "|CUSTOMER INFORMATION"
-                            + "|" + "-".repeat(40)
+                            + "|" + line + Util.EOL
                             + "|Name: " +REQUESTEE.getFirstName() + " " + REQUESTEE.getLastName() + Util.EOL
                             + "|SSN: " +REQUESTEE.getSocialSecurityNumber() + Util.EOL
                             + "|Address: " + REQUESTEE.getResidentialArea() + Util.EOL
                             + "|Occupation " + REQUESTEE.getOccupation() + Util.EOL
                             + "|Salary: " + REQUESTEE.getSalary() + Util.EOL
-                            + "|" + "-".repeat(40) + Util.EOL;
+                            + "|" + line + Util.EOL;
         }
 
 
