@@ -59,15 +59,18 @@ public class TransactionController {
     }
 
     public String ascendingTransactionsByPriceForAccount (String SSN, String accID){
-        CustomerController customerController = new CustomerController();
-        Customer desiredCustomer = customerController.findCustomer(SSN);
-        ArrayList<Transaction> sortedList = sortTransactionsByPriceInAcc(SSN, accID);
-        String sortedTransactions = "";
-        for(Transaction transaction : sortedList){
-            sortedTransactions += transaction;
+        try {
+            CustomerController customerController = new CustomerController();
+            Customer desiredCustomer = customerController.findCustomer(SSN);
+            ArrayList<Transaction> sortedList = sortTransactionsByPriceInAcc(SSN, accID);
+            String sortedTransactions = "";
+            for (Transaction transaction : sortedList) {
+                sortedTransactions += transaction;
+            }
+            return sortedTransactions;
+        } catch (Exception customerNotFound) {
+            return customerNotFound.getMessage();
         }
-
-        return sortedTransactions;
     }
 
     public ArrayList<Transaction> sortTransactionsByPriceInAcc (String SSN, String accID){
@@ -87,28 +90,34 @@ public class TransactionController {
     }
 
     public String printTransactionsForAnAccount(String SSN, String accID){
-        CustomerController customerController = new CustomerController();
-        String transactionForAnAccount="";
-        Customer customer = customerController.findCustomer(SSN);
-        if(customer!=null){
+        try {
+            CustomerController customerController = new CustomerController();
+            String transactionForAnAccount = "";
+            Customer customer = customerController.findCustomer(SSN);
             for(Transaction transaction : allTransactions.get(SSN).get(accID)){
                 transactionForAnAccount += transaction + Util.EOL;
             }
+            return transactionForAnAccount;
+        } catch (Exception customerNotFound){
+            return customerNotFound.getMessage();
         }
-        return transactionForAnAccount;
     }
+
     public String printTransactionsForAllAccounts(String SSN){
-        CustomerController customerController = new CustomerController();
-        String transactionsForAllAccounts = "";
-        Customer customer = customerController.findCustomer(SSN);
-        if(customer!=null){
+        try {
+            CustomerController customerController = new CustomerController();
+            String transactionsForAllAccounts = "";
+            Customer customer = customerController.findCustomer(SSN);
             for(String accountKey : allTransactions.get(SSN).keySet()){
                 for(Transaction transaction : allTransactions.get(SSN).get(accountKey)){
                     transactionsForAllAccounts += transaction + Util.EOL;
                 }
             }
+            return transactionsForAllAccounts;
         }
-        return transactionsForAllAccounts;
+        catch (Exception customerNotFound){
+            return customerNotFound.getMessage();
+        }
     }
 
     public ArrayList<Transaction> sortByDateEarliest(String SSN, String accID){
