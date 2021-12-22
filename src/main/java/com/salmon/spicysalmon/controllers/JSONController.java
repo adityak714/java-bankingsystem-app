@@ -1,6 +1,7 @@
 package com.salmon.spicysalmon.controllers;
 
 import com.salmon.spicysalmon.models.BankAccount;
+import com.salmon.spicysalmon.models.Customer;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -16,6 +17,8 @@ public class JSONController {
         this.readCustomers();
         this.readEmployees();
         this.readTransactions();
+        this.readCustomerAccountRequests();
+        this.readBankAccountRequests();
     }
 
     private void readCustomers() throws IOException, ParseException {
@@ -75,6 +78,39 @@ public class JSONController {
             double amount = (double)((long)transaction.get("amount"));
             String date = (String) transaction.get("date");
             transactionController.createTransaction(acc1, acc2, amount, date);
+        }
+    }
+
+    private void readCustomerAccountRequests() throws IOException, ParseException {
+        AccountRequestController accountRequestController = new AccountRequestController();
+        JSONParser jsonParser = new JSONParser();
+        Object obj = jsonParser.parse(new FileReader("src/main/java/com/salmon/spicysalmon/data/CustomerAccountRequests.json"));
+        JSONArray applications = (JSONArray) obj;
+        for(int i=0; i<applications.size(); i++){
+            JSONObject application = (JSONObject) applications.get(i);
+            String SSN = (String) application.get("SSN");
+            String password = (String) application.get("password");
+            String firstName = (String) application.get("firstName");
+            String lastName = (String) application.get("lastName");
+            double salary = (double) ((long) application.get("salary"));
+            String residentialArea = (String) application.get("residentialArea");
+            String occupation = (String) application.get("occupation");
+            accountRequestController.createApplication(SSN, password, firstName, lastName, salary, residentialArea, occupation);
+        }
+    }
+
+    private void readBankAccountRequests() throws IOException, ParseException {
+        CustomerController customerController = new CustomerController();
+        AccountRequestController accountRequestController = new AccountRequestController();
+        JSONParser jsonParser = new JSONParser();
+        Object obj = jsonParser.parse(new FileReader("src/main/java/com/salmon/spicysalmon/data/BankAccountRequests.json"));
+        JSONArray applications = (JSONArray) obj;
+        for(int i=0; i<applications.size(); i++){
+            JSONObject application = (JSONObject) applications.get(i);
+            String SSN = (String) application.get("SSN");
+            String accountName = (String) application.get("accountName");
+            Customer applicant = customerController.findCustomer(SSN);
+            accountRequestController.createBankAccountRequest(applicant,accountName);
         }
     }
 }

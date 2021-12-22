@@ -1,0 +1,29 @@
+[
+  {
+    "firstName": "Max",
+    "lastName": "Martin",
+    "password": "toservemycountry123",
+    "SSN": "1212121212",
+    "salary": 45000,
+    "residentialArea": "Lindome",
+    "occupation": "Software Tester"
+  },
+  {
+    "firstName": "John",
+    "lastName": "Sveve",
+    "password": "svevelife23",
+    "SSN": "1213140987",
+    "salary": 4500,
+    "residentialArea": "Varberg",
+    "occupation": "Software Developer"
+  },
+  {
+    "firstName": "Daniel B.",
+    "lastName": "Sveve",
+    "password": "sveveforever43",
+    "SSN": "0923158976",
+    "salary": 4500,
+    "residentialArea": "Varberg",
+    "occupation": "Software Developer"
+  }
+]
