@@ -10,17 +10,48 @@ import java.util.*;
 
 public class TransactionController {
 
-    private static final LinkedHashMap<String, LinkedHashMap<String, ArrayList<Transaction>>> allTransactions = new LinkedHashMap<>();
+    private static LinkedHashMap<String, LinkedHashMap<String, ArrayList<Transaction>>> allTransactions = new LinkedHashMap<>();
 
+    // This method creates a pair of transactions and calls the add method
     public void createTransaction(String acc1, String acc2, double amount){
         Transaction transaction1 = new Transaction(acc1, acc2, 0-amount);
         Transaction transaction2 = new Transaction(acc2, acc1, amount);
+        addTransactions(acc1, acc2, transaction1, transaction2);
+    }
+
+    // This method is only called from the JSON controller for demonstration purposes.
+    // The users of the application will not have the ability to back date transactions.
+    public void createTransaction(String acc1, String acc2, double amount, String date){
+        Transaction transaction1 = new Transaction(acc1, acc2, 0-amount, date);
+        Transaction transaction2 = new Transaction(acc2, acc1, amount, date);
+        addTransactions(acc1, acc2, transaction1, transaction2);
+    }
+
+    // This methods adds two transactions to their respective accounts
+    public void addTransactions(String acc1, String acc2, Transaction transaction1, Transaction transaction2){
+        // Extracting SSN and accountID from accountNumber
         String SSN1 = acc1.substring(0,9);
         String accID1 = acc1.substring(10,11);
         String SSN2 = acc2.substring(0,9);
         String accID2 = acc2.substring(10,11);
-        allTransactions.get(SSN1).get(accID1).add(transaction1);
-        allTransactions.get(SSN2).get(accID2).add(transaction2);
+        try{
+            //No exceptions will be thrown if the accounts linked hashmap exists
+            allTransactions.get(SSN1).get(accID1).add(transaction1);
+            allTransactions.get(SSN2).get(accID2).add(transaction2);
+        } catch(NullPointerException e){
+            // initializes the transactions array with the appropriate collections and adds the transactions
+            ArrayList<Transaction> arr1 = new ArrayList<>();
+            arr1.add(transaction1);
+            ArrayList<Transaction> arr2 = new ArrayList<>();
+            arr2.add(transaction2);
+            LinkedHashMap<String, ArrayList<Transaction>> lm1 = new LinkedHashMap<>();
+            lm1.put(accID1, arr1);
+            LinkedHashMap<String, ArrayList<Transaction>> lm2 = new LinkedHashMap<>();
+            lm2.put(accID2, arr2);
+            allTransactions.put(SSN1, lm1);
+            allTransactions.put(SSN2, lm2);
+            // allTransactions.get(SSN2).put(accID2, arr2);
+        }
     }
 
     public boolean checkIfSSNUnique(String SSN) { // Armin: use verb when naming methods
