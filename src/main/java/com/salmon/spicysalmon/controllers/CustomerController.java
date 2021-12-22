@@ -20,18 +20,25 @@ public class CustomerController {
         }
     }
 
-    public Customer findCustomer(String SSN){
-        return customersList.get(SSN);
+    public Customer findCustomer(String SSN) throws Exception{
+        //return customersList.get(SSN);
+        if(customersList.get(SSN) == null) {
+            throw new Exception("Customer does not exist");
+        }
+        else {
+            return customersList.get(SSN);
+        }
     }
 
 
     public String removeCustomer(String SSN) {
-        Customer customer = findCustomer(SSN);
-        if (customer == null) {
-            return ("Customer " + SSN + " could not be removed.");
+        try {
+            Customer customer = findCustomer(SSN);
+            customersList.remove(customer);
+            return ("Customer " + SSN + " was successfully removed.");
+        } catch (Exception ex) {
+            return ex.getMessage();
         }
-        customersList.remove(customer);
-        return ("Customer " + SSN + " was successfully removed.");
     }
 
     public String printAllCustomers() {
@@ -48,23 +55,26 @@ public class CustomerController {
     }
 
     public String printCustomer(String SSN) {
-        String EOL = System.lineSeparator();
-        Customer customer = findCustomer(SSN);
-        if (customer == null) {
-            return "Customer " + SSN + " was not registered yet.";
-        } else {
+        try {
+            String EOL = System.lineSeparator();
+            Customer customer = findCustomer(SSN);
             String firstName = customer.getFirstName();
             String lastName = customer.getLastName();
-            return ("Name: " + firstName + " " + lastName + EOL + "Occupation: " + customer.getOccupation() + EOL + "Residential Area: " + customer.getResidentialArea() + EOL);
+            return ("Name: " + firstName + " " + lastName + EOL + "Occupation: " +
+                    customer.getOccupation() + EOL + "Residential Area: " +
+                    customer.getResidentialArea() + EOL);
+        } catch(Exception ex) {
+            return ex.getMessage();
         }
     }
 
     public String printSpecificCustomer(String SSN) {
-        Customer customer = findCustomer(SSN);
-        if (customer == null) {
-            return ("Customer " + SSN + " could not be found.");
+        try {
+            Customer customer = findCustomer(SSN);
+            return printCustomer(customer.getSocialSecurityNumber());
+        } catch(Exception ex) {
+            return ex.getMessage();
         }
-        return printCustomer(customer.getSocialSecurityNumber());
     }
 
     /*
@@ -81,11 +91,12 @@ public class CustomerController {
      */
 
     public String createBankAccount(String SSN, String accountName){
-        Customer customer = findCustomer(SSN);
-        if(customer == null){
-            return "Customer does not exist.";
-        }else{
+
+        try {
+            Customer customer = findCustomer(SSN);
             return customer.createBankAccount(accountName);
+        } catch(Exception ex) {
+            return ex.getMessage();
         }
     }
 
@@ -136,17 +147,28 @@ public class CustomerController {
 
     }
 
-    public BankAccount findBankAccount(String SSN, String accountID) {
-
-        Customer customer = findCustomer(SSN);
-        String accountNumber = SSN + accountID;
-        for (BankAccount account : customer.getCustomerAccounts()) {
-            if (account.getAccountNumber().equals(accountNumber)) {
-                return account;
+    public BankAccount findBankAccount(String SSN, String accountID) throws Exception {
+        BankAccount desiredAccount = null;
+        try {
+            Customer customer = findCustomer(SSN);
+            String accountNumber = SSN + accountID;
+            for (BankAccount account : customer.getCustomerAccounts()) {
+                if (account.getAccountNumber().equals(accountNumber)) {
+                    desiredAccount = account;
+                }
             }
+            } catch(Exception customerNotFound){
+                System.out.print(customerNotFound.getMessage());
+            }
+        if (desiredAccount == null ) {
+            throw new Exception("Account could not be found.");
+        } else {
+            return desiredAccount;
         }
-        return null;
+
     }
+
+
 
     public String deleteBankAccount(String accountNumber) {
         String SSN = accountNumber.substring(0, 9);
@@ -190,19 +212,20 @@ public class CustomerController {
      */
 
     public void transferMoneyWithinCustomerAccounts(String SSNSender, double amount, String accountID1, String accountID2)  {
-        TransactionController transactionController = new TransactionController();
+        //TransactionController transactionController = new TransactionController();
         BankAccount account = findBankAccount(SSNSender, accountID1);
         if (account == null) {
             System.out.print("The other bank account does not exist!!");
         } else {
             depositMoney(SSNSender, accountID2, amount);
             withdrawMoney(SSNSender,accountID1,  amount);
+
             //Create a transaction here right
-            transactionController.createTransaction(SSNSender+accountID1, SSNSender+accountID2, amount);
+           // transactionController.createTransaction(SSNSender+accountID1, SSNSender+accountID2, amount);
         }
     }
     public void transferMoneyToOtherCustomer(String SSNSender, String accountNumber,  double amount, String accountID1) {
-        TransactionController transactionController = new TransactionController();
+        // transactionController = new TransactionController();
 
         String SSNReceiver = accountNumber.substring(0, 9);
         String accID2 = accountNumber.substring(10, 11);
@@ -216,7 +239,7 @@ public class CustomerController {
             depositMoney(SSNReceiver, accID2, amount);
             withdrawMoney(SSNSender, accountID1, amount);
             //Make a transaction here too
-            transactionController.createTransaction(SSNSender+accountID1, accountNumber, amount);
+           // transactionController.createTransaction(SSNSender+accountID1, accountNumber, amount);
 
         }
 
@@ -250,27 +273,33 @@ public class CustomerController {
         }
 
     }
-    public void changePassword(String testPassword, String newPassword, String SSN) {
+    public String  changePassword(String testPassword, String newPassword, String SSN) {
         Customer customer = findCustomer(SSN);
         if (customer == null) {
-            System.out.print("Customer does not exist.");
+            return "Customer does not exist.";
         } else {
+            String message = "";
             try {
                 customer.changePassword(testPassword, newPassword);
-                System.out.print("Password changed successfully!!");
-            } catch(Exception ex) {
-                System.out.print(ex.getMessage());
+                message = "Password changed successfully!!";
+            } catch(Exception exception ) {
+                return exception.getMessage();
             }
+            return message;
         }
     }
-    public void changeOccupation(String occupation, String SSN) {
+    public void changeOccupation(String occupation, String SSN) throws Exception{
         Customer customer = findCustomer(SSN);
-        if (customer == null) {
+
+
+       /* if (customer == null) {
             System.out.print("Customer does not exist.");
         } else {
             customer.setOccupation(occupation);
             System.out.print("Occupation changed successfully");
         }
+
+        */
     }
     public void changeResidentialArea(String residentialArea, String SSN) {
         Customer customer = findCustomer(SSN);

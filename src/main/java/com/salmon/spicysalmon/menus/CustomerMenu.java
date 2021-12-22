@@ -186,7 +186,7 @@ public class CustomerMenu {
     public void changePassword(CustomerController customerController, String SSN) {
         String testPassword = Util.readLine("Enter your old password: ");
         String newPassword = Util.readLine("Enter your new password: ");
-        customerController.changePassword(testPassword, newPassword, SSN);
+        System.out.print(customerController.changePassword(testPassword, newPassword, SSN));
     }
 
     ///Forwards our new occupation to the method in customer controller to be updated
