@@ -78,19 +78,29 @@ public class AccountRequestController {
         request.denyRequest(denyMessage); //Passes message to the customer why the request was denied
 
     }
-
-    //Method used if employee wants to search for requests with a specific name
-    public String searchAllBankAccountRequests(String name) throws Exception {
-        String output = "";
-        int requestNumber = 1;
+    public ArrayList<BankAccountRequest> getAllBankAccountRequestsForSearchedName(String name)throws Exception {
+        ArrayList<BankAccountRequest> returnList = new ArrayList<>();
         for (BankAccountRequest request : allBankAccountRequests) {
             if (request.getREQUESTEE().getFirstName().equals(name) || request.getREQUESTEE().getLastName().equals(name)) {
+                returnList.add(request);
+            }
+
+        }
+        if (returnList.isEmpty()){
+            throw new Exception("No bank account requests matched your search");
+        }
+        return returnList;
+    }
+    //Method used if employee wants to search for requests with a specific name
+    public String printAllBankAccountRequestsForSearchedName(String name) throws Exception{
+        String output = "";
+        int requestNumber = 1;
+        for (BankAccountRequest request : getAllBankAccountRequestsForSearchedName(name)) {
                 output += " ".repeat(1) + requestNumber + " ".repeat(10) + request.getStatusToString() + " ".repeat(14-request.getStatusToString().length()) + request.getREQUESTEE().getFirstName()
                         + " " + request.getREQUESTEE().getLastName().charAt(0) +"." + " ".repeat(13-request.getREQUESTEE().getFirstName().length()-3)
                         + request.getREQUESTEE().getSocialSecurityNumber() + " ".repeat(14-request.getREQUESTEE().getSocialSecurityNumber().length())
                         + request.getAccountName() + " ".repeat(18-request.getAccountName().length()) + request.getCREATIONDATE() + Util.EOL;
                 requestNumber += 1;
-            }
         }
         if (output.isEmpty()) {
             throw new Exception("No bank account requests matched your search");
@@ -100,7 +110,20 @@ public class AccountRequestController {
                         + "-".repeat(80) +  Util.EOL + output + Util.EOL + "-".repeat(80) + Util.EOL;
         return output;
     }
-    public String searchAllCustomerAccountRequests(String name) throws Exception {
+    public ArrayList<CustomerAccountRequest> getAllCustomerAccountRequestsForSearchedName(String name)throws Exception {
+        ArrayList<CustomerAccountRequest> returnList = new ArrayList<>();
+        for (CustomerAccountRequest request : allCustomerAccountRequests) {
+            if (request.getFirstName().equals(name) || request.getLastName().equals(name)) {
+                returnList.add(request);
+            }
+        }
+        if (returnList.isEmpty()){
+            throw new Exception("No customer account requests matched your search");
+        }
+        return returnList;
+    }
+
+    public String printAllCustomerAccountRequestsForSearchedName(String name) throws Exception {
         String output = "";
         int requestNumber = 1;
         for (CustomerAccountRequest request : allCustomerAccountRequests) {
@@ -297,14 +320,14 @@ public class AccountRequestController {
     //Return the CustomerAccountRequest object for the specified SSN so that we can manipulate it (Approve / Deny)
     public CustomerAccountRequest getCustomerAccountRequest(String SSN) throws Exception {
         for (CustomerAccountRequest request : allCustomerAccountRequests) {
-            if (request.getSocialSecurityNumber() == SSN) {
+            if (request.getID() == SSN) {
                 return request;
             }
         }
         throw new Exception("There are no account requests for this SSN.");
     }
 
-    //Gets a list of all requests that has been neither approved nor denied.
+    //Gets a list of all requests that has been neither approved nor denied. Use this when se
     public ArrayList<BankAccountRequest> getAllPendingBankAccountRequests() {
         ArrayList<BankAccountRequest> returnList = new ArrayList<>();
         for (BankAccountRequest request : allBankAccountRequests) {
@@ -314,14 +337,31 @@ public class AccountRequestController {
         }
         return returnList;
     }
+    //Gets a list of all requests that has been neither approved nor denied.
+    public ArrayList<CustomerAccountRequest> getAllPendingCustomerAccountRequests() {
+        ArrayList<CustomerAccountRequest> returnList = new ArrayList<>();
+        for (CustomerAccountRequest request : allCustomerAccountRequests) {
+            if (request.getIsApproved() == null) {
+                returnList.add(request);
+            }
+        }
+        return returnList;
+    }
 
-    //Gets a toStringed specific request from the "getAllPendingBankAccountRequests" method. This is done to show the request information to the user
-    public String getSpecificBankAccountRequestFromList(int input) throws Exception {
+    //Gets a toStringed specific request from the "getAllPendingBankAccountRequests" method. This is done to show the request information to the employee
+    public BankAccountRequest getSpecificBankAccountRequestFromList(int input) throws Exception {
         if (input < 1 || input - 1 > getAllPendingBankAccountRequests().size()) {
             throw new Exception("Invalid input.");
         } else {
-            return getAllPendingBankAccountRequests().get(input - 1).toString();
+            return getAllPendingBankAccountRequests().get(input - 1);
+        }
+    }
+    //Gets a toStringed specific request from the "getAllPendingCustomerAccountRequests" method. This is done to show the request information to the employee
+    public CustomerAccountRequest getSpecificCustomerAccountRequestFromList(int input) throws Exception {
+        if (input < 1 || input - 1 > getAllPendingCustomerAccountRequests().size()) {
+            throw new Exception("Invalid number, try again");
+        } else {
+            return getAllPendingCustomerAccountRequests().get(input - 1);
         }
     }
 }
-
