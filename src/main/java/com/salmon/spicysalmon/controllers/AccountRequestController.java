@@ -282,7 +282,7 @@ public class AccountRequestController {
                 bankAccountRequestsList.add(request);
             }
         }
-        if (bankAccountRequestsList.isEmpty()) {
+        if (bankAccountRequestsList.size() == 0) {
             throw new Exception("There are no bank account requests for this user.");
         } else return bankAccountRequestsList;
     }

@@ -1,6 +1,7 @@
 package com.salmon.spicysalmon.menus;
 
 import com.salmon.spicysalmon.Util;
+import com.salmon.spicysalmon.controllers.AccountRequestController;
 import com.salmon.spicysalmon.controllers.CustomerController;
 import com.salmon.spicysalmon.controllers.EmployeeController;
 import com.salmon.spicysalmon.models.Menu;
@@ -40,7 +41,7 @@ public class EmployeeMenu {
         // pass in controller into methods
         // remove userinput as arguments
 
-        ApplicationController accountRequestController = new ApplicationController();
+        AccountRequestController accountRequestController = new AccountRequestController();
         CustomerController customerController = new CustomerController();
         EmployeeController employeeController = new EmployeeController();
 
@@ -84,7 +85,7 @@ public class EmployeeMenu {
     }
 
     // Account request menu that handles all the functionality were the Employee directly interacts with Account Requests
-    public void showAccountRequestMenu(ApplicationController accountRequestController){
+    public void showAccountRequestMenu(AccountRequestController accountRequestController){
         Menu employeeAccountRequestMenu = new Menu(EMPLOYEE_HEADING3,EMPLOYEE_OPTIONS3);
         System.out.println(employeeAccountRequestMenu);
         int userInput = employeeAccountRequestMenu.getValidOption();
