@@ -30,10 +30,10 @@ public class TransactionController {
     // This methods adds two transactions to their respective accounts
     public void addTransactions(String acc1, String acc2, Transaction transaction1, Transaction transaction2){
         // Extracting SSN and accountID from accountNumber
-        String SSN1 = acc1.substring(0,9);
-        String accID1 = acc1.substring(10,11);
-        String SSN2 = acc2.substring(0,9);
-        String accID2 = acc2.substring(10,11);
+        String SSN1 = acc1.substring(0,10);
+        String accID1 = acc1.substring(10,12);
+        String SSN2 = acc2.substring(0,10);
+        String accID2 = acc2.substring(10,12);
         try{
             //No exceptions will be thrown if the accounts linked hashmap exists
             allTransactions.get(SSN1).get(accID1).add(transaction1);

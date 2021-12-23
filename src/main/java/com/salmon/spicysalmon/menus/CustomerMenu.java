@@ -66,9 +66,7 @@ public class CustomerMenu {
             userInput = customerMenu.getValidOption();
             switch (userInput) {
                 case 1 -> showBankAccountMenu(customerController, transactionController, SSN);
-                case 2 ->
-
-                        showAllApplications(accountRequestController, SSN);
+                case 2 -> System.out.print(showAllApplications(accountRequestController, SSN));
                 case 3 -> applyForBankAccount(customerController, SSN, accountRequestController);
 
 
@@ -91,7 +89,7 @@ public class CustomerMenu {
         String accountID = Util.readLine("To select a specific bank account, Enter account ID: ");
         do {
             System.out.println(bankAccountMenu);
-            userInput = bankAccountMenu.getValidOption();
+              userInput = bankAccountMenu.getValidOption();
             switch (userInput) {
                 case 1 -> depositMoney(customerController,SSN, accountID);
                 case 2 -> withdrawMoney(customerController,SSN, accountID);
@@ -141,11 +139,11 @@ public class CustomerMenu {
         System.out.print("Your new bank account is pending approval.");
 
     }
-    public void showAllApplications(AccountRequestController accountRequestController, String SSN) {
+    public String showAllApplications(AccountRequestController accountRequestController, String SSN) {
         try {
-            System.out.println(accountRequestController.getBankAccountRequestStatus(SSN));
+            return (accountRequestController.getBankAccountRequestStatus(SSN));
         } catch (Exception exception) {
-            System.out.println(exception.getMessage());
+            return (exception.getMessage());
 
         }
 
