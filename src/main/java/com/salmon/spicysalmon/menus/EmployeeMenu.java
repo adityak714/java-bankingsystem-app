@@ -40,7 +40,7 @@ public class EmployeeMenu {
     };
 
     // the first menu the employee will see, this then branches of into a Customer and a Account request Menu
-    public void show(String SSN){
+    public void show(String SSN) throws Exception {
         AccountRequestController accountRequestController = new AccountRequestController();
         CustomerController customerController = new CustomerController();
         EmployeeController employeeController = new EmployeeController();
@@ -89,16 +89,16 @@ public class EmployeeMenu {
     }
 
     // Account request menu that handles all the functionality were the Employee directly interacts with Account Requests
-    public void showAccountRequestMenu(AccountRequestController accountRequestController, CustomerController customerController){
+    public void showAccountRequestMenu(AccountRequestController accountRequestController, CustomerController customerController) throws Exception {
         Menu employeeAccountRequestMenu = new Menu(EMPLOYEE_HEADING3,EMPLOYEE_OPTIONS3);
         System.out.println(employeeAccountRequestMenu);
         int userInput = employeeAccountRequestMenu.getValidOption();
         switch (userInput){
             case 1: // approve/deny customer application
-                specificCustomerAccountRequest(accountRequestController, customerController);
+                specificCustomerAccountRequest(accountRequestController);
                 break;
             case 2: // approve/deny bank application
-                specificBankBankAccountRequest(accountRequestController, customerController);
+                specificBankBankAccountRequest(accountRequestController);
                 break;
             case 3: // look att all the customer account requests, then pick one you want to approve/deny
                 listAllCustomerAccountRequests(accountRequestController);
@@ -164,84 +164,75 @@ public class EmployeeMenu {
         System.out.println(customerController.printAllCustomers());
     }
     // goes to a specific customers customer account requests
-    public void specificCustomerAccountRequest(AccountRequestController accountRequestController, CustomerController customerController){
+    public void specificCustomerAccountRequest(AccountRequestController accountRequestController) throws Exception {
         String SSN = Util.readLine("Which customers request do you want to look at?");
-        ArrayList<String> CARs = accountRequestController.getCustomerAccountRequests(SSN); // CARs = Customer Account Requests
-        System.out.println(CARs.toString());
-        if (CARs.size() == 1){
-            approveDenyCustomerAccountRequest(SSN, accountRequestController, customerController);
-        }else {
-            int userInput = (Util.readInt("Which request do you want to look at?")) - 1;
-            String CAR = CARs.get(userInput);
-            System.out.println(CAR);
-            approveDenyCustomerAccountRequest(SSN, accountRequestController, customerController);
-        }
+        CustomerAccountRequest CAR = accountRequestController.getCustomerAccountRequest(SSN); // CAR = Customer Account Request
+        System.out.println(CAR.toString());
+        approveDenyCustomerAccountRequest(CAR, accountRequestController);
     }
     // goes to a specific customers bank account requests
-    public void specificBankBankAccountRequest(AccountRequestController accountRequestController, CustomerController customerController){
+    public void specificBankBankAccountRequest(AccountRequestController accountRequestController) throws Exception {
         String SSN = Util.readLine("Which customers request do you want to look at?");
-        ArrayList<String> BARs = accountRequestController.getBankAccountRequests(SSN); // BARs = Bank Account Requests
-        System.out.println(BARs.toString());
+        ArrayList<BankAccountRequest> BARs = accountRequestController.getSpecificCustomerBankAccountRequests(SSN); // BARs = Bank Account Requests
+        System.out.println(BARs.toString()); // bad thing here, change
         if (BARs.size() == 1){
-            approveDenyBankAccountRequest(SSN, accountRequestController, customerController);
+            approveDenyBankAccountRequest(BARs.get(0), accountRequestController);
         }else {
             int userInput = (Util.readInt("Which request do you want to look at?")) - 1;
-            String BAR = BARs.get(userInput);
+            BankAccountRequest BAR = BARs.get(userInput);
             System.out.println(BAR);
-            approveDenyBankAccountRequest(SSN, accountRequestController, customerController);
+            approveDenyBankAccountRequest(BAR, accountRequestController);
         }
     }
 
     // lists all customer account requests, then allows the employee to approve/deny that request
-    public void listAllCustomerAccountRequests(AccountRequestController accountRequestController){
-        ArrayList<CustomerAccountRequest> requests = accountRequestController.getAllCustomerAccountRequests();
+    public void listAllCustomerAccountRequests(AccountRequestController accountRequestController) throws Exception {
         accountRequestController.printAllCustomerAccountRequests();
         int requestNum = (Util.readInt("Which request do you want to look at? type 0 to exit")) - 1;
         if (requestNum != 0){
-            CustomerAccountRequest request = requests.get(requestNum);
+            CustomerAccountRequest request = accountRequestController.getSpecificCustomerAccountRequestFromList(requestNum);
             System.out.println(request.toString());
+            approveDenyCustomerAccountRequest(request, accountRequestController);
         }
     }
     // lists all bank account requests, then allows the employee to approve/deny that request
-    public void listAllBankAccountRequests(AccountRequestController accountRequestController){
-        ArrayList<BankAccountRequest> requests = accountRequestController.getAllBankAccountRequests();
+    public void listAllBankAccountRequests(AccountRequestController accountRequestController) throws Exception {
         accountRequestController.printAllBankAccountRequests();
         int requestNum = (Util.readInt("Which request do you want to check out? type 0 to exit")) -1;
         if (requestNum != 0){
-            BankAccountRequest request = requests.get(requestNum);
+            BankAccountRequest request = accountRequestController.getSpecificBankAccountRequestFromList(requestNum);
             System.out.println(request.toString());
         }
 
     }
     // approves or denies a customer account request, denial needs a accompanied message as to why it was denied
-    public void approveDenyCustomerAccountRequest(String SSN, AccountRequestController accountRequestController, CustomerController customerController){
+    public void approveDenyCustomerAccountRequest(CustomerAccountRequest request, AccountRequestController accountRequestController) throws Exception {
         String stringUserInput = "";
         do {
             stringUserInput = Util.readLine("Please type in: approve or deny");
             if (stringUserInput.equals("approve")) {
                 //Util.readLine("Please type in the reason for the approval:"); do we need message for approval?
-                Customer customer = customerController.findCustomer(SSN);
-                accountRequestController.approveCustomerAccountRequest();
+                String message = Util.readLine("Please type in the reason for the approval:");
+                accountRequestController.approveCustomerAccountRequest(request, message);
             } else if (stringUserInput.equals("deny")) {
                 String message = Util.readLine("Please type in the reason for the denial:");
-                Customer customer = customerController.findCustomer(SSN);
-                accountRequestController.denyCustomerAccountRequest(, message);
+                accountRequestController.denyAccountRequest(request, message);
             }
         }while (!(stringUserInput.equals("approve") || stringUserInput.equals("deny")));
     }
     // approves or denies a bank account request, denial needs a accompanied message as to why it was denied
-    public void approveDenyBankAccountRequest(String SSN, AccountRequestController accountRequestController, CustomerController customerController){
+    public void approveDenyBankAccountRequest(BankAccountRequest request, AccountRequestController accountRequestController){
         String stringUserInput = "";
         do {
             stringUserInput = Util.readLine("Please type in: approve or deny");
             if (stringUserInput.equals("approve")) {
                 //Util.readLine("Please type in the reason for the approval:"); do we need message for approval?
-                Customer customer = customerController.findCustomer(SSN);
-                accountRequestController.approveBankAccountRequest();
+                String message = Util.readLine("Please type in the reason for the approval:");
+                accountRequestController.approveBankAccountRequest(request, message);
             } else if (stringUserInput.equals("deny")) {
                 String message = Util.readLine("Please type in the reason for the denial:");
-                Customer customer = customerController.findCustomer(SSN);
-                accountRequestController.denyAccountRequest(, message);
+                accountRequestController.approveBankAccountRequest(request, message);
+                accountRequestController.denyAccountRequest(request, message);
             } else {
                 System.out.println("please input a valid option (approve/deny)");
             }
