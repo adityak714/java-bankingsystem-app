@@ -18,13 +18,13 @@ public class EmployeeMenu {
     String EMPLOYEE_HEADING2 = "Customer handling menu: Please choose a valid option.";
     String[] EMPLOYEE_OPTIONS2 = {
             "Go back",
-            "create customer",
-            "delete customer",
-            "delete bank account",
+            "Create customer",
+            "Delete customer",
+            "Delete bank account",
             "Print all registered customers.",
             // is these 2 options (7, 8) agreed upon functions of the employee?
-            "deposit money into bank account ", // this function is used when a customer meets with an employee in person and has cash that they want to deposit
-            "withdraw money from bank account", // this function is used when a customer meets with an employee in person and has cash that they want to withdraw
+            "Deposit money into bank account ", // this function is used when a customer meets with an employee in person and has cash that they want to deposit
+            "Withdraw money from bank account", // this function is used when a customer meets with an employee in person and has cash that they want to withdraw
             ""
             // Continue to add more options here and to the switch case as you see fit, it's ok to create submenus if anyone want to do that,
             // just make a switch case inside the switch case (or make a seperate method that is called inside the switch case)
@@ -32,10 +32,10 @@ public class EmployeeMenu {
     String EMPLOYEE_HEADING3 = "Account request handling menu: Please choose a valid option.";
     String[] EMPLOYEE_OPTIONS3 = {
             "Go back",
-            "review specific customer account request",
-            "review specific bank account request",
-            "list all customer account request",
-            "list all bank account request"
+            "Review specific customer account request",
+            "Review specific bank account request",
+            "List all customer account request",
+            "List all bank account request"
     };
 
     // the first menu the employee will see, this then branches of into a Customer and a Account request Menu
