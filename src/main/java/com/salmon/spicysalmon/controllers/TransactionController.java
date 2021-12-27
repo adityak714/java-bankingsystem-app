@@ -10,7 +10,7 @@ import java.util.*;
 
 public class TransactionController {
 
-    private static LinkedHashMap<String, LinkedHashMap<String, ArrayList<Transaction>>> allTransactions = new LinkedHashMap<>();
+    private static final LinkedHashMap<String, LinkedHashMap<String, ArrayList<Transaction>>> allTransactions = new LinkedHashMap<>();
 
     // This method creates a pair of transactions and calls the add method
     public void createTransaction(String acc1, String acc2, double amount){

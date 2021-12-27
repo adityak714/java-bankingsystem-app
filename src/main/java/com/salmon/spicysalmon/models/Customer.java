@@ -1,10 +1,8 @@
 package com.salmon.spicysalmon.models;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 
 public class Customer extends User {
-    // change linkedhashmap to arraylist?
     private final ArrayList<BankAccount> customerAccounts;
     private double salary;
     private String residentialArea;

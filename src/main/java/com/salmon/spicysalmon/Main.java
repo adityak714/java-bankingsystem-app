@@ -8,7 +8,8 @@ public class Main {
             JSONController jsonController = new JSONController();
             jsonController.readData();
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("Could not read data from files.");
+            System.out.println(e.getMessage());
         }
         MainMenu mainMenu = new MainMenu();
         mainMenu.show();
