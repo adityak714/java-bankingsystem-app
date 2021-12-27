@@ -18,7 +18,6 @@ public class EmployeeMenu {
     String EMPLOYEE_HEADING2 = "Customer handling menu: Please choose a valid option.";
     String[] EMPLOYEE_OPTIONS2 = {
             "Go back",
-            "Access specific customer account",
             "create customer",
             "delete customer",
             "delete bank account",
@@ -65,22 +64,19 @@ public class EmployeeMenu {
         int userInput = employeeCustomerMenu.getValidOption();
         do {
             switch (userInput){
-                case 1: // login to a specific customer account
-                    goToCustomer(authenticationController);
-                    break;
-                case 2: // create customer
+                case 1: // create customer
                     createCustomer(customerController);
                     break;
-                case 3: // remove customer
+                case 2: // remove customer
                     removeCustomer(customerController);
                     break;
-                case 4: // delete a bank account
+                case 3: // delete a bank account
                     deleteBankAccount(customerController);
                     break;
-                case 5: // print all customers
+                case 4: // print all customers
                     printAllCustomers(customerController);
                     break;
-                case 6:
+                case 5:
 
                     break;
             }
