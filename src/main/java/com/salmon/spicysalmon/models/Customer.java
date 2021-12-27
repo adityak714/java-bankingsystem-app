@@ -61,23 +61,6 @@ public class Customer extends User {
         return customerAccounts;
     }
 
-    public double deposit(String accountID, double amount) throws Exception {
-        // Find account
-        /*for (String key : accounts.keySet()) {
-            if (accountID.equals(key)) {
-                BankAccount myBankAccount = accounts.get(accountID);
-                if (amount <= 0) {
-                    throw new Exception("Amount to be deposited is invalid");
-                } else {
-                    return myBankAccount.getBalance() + amount;
-                }
-
-            } else {
-                System.out.println("Account could not be found.");
-            }
-        }*/
-        return 0.0;
-    }
 
 
     // no need to pass in any of the parameters, all are already attributes of the customer, however, should it in a name for the account
