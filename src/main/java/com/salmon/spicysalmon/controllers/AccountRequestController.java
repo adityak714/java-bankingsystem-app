@@ -61,9 +61,31 @@ public class AccountRequestController {
     //Deny an Account Request (Maybe need to do casting here? This method is for both BankAccountRequest and CustomerAccountRequest)
     public void denyAccountRequest(AccountRequest request, String denyMessage) {
         request.denyRequest(denyMessage); //Passes message to the customer why the request was denied
-
     }
 
+
+    public String stringBuilderBankAccountRequest(ArrayList<BankAccountRequest> list){
+        int requestNumber = 1;
+        StringBuilder sb = new StringBuilder();
+        for(BankAccountRequest request : list) { //String.format("%-10s",requestNumber); -10 means it would insert 10 empty spaces to the right of requestNumber which would be 1 for the first loop. without the dash
+               sb.append(" ").append(String.format("%-11s", requestNumber)).append(String.format("%-"+(15-request.getStatusToString().length())+"s",request.getStatusToString()))
+                        .append(request.getREQUESTEE().getFirstName()).append(" ").append(request.getREQUESTEE().getLastName().charAt(0)).append(String.format("%-"+(15-request.getREQUESTEE().getFirstName().length()-3)+"s","."))
+                        .append(String.format("%-"+(19-request.getREQUESTEE().getSocialSecurityNumber().length())+"s",request.getREQUESTEE().getSocialSecurityNumber())).append(request.getCREATIONDATE()).append(Util.EOL);
+                requestNumber += 1;
+            }
+      return sb.toString();
+    }
+    public String stringBuilderCustomerAccountRequest(ArrayList<CustomerAccountRequest> list){
+        int requestNumber = 1;
+        StringBuilder sb = new StringBuilder();
+        for(CustomerAccountRequest request : list) {
+            sb.append(" ").append(String.format("%-11s",requestNumber)).append(String.format("%-"+(18-request.getStatusToString().length())+"s",request.getStatusToString()))
+                    .append(request.getFirstName()).append(" ").append(request.getLastName().charAt(0)).append(String.format("%-"+(21-request.getFirstName().length()-3)+"s","."))
+                    .append(String.format("%-"+(23-request.getSocialSecurityNumber().length())+"s",request.getSocialSecurityNumber())).append(request.getCREATIONDATE()).append(Util.EOL);
+            requestNumber += 1;
+        }
+        return sb.toString();
+    }
 
 /*
  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -84,17 +106,19 @@ public class AccountRequestController {
     public String printAllBankAccountRequests() throws Exception{ //Maybe sort this
         String output = "";
         int requestNumber = 1;
-        for (BankAccountRequest request : getAllBankAccountRequests()) {
-            output += " ".repeat(1) + requestNumber + " ".repeat(10) + request.getStatusToString() + " ".repeat(14-request.getStatusToString().length()) + request.getREQUESTEE().getFirstName()
+       /* for (BankAccountRequest request : getAllBankAccountRequests()) {
+            output += " " + requestNumber + " ".repeat(10) + request.getStatusToString() + " ".repeat(14-request.getStatusToString().length()) + request.getREQUESTEE().getFirstName()
                     + " " + request.getREQUESTEE().getLastName().charAt(0) +"." + " ".repeat(14-request.getREQUESTEE().getFirstName().length()-3)
                     + request.getREQUESTEE().getSocialSecurityNumber() + " ".repeat(14-request.getREQUESTEE().getSocialSecurityNumber().length())
                     + request.getAccountName() + " ".repeat(18-request.getAccountName().length()) + request.getCREATIONDATE() + Util.EOL;
             requestNumber += 1;
-        }
+        }*/
         output = "All Bank Account Requests" + Util.EOL
-                + "-".repeat(80) + Util.EOL
+                + "--------------------------------------------------------------------------------" + Util.EOL
                 + "Number      " + "Status        " + "Customer     " + "SSN           " + "Account Name      " + "Created   " + Util.EOL
-                + "-".repeat(80) +  Util.EOL + output + Util.EOL + "-".repeat(80) + Util.EOL;
+                + "--------------------------------------------------------------------------------" +  Util.EOL
+                + stringBuilderBankAccountRequest(getAllBankAccountRequests()) + Util.EOL
+                + "--------------------------------------------------------------------------------" + Util.EOL;
         return output;
     }
     public ArrayList<BankAccountRequest> getAllBankAccountRequestsForSearchedName(String name)throws Exception {
@@ -114,7 +138,7 @@ public class AccountRequestController {
         String output = "";
         int requestNumber = 1;
         for (BankAccountRequest request : getAllBankAccountRequestsForSearchedName(name)) {
-                output += " ".repeat(1) + requestNumber + " ".repeat(10) + request.getStatusToString() + " ".repeat(14-request.getStatusToString().length()) + request.getREQUESTEE().getFirstName()
+                output += " " + requestNumber + " ".repeat(10) + request.getStatusToString() + " ".repeat(14-request.getStatusToString().length()) + request.getREQUESTEE().getFirstName()
                         + " " + request.getREQUESTEE().getLastName().charAt(0) +"." + " ".repeat(13-request.getREQUESTEE().getFirstName().length()-3)
                         + request.getREQUESTEE().getSocialSecurityNumber() + " ".repeat(14-request.getREQUESTEE().getSocialSecurityNumber().length())
                         + request.getAccountName() + " ".repeat(18-request.getAccountName().length()) + request.getCREATIONDATE() + Util.EOL;
@@ -139,7 +163,7 @@ public class AccountRequestController {
         String output = "";
         int requestNumber = 1;  //Used to number the different requests if more than one
         for (BankAccountRequest request : getBankAccountRequestsForSpecificCustomer(SSN)) {
-            output += " ".repeat(1) + requestNumber + " ".repeat(13) + request.getStatusToString() + " ".repeat(14-request.getStatusToString().length()) + request.getREQUESTEE().getFirstName()
+            output += " " + requestNumber + " ".repeat(13) + request.getStatusToString() + " ".repeat(14-request.getStatusToString().length()) + request.getREQUESTEE().getFirstName()
                     + " " + request.getREQUESTEE().getLastName().charAt(0) +"." + " ".repeat(14-request.getREQUESTEE().getFirstName().length()-3)
                     + request.getREQUESTEE().getSocialSecurityNumber() + " ".repeat(11-request.getREQUESTEE().getSocialSecurityNumber().length())
                     + request.getAccountName() + " ".repeat(18-request.getAccountName().length()) + request.getCREATIONDATE() + Util.EOL;
@@ -172,7 +196,7 @@ public class AccountRequestController {
         int requestNumber = 1;
         for (BankAccountRequest request : getAllPendingBankAccountRequests()) {
             if (request.getIsApproved() == null) {
-                output += " ".repeat(1) + requestNumber + " ".repeat(10) + request.getStatusToString() + " ".repeat(14-request.getStatusToString().length()) + request.getREQUESTEE().getFirstName()
+                output += " " + requestNumber + " ".repeat(10) + request.getStatusToString() + " ".repeat(14-request.getStatusToString().length()) + request.getREQUESTEE().getFirstName()
                         + " " + request.getREQUESTEE().getLastName().charAt(0) +"." + " ".repeat(13-request.getREQUESTEE().getFirstName().length()-3)
                         + request.getREQUESTEE().getSocialSecurityNumber() + " ".repeat(14-request.getREQUESTEE().getSocialSecurityNumber().length())
                         + request.getAccountName() + " ".repeat(18-request.getAccountName().length()) + request.getCREATIONDATE() + Util.EOL;
@@ -204,7 +228,7 @@ public class AccountRequestController {
         int requestNumber = 1;  //Used to number the different requests if more than one
         for (BankAccountRequest request : getBankAccountRequestsForSpecificCustomer(SSN)) {
             name = request.getREQUESTEE().getFirstName() + request.getREQUESTEE().getLastName(); //Stores the Customer name to put in return string later
-            output += " ".repeat(1) + requestNumber + " ".repeat(13) + request.getStatusToString() + " ".repeat(14-request.getStatusToString().length()) + request.getREQUESTEE().getFirstName()
+            output += " " + requestNumber + " ".repeat(13) + request.getStatusToString() + " ".repeat(14-request.getStatusToString().length()) + request.getREQUESTEE().getFirstName()
                     + " " + request.getREQUESTEE().getLastName().charAt(0) +"." + " ".repeat(14-request.getREQUESTEE().getFirstName().length()-3)
                     + request.getREQUESTEE().getSocialSecurityNumber() + " ".repeat(11-request.getREQUESTEE().getSocialSecurityNumber().length())
                     + request.getAccountName() + " ".repeat(18-request.getAccountName().length()) + request.getCREATIONDATE() + Util.EOL;
@@ -246,7 +270,7 @@ public class AccountRequestController {
         String output = "";
         int requestNumber = 1;
         for (CustomerAccountRequest request : getAllCustomerAccountRequests()) {
-            output += " ".repeat(1) + requestNumber + " ".repeat(10) + request.getStatusToString() + " ".repeat(17-request.getStatusToString().length()) + request.getFirstName()
+            output += " " + requestNumber + " ".repeat(10) + request.getStatusToString() + " ".repeat(17-request.getStatusToString().length()) + request.getFirstName()
                     + " " + request.getLastName().charAt(0) +"." + " ".repeat(20-request.getFirstName().length()-3)
                     + request.getSocialSecurityNumber() + " ".repeat(22-request.getSocialSecurityNumber().length()) + Util.EOL;
             requestNumber += 1;
@@ -275,13 +299,13 @@ public class AccountRequestController {
         int requestNumber = 1;
         for (CustomerAccountRequest request : getAllCustomerAccountRequestsForSearchedName(name)) {
             if (request.getFirstName().equals(name) || request.getLastName().equals(name)) {
-                output += " ".repeat(1) + requestNumber + " ".repeat(10) + request.getStatusToString() + " ".repeat(17 - request.getStatusToString().length()) + request.getFirstName()
+                output += " " + requestNumber + " ".repeat(10) + request.getStatusToString() + " ".repeat(17 - request.getStatusToString().length()) + request.getFirstName()
                         + " " + request.getLastName().charAt(0) + "." + " ".repeat(20 - request.getFirstName().length() - 3)
                         + request.getSocialSecurityNumber() + " ".repeat(22 - request.getSocialSecurityNumber().length()) + Util.EOL;
                 requestNumber += 1;
             }
         }
-            output = "All Customer Account Request matching name: \"" + name + "\"" + Util.EOL
+            output = "All Customer Account Requests matching name: \"" + name + "\"" + Util.EOL
                     + "-".repeat(80) + Util.EOL
                     + "Number      " + "Status           " + "Name                " + "SSN   			       " + "Created   " + Util.EOL
                     + "-".repeat(80) + Util.EOL + output + Util.EOL + "-".repeat(80) + Util.EOL;
@@ -306,9 +330,9 @@ public class AccountRequestController {
         String output = "";
         int requestNumber = 1;
         for (CustomerAccountRequest request : getAllPendingCustomerAccountRequests()) {
-                output += " ".repeat(1) + requestNumber + " ".repeat(10) + request.getStatusToString() + " ".repeat(17-request.getStatusToString().length()) + request.getFirstName()
+                output += " " + requestNumber + " ".repeat(10) + request.getStatusToString() + " ".repeat(17-request.getStatusToString().length()) + request.getFirstName()
                         + " " + request.getLastName().charAt(0) +"." + " ".repeat(20-request.getFirstName().length()-3)
-                        + request.getSocialSecurityNumber() + " ".repeat(22-request.getSocialSecurityNumber().length()) + Util.EOL;
+                        + request.getSocialSecurityNumber() + " ".repeat(22-request.getSocialSecurityNumber().length()) +  Util.EOL;
                 requestNumber += 1;
         }
        /* if (getAllPendingCustomerAccountRequests().isEmpty()) { //Don't need to specify another exception here, since the method getAllAPendingCustomerAccountRequests
