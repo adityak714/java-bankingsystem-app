@@ -190,7 +190,9 @@ public class EmployeeMenu {
     public void specificBankBankAccountRequest(AccountRequestController accountRequestController) throws Exception {
         String SSN = Util.readLine("Which customers request do you want to look at?");
         ArrayList<BankAccountRequest> BARs = accountRequestController.getSpecificCustomerBankAccountRequests(SSN); // BARs = Bank Account Requests
-        System.out.println(BARs.toString()); // bad thing here, change
+        for (BankAccountRequest BAR : BARs){
+            System.out.println(BAR.toString());
+        }
         if (BARs.size() == 1){
             approveDenyBankAccountRequest(BARs.get(0), accountRequestController);
         }else {
@@ -203,7 +205,7 @@ public class EmployeeMenu {
 
     // lists all customer account requests, then allows the employee to approve/deny that request
     public void listAllCustomerAccountRequests(AccountRequestController accountRequestController) throws Exception {
-        accountRequestController.printAllCustomerAccountRequests();
+        System.out.println(accountRequestController.printAllCustomerAccountRequests());
         int requestNum = (Util.readInt("Which request do you want to look at? type 0 to exit")) - 1;
         if (requestNum != 0){
             CustomerAccountRequest request = accountRequestController.getSpecificCustomerAccountRequestFromList(requestNum);
@@ -213,11 +215,12 @@ public class EmployeeMenu {
     }
     // lists all bank account requests, then allows the employee to approve/deny that request
     public void listAllBankAccountRequests(AccountRequestController accountRequestController) throws Exception {
-        accountRequestController.printAllBankAccountRequests();
+        System.out.println(accountRequestController.printAllBankAccountRequests());
         int requestNum = (Util.readInt("Which request do you want to check out? type 0 to exit")) -1;
         if (requestNum != 0){
             BankAccountRequest request = accountRequestController.getSpecificBankAccountRequestFromList(requestNum);
             System.out.println(request.toString());
+            approveDenyBankAccountRequest(request, accountRequestController);
         }
 
     }
