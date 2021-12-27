@@ -40,7 +40,7 @@ public class EmployeeMenu {
     };
 
     // the first menu the employee will see, this then branches of into a Customer and a Account request Menu
-    public void show(String SSN) throws Exception {
+    public void show(String SSN){
         AccountRequestController accountRequestController = new AccountRequestController();
         CustomerController customerController = new CustomerController();
         EmployeeController employeeController = new EmployeeController();
@@ -89,22 +89,38 @@ public class EmployeeMenu {
     }
 
     // Account request menu that handles all the functionality were the Employee directly interacts with Account Requests
-    public void showAccountRequestMenu(AccountRequestController accountRequestController, CustomerController customerController) throws Exception {
+    public void showAccountRequestMenu(AccountRequestController accountRequestController, CustomerController customerController){
         Menu employeeAccountRequestMenu = new Menu(EMPLOYEE_HEADING3,EMPLOYEE_OPTIONS3);
         System.out.println(employeeAccountRequestMenu);
         int userInput = employeeAccountRequestMenu.getValidOption();
         switch (userInput){
             case 1: // approve/deny customer application
-                specificCustomerAccountRequest(accountRequestController);
+                try {
+                    specificCustomerAccountRequest(accountRequestController);
+                }catch (Exception IOException){
+                    System.out.println(IOException.getMessage());
+                }
                 break;
             case 2: // approve/deny bank application
-                specificBankBankAccountRequest(accountRequestController);
+                try {
+                    specificBankBankAccountRequest(accountRequestController);
+                }catch (Exception IOException){
+                    System.out.println(IOException.getMessage());
+                }
                 break;
             case 3: // look att all the customer account requests, then pick one you want to approve/deny
-                listAllCustomerAccountRequests(accountRequestController);
+                try {
+                    listAllCustomerAccountRequests(accountRequestController);
+                }catch (Exception IOException){
+                    System.out.println(IOException.getMessage());
+                }
                 break;
             case 4: // look att all the bank account requests, then pick one you want to approve/deny
-                listAllBankAccountRequests(accountRequestController);
+                try {
+                    listAllBankAccountRequests(accountRequestController);
+                }catch (Exception IOException){
+                    System.out.println(IOException.getMessage());
+                }
                 break;
         }
     }
