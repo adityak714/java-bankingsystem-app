@@ -79,7 +79,6 @@ public class CustomerMenu {
                     showAccountSettings(SSN, customerController);
                     break;
                 default:
-
             }
         }while(userInput != 0);
     }

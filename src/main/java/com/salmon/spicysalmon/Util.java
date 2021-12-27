@@ -30,4 +30,8 @@ public class Util {
         Calendar calendar = Calendar.getInstance();
         return formatter.format(calendar.getTime());
     }
+
+    public static boolean checkSSNFormat(String SSN){
+        return SSN.matches("^\\d{10}$");
+    }
 }

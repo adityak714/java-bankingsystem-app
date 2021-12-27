@@ -3,21 +3,23 @@ package com.salmon.spicysalmon.controllers;
 import com.salmon.spicysalmon.Util;
 import com.salmon.spicysalmon.models.BankAccount;
 import com.salmon.spicysalmon.models.Customer;
-import com.salmon.spicysalmon.models.Transaction;
 
 import java.util.HashMap;
 
 public class CustomerController {
     private static final HashMap<String, Customer> customersList = new HashMap<>(); // "customerList" is a better name?
 
-    public String createCustomer(String socialSecurityNumber, String password, String firstName, String lastName, double salary, String residentialArea, String occupation){
+    public void createCustomer(String SSN, String password, String firstName, String lastName, double salary, String residentialArea, String occupation) throws Exception {
         TransactionController transactionsController = new TransactionController();
-        if(transactionsController.checkIfSSNUnique(socialSecurityNumber)){
-            Customer newCustomer = new Customer(socialSecurityNumber, password, firstName, lastName, salary, residentialArea, occupation);
-            customersList.put(socialSecurityNumber, newCustomer);
-            return "Customer "+firstName+" "+lastName+" created successfully.";
-        } else {
-            return "A customer with that social security number already exists!";
+        if(Util.checkSSNFormat(SSN)){
+            if(findCustomer(SSN) == null && transactionsController.checkIfSSNUnique(SSN)) {
+                Customer newCustomer = new Customer(SSN, password, firstName, lastName, salary, residentialArea, occupation);
+                customersList.put(SSN, newCustomer);
+            } else{
+                throw new Exception("A customer with that SSN already exists.");
+            }
+        } else{
+            throw new Exception("SSN formatting incorrect, use format YYMMDDXXXX");
         }
     }
 
@@ -129,9 +131,9 @@ public class CustomerController {
         }
     }
 
-    public BankAccount findBankAccount(String SSN, String accountID) throws Exception {
+    public BankAccount findBankAccount(String SSN, String accountID){
         BankAccount desiredAccount = null;
-        try {
+        try{
             Customer customer = findCustomer(SSN);
             String accountNumber = SSN + accountID;
             for (BankAccount account : customer.getCustomerAccounts()) {
@@ -139,12 +141,11 @@ public class CustomerController {
                     desiredAccount = account;
                 }
             }
-        } catch(Exception customerNotFound){
-            System.out.print(customerNotFound.getMessage());
-        }
+            return desiredAccount;
 
-        if (desiredAccount == null ) { throw new Exception("Account could not be found."); }
-        else { return desiredAccount; }
+        } catch(Exception e){
+            return desiredAccount;
+        }
     }
 
     public String deleteBankAccount(String accountNumber) {

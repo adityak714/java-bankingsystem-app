@@ -21,7 +21,7 @@ public class JSONController {
         this.readBankAccountRequests();
     }
 
-    private void readCustomers() throws IOException, ParseException {
+    private void readCustomers() throws Exception {
         CustomerController customerController = new CustomerController();
         JSONParser jsonParser = new JSONParser();
         Object obj = jsonParser.parse(new FileReader("src/main/java/com/salmon/spicysalmon/data/Customers.json"));
@@ -95,7 +95,7 @@ public class JSONController {
             double salary = (double) ((long) application.get("salary"));
             String residentialArea = (String) application.get("residentialArea");
             String occupation = (String) application.get("occupation");
-            accountRequestController.createApplication(SSN, password, firstName, lastName, salary, residentialArea, occupation);
+            accountRequestController.createCustomerAccountRequest(SSN, password, firstName, lastName, salary, residentialArea, occupation);
         }
     }
 
