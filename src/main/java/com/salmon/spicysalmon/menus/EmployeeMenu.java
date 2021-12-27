@@ -171,12 +171,23 @@ public class EmployeeMenu {
     public void removeCustomer(CustomerController customerController){
         System.out.println("You have chosen: Remove a customer.");
         String remove = Util.readLine("What customer do you wish to remove? Enter SSN: ");
-        System.out.println(customerController.removeCustomer(remove));
+        try{
+            customerController.removeCustomer(remove);
+            System.out.println("The customer was removed successfully.");
+        } catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+
     }
     // deletes a bank account with the specified accountNumber
     public void deleteBankAccount(CustomerController customerController){
-        String accountNumber = Util.readLine("Type in the account number of the bank account do you want to remove");
-        customerController.deleteBankAccount(accountNumber);
+        String accountNumber = Util.readLine("Type in the account number of the bank account do you want to remove: ");
+        try{
+            customerController.deleteBankAccount(accountNumber);
+            System.out.println("The bank account was removed successfully.");
+        } catch(Exception e){
+            System.out.println(e.getMessage());
+        }
     }
     // prints all customers
     public void printAllCustomers(CustomerController customerController){

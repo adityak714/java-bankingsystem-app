@@ -3,14 +3,14 @@ package com.salmon.spicysalmon.models;
 import java.util.ArrayList;
 
 public class Customer extends User {
-    private final ArrayList<BankAccount> customerAccounts;
+    private final ArrayList<BankAccount> bankAccounts;
     private double salary;
     private String residentialArea;
     private String occupation;
 
     public Customer(String socialSecurity, String password, String firstName, String lastName, double salary, String residentialArea, String occupation) {
         super(socialSecurity, password, firstName, lastName);
-        this.customerAccounts = new ArrayList<>();
+        this.bankAccounts = new ArrayList<>();
         this.salary = salary;
         this.residentialArea = residentialArea;
         this.occupation = occupation;
@@ -43,7 +43,7 @@ public class Customer extends User {
     @Override
     public String toString() {
         return super.toString()+" Customer{" +
-                "customerAccounts=" + customerAccounts +
+                "customerAccounts=" + bankAccounts +
                 ", salary=" + salary +
                 ", residentialArea='" + residentialArea + '\'' +
                 ", occupation='" + occupation + '\'' +
@@ -51,28 +51,31 @@ public class Customer extends User {
     }
 
     public double getTotalBalance(){
-        BankAccount bankAccount = customerAccounts.get(0);
+        BankAccount bankAccount = bankAccounts.get(0);
         return bankAccount.getBalance();
     }
 
-    public ArrayList<BankAccount> getCustomerAccounts() {
-        return customerAccounts;
+    public ArrayList<BankAccount> getBankAccounts() {
+        return bankAccounts;
     }
 
-
+    // returns the number of bank accounts this customer has
+    public int getNumOfAccounts(){
+        return bankAccounts.size();
+    }
 
     // no need to pass in any of the parameters, all are already attributes of the customer, however, should it in a name for the account
     public String createBankAccount(String accountName) {
-        String accID = customerAccounts.size() < 10 ? "0"+(customerAccounts.size()+1) : (customerAccounts.size()+1)+"";
+        String accID = bankAccounts.size() < 10 ? "0"+(bankAccounts.size()+1) : (bankAccounts.size()+1)+"";
         BankAccount bankAccount = new BankAccount(this.getSocialSecurityNumber(), accID, this.getFirstName(), this.getLastName(), accountName);
-        customerAccounts.add(bankAccount);
+        bankAccounts.add(bankAccount);
         return "Account " + accountName + " created successfully.";
     }
 
     public String deleteBankAccount(String accID){
-        for(BankAccount acc : customerAccounts){
+        for(BankAccount acc : bankAccounts){
             if(acc.getAccountNumber() == this.getSocialSecurityNumber()+accID){
-                customerAccounts.remove(acc);
+                bankAccounts.remove(acc);
                 return "Account deleted successfully.";
             }
         }
@@ -80,7 +83,11 @@ public class Customer extends User {
     }
 
     public int getNumberOfAccounts(){
-        return customerAccounts.size();
+        return bankAccounts.size();
+    }
+
+    public void removeAccount(BankAccount bankAccount) {
+        this.bankAccounts.remove(bankAccount);
     }
    
         /*if (amount <= 0.00) {

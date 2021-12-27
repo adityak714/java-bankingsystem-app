@@ -27,13 +27,12 @@ public class CustomerController {
         return customersList.get(SSN);
     }
 
-    public String removeCustomer(String SSN) {
-        try {
-            Customer customer = findCustomer(SSN);
+    public void removeCustomer(String SSN) throws Exception{
+        Customer customer = findCustomer(SSN);
+        if(customer != null){
             customersList.remove(customer);
-            return ("Customer " + SSN + " was successfully removed.");
-        } catch (Exception ex) {
-            return ex.getMessage();
+        } else{
+            throw new Exception("The customer was not found.");
         }
     }
 
@@ -136,7 +135,7 @@ public class CustomerController {
         try{
             Customer customer = findCustomer(SSN);
             String accountNumber = SSN + accountID;
-            for (BankAccount account : customer.getCustomerAccounts()) {
+            for (BankAccount account : customer.getBankAccounts()) {
                 if (account.getAccountNumber().equals(accountNumber)) {
                     desiredAccount = account;
                 }
@@ -148,15 +147,24 @@ public class CustomerController {
         }
     }
 
-    public String deleteBankAccount(String accountNumber) {
+    // Returns the number of bank accounts a customer has, from the SSN
+    public int getNumOfAccounts(String SSN){
+        Customer currentCustomer = findCustomer(SSN);
+        if(currentCustomer != null){
+            return currentCustomer.getNumOfAccounts();
+        }
+        return 0;
+    }
+
+    public void deleteBankAccount(String accountNumber) throws Exception{
         String SSN = accountNumber.substring(0, 9);
         String accID = accountNumber.substring(10, 11);
-
-        try {
+        BankAccount bankAccount = findBankAccount(SSN, accID);
+        if(bankAccount != null){
             Customer customer = findCustomer(SSN);
-            return customer.deleteBankAccount(accID);
-        } catch(Exception customerNotFound) {
-            return customerNotFound.getMessage();
+            customer.removeAccount(bankAccount);
+        } else{
+            throw new Exception("The bank account could not be found.");
         }
     }
     ///Made new method to check balance of a specific account
@@ -217,10 +225,10 @@ public class CustomerController {
             //Assuming the customer is logged in already
             Customer customer = findCustomer(SSN);
             String message = "";
-            if (customer.getCustomerAccounts().size() == 0) {
+            if (customer.getBankAccounts().size() == 0) {
                 return "No bank accounts exist for you";
             } else {
-                for (BankAccount account : customer.getCustomerAccounts()) {
+                for (BankAccount account : customer.getBankAccounts()) {
                     message += account + Util.EOL;
                 }
                 return message;

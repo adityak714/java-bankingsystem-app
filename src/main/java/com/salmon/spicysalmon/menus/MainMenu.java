@@ -1,7 +1,6 @@
 package com.salmon.spicysalmon.menus;
 
 import com.salmon.spicysalmon.controllers.AuthenticationController;
-import com.salmon.spicysalmon.controllers.CustomerController;
 import com.salmon.spicysalmon.models.Menu;
 
 public class MainMenu {
@@ -35,5 +34,4 @@ public class MainMenu {
             }
         } while(userInput != 0);
     }
-
 }

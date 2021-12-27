@@ -86,8 +86,8 @@ public class CustomerMenu {
         Menu bankAccountMenu = new Menu(CUSTOMER_HEADING2, CUSTOMER_OPTIONS2);
         int userInput = 0;
         System.out.print(customerController.printAllAccounts(SSN));
-
         String accountID = Util.readLine("To select a specific bank account, Enter account ID: ");
+
         do {
             System.out.println(bankAccountMenu);
             userInput = bankAccountMenu.getValidOption();
@@ -118,10 +118,6 @@ public class CustomerMenu {
             }
         } while (userOption!= 0);
     }
-
-
-
-
 
     ////Having the functionality in methods is the best for design instead of being in the switch block
     public void printSpecificAccount(CustomerController customerController, String SSN) {
