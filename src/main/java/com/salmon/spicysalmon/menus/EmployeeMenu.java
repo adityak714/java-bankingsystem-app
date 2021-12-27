@@ -89,36 +89,40 @@ public class EmployeeMenu {
         Menu employeeAccountRequestMenu = new Menu(EMPLOYEE_HEADING3,EMPLOYEE_OPTIONS3);
         System.out.println(employeeAccountRequestMenu);
         int userInput = employeeAccountRequestMenu.getValidOption();
-        switch (userInput){
-            case 1: // approve/deny customer application
-                try {
-                    specificCustomerAccountRequest(accountRequestController);
-                }catch (Exception IOException){
-                    System.out.println(IOException.getMessage());
-                }
-                break;
-            case 2: // approve/deny bank application
-                try {
-                    specificBankBankAccountRequest(accountRequestController);
-                }catch (Exception IOException){
-                    System.out.println(IOException.getMessage());
-                }
-                break;
-            case 3: // look att all the customer account requests, then pick one you want to approve/deny
-                try {
-                    listAllCustomerAccountRequests(accountRequestController);
-                }catch (Exception IOException){
-                    System.out.println(IOException.getMessage());
-                }
-                break;
-            case 4: // look att all the bank account requests, then pick one you want to approve/deny
-                try {
-                    listAllBankAccountRequests(accountRequestController);
-                }catch (Exception IOException){
-                    System.out.println(IOException.getMessage());
-                }
-                break;
-        }
+        do {
+            switch (userInput) {
+                case 1: // approve/deny customer application
+                    try {
+                        specificCustomerAccountRequest(accountRequestController);
+                    } catch (Exception IOException) {
+                        System.out.println(IOException.getMessage());
+                    }
+                    break;
+                case 2: // approve/deny bank application
+                    try {
+                        specificBankBankAccountRequest(accountRequestController);
+                    } catch (Exception IOException) {
+                        System.out.println(IOException.getMessage());
+                    }
+                    break;
+                case 3: // look att all the customer account requests, then pick one you want to approve/deny
+                    try {
+                        listAllCustomerAccountRequests(accountRequestController);
+                    } catch (Exception IOException) {
+                        System.out.println(IOException.getMessage());
+                    }
+                    break;
+                case 4: // look att all the bank account requests, then pick one you want to approve/deny
+                    try {
+                        listAllBankAccountRequests(accountRequestController);
+                    } catch (Exception IOException) {
+                        System.out.println(IOException.getMessage());
+                    }
+                    break;
+            }
+            break;
+        }while (userInput != 0);
+
     }
 
     // the employee logs into a customer account, for use when the customer is next to the employee
