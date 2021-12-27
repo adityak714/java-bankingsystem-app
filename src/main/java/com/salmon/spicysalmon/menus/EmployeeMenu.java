@@ -1,10 +1,7 @@
 package com.salmon.spicysalmon.menus;
 
 import com.salmon.spicysalmon.Util;
-import com.salmon.spicysalmon.controllers.AccountRequestController;
-import com.salmon.spicysalmon.controllers.AuthenticationController;
-import com.salmon.spicysalmon.controllers.CustomerController;
-import com.salmon.spicysalmon.controllers.EmployeeController;
+import com.salmon.spicysalmon.controllers.*;
 import com.salmon.spicysalmon.models.*;
 import java.util.ArrayList;
 
@@ -14,6 +11,7 @@ public class EmployeeMenu {
             "Log out",
             "Menu for Customer handling",
             "Menu for Application handling",
+            "Menu for Transaction handling"
     };
     String EMPLOYEE_HEADING2 = "Customer handling menu: Please choose a valid option.";
     String[] EMPLOYEE_OPTIONS2 = {
@@ -22,10 +20,9 @@ public class EmployeeMenu {
             "Delete customer",
             "Delete bank account",
             "Print all registered customers.",
-            // is these 2 options (7, 8) agreed upon functions of the employee?
-            "Deposit money into bank account ", // this function is used when a customer meets with an employee in person and has cash that they want to deposit
-            "Withdraw money from bank account", // this function is used when a customer meets with an employee in person and has cash that they want to withdraw
-            ""
+            "Print all transactions",
+            "Print transactions for specific customer account",
+            "Print transactions for specific bank account"
             // Continue to add more options here and to the switch case as you see fit, it's ok to create submenus if anyone want to do that,
             // just make a switch case inside the switch case (or make a seperate method that is called inside the switch case)
     };
@@ -37,6 +34,10 @@ public class EmployeeMenu {
             "List all customer account request",
             "List all bank account request"
     };
+    String EMPLOYEE_HEADING4 = "Transaction handling menu: Please choose a valid option.";
+    String[] EMPLOYEE_OPTIONS4 = {
+            "Show All Transactions"
+    };
 
     // the first menu the employee will see, this then branches of into a Customer and a Account request Menu
     public void show(String SSN){
@@ -44,6 +45,7 @@ public class EmployeeMenu {
         CustomerController customerController = new CustomerController();
         EmployeeController employeeController = new EmployeeController();
         AuthenticationController authenticationController = new AuthenticationController();
+        TransactionController transactionController = new TransactionController();
 
         Menu employeeMenu = new Menu(EMPLOYEE_HEADING, EMPLOYEE_OPTIONS);
         int userInput = 0;
@@ -51,9 +53,10 @@ public class EmployeeMenu {
             System.out.println(employeeMenu);
             userInput = employeeMenu.getValidOption();
             switch (userInput) {
-                case 0 -> System.out.println("goodbye");
+                case 0 -> System.out.println("Goodbye");
                 case 1 -> showCustomerMenu(customerController, authenticationController);
                 case 2 -> showAccountRequestMenu(accountRequestController, customerController);
+                case 3 -> showTransactionMenu(transactionController);
             }
         }while (userInput != 0);
     }
@@ -75,9 +78,6 @@ public class EmployeeMenu {
                     break;
                 case 4: // print all customers
                     printAllCustomers(customerController);
-                    break;
-                case 5:
-
                     break;
             }
             break;
@@ -125,10 +125,19 @@ public class EmployeeMenu {
 
     }
 
-    // the employee logs into a customer account, for use when the customer is next to the employee
-    public void goToCustomer(AuthenticationController authenticationController){
-        System.out.println("type in the login info of the customer you want to access");
-        authenticationController.customerLogin();
+    public void showTransactionMenu(TransactionController transactionController){
+        Menu employeeTransactionMenu = new Menu(EMPLOYEE_HEADING4, EMPLOYEE_OPTIONS4);
+        System.out.println(employeeTransactionMenu);
+        int userInput = employeeTransactionMenu.getValidOption();
+        do {
+            switch (userInput){
+                case 1: //
+                    printAllTransactions(transactionController);
+                    break;
+            }
+            break;
+        }while (userInput != 0);
+
     }
 
     // creates a new customer
@@ -178,6 +187,18 @@ public class EmployeeMenu {
     public void printAllCustomers(CustomerController customerController){
         System.out.println("You have chosen: Print all registered customers.");
         System.out.println(customerController.printAllCustomers());
+    }
+    public void printAllTransactions(TransactionController transactionController){
+        System.out.println(transactionController.printAllTransactions());
+
+    }
+    public void printSpecificCustomerTransactions(TransactionController transactionController){
+        String SSN = Util.readLine("Which customers transactions do you want to look at?");
+
+    }
+    public void printSpecificBankAccountTransactions(TransactionController transactionController){
+        String SSN = Util.readLine("Which bank accounts transactions do you want to look at?");
+
     }
     // goes to a specific customers customer account requests
     public void specificCustomerAccountRequest(AccountRequestController accountRequestController) throws Exception {
