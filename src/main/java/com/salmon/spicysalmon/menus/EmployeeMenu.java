@@ -61,9 +61,10 @@ public class EmployeeMenu {
     // Customer menu that handles all the functionality were the Employee directly interacts with customers
     public void showCustomerMenu(CustomerController customerController, AuthenticationController authenticationController){
         Menu employeeCustomerMenu = new Menu(EMPLOYEE_HEADING2, EMPLOYEE_OPTIONS2);
-        System.out.println(employeeCustomerMenu);
-        int userInput = employeeCustomerMenu.getValidOption();
+        int userInput = 0;
         do {
+            System.out.println(employeeCustomerMenu);
+            userInput = employeeCustomerMenu.getValidOption();
             switch (userInput){
                 case 1: // login to a specific customer account
                     goToCustomer(authenticationController);
@@ -80,11 +81,9 @@ public class EmployeeMenu {
                 case 5: // print all customers
                     printAllCustomers(customerController);
                     break;
-                case 6:
-
+                default:
                     break;
             }
-            break;
         }while (userInput != 0);
     }
 
@@ -141,9 +140,14 @@ public class EmployeeMenu {
         int salary = Util.readInt("What is your salary?: ");
         String residentalArea = Util.readLine("Where do you live?: ");
         String occupation = Util.readLine("What is your occupation?: ");
-        customerController.createCustomer(socialSecurityNumber,password, firstName,lastName, salary, residentalArea, occupation);
+        try{
+            customerController.createCustomer(socialSecurityNumber,password, firstName,lastName, salary, residentalArea, occupation);
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
     }
-    public String passwordCreation(){
+
+    private String passwordCreation(){
         String password = "";
         do {
             password = Util.readLine("Create a new password, it has to have:"
@@ -151,15 +155,15 @@ public class EmployeeMenu {
                     + Util.EOL + "One number"
                     + Util.EOL + "Longer than 8 characters" + Util.EOL);
 
-            if(password.equals(password.toLowerCase()))System.out.println("Your password did not have a uppercase Character");
-            if(password.equals(password.toUpperCase()))System.out.println("Your password did not have a lowercase Character");
-            if(!password.matches(".*[1234567890].*"))System.out.println("Your password did not have a number");
-            if(password.length() < 8)System.out.println("Your password was not longer than 8 characters");
+            if(password.equals(password.toLowerCase())) System.out.println("Your password did not have a uppercase Character");
+            if(password.equals(password.toUpperCase())) System.out.println("Your password did not have a lowercase Character");
+            if(!password.matches(".*[0-9].*")) System.out.println("Your password did not have a number");
+            if(password.length() < 8) System.out.println("Your password was not longer than 8 characters");
             System.out.println();
-        }while (!(password.length() > 8
+        } while (!(password.length() > 8
                 && !password.equals(password.toLowerCase())
                 && !password.equals(password.toUpperCase())
-                && password.matches(".*[1234567890].*")));
+                && password.matches(".*[0-9].*")));
         return password;
     }
 
@@ -167,12 +171,23 @@ public class EmployeeMenu {
     public void removeCustomer(CustomerController customerController){
         System.out.println("You have chosen: Remove a customer.");
         String remove = Util.readLine("What customer do you wish to remove? Enter SSN: ");
-        System.out.println(customerController.removeCustomer(remove));
+        try{
+            customerController.removeCustomer(remove);
+            System.out.println("The customer was removed successfully.");
+        } catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+
     }
     // deletes a bank account with the specified accountNumber
     public void deleteBankAccount(CustomerController customerController){
-        String accountNumber = Util.readLine("Type in the account number of the bank account do you want to remove");
-        customerController.deleteBankAccount(accountNumber);
+        String accountNumber = Util.readLine("Type in the account number of the bank account do you want to remove: ");
+        try{
+            customerController.deleteBankAccount(accountNumber);
+            System.out.println("The bank account was removed successfully.");
+        } catch(Exception e){
+            System.out.println(e.getMessage());
+        }
     }
     // prints all customers
     public void printAllCustomers(CustomerController customerController){

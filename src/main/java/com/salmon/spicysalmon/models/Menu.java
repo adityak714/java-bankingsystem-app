@@ -12,11 +12,11 @@ public class Menu {
     }
 
     public String toString(){
-        String result = Util.EOL + MENU_HEADING + Util.EOL;
+        String result = Util.EOL + MENU_HEADING + Util.EOL + Util.EOL;
         for (int i = 0; i < MENU_OPTIONS.length; i++) {
             result += i + ". " + MENU_OPTIONS[i] + Util.EOL;
         }
-        return result;
+        return result+Util.EOL;
     }
 
     public int getValidOption(){
