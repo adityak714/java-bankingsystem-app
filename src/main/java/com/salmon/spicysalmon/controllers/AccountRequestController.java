@@ -48,7 +48,6 @@ public class AccountRequestController {
     //Approve a specific BankAccountRequest and creates the bank account for the Customer
     public void approveBankAccountRequest(BankAccountRequest request, String message) {    //Sets the Boolean isApproved of the Customer object that is referenced in the specified request to true.
         request.approveRequest(message); //And creates a new BankAccount for the Customer and puts it in the HashMap of BankAccounts.
-
         request.getREQUESTEE().createBankAccount(request.getAccountName());
     }
     //Approve a specific CustomerAccountRequest and create a Customer with the info from the Request
@@ -75,13 +74,14 @@ public class AccountRequestController {
  */
     //Returns ArrayList with all Bank Account Requests, copied and reversed
     //because then we get new requests first
-    public ArrayList<BankAccountRequest> getAllBankAccountRequests(){
+    public ArrayList<BankAccountRequest> getAllBankAccountRequests()throws Exception{
         ArrayList<BankAccountRequest> returnList = new ArrayList<>(allBankAccountRequests);
         Collections.reverse(returnList); //This should sort it by creation date (new first) because in allBankAccountRequests the oldest will be first in the list.
-        return returnList;
+        if(returnList.isEmpty()){throw new Exception("There are no bank account requests.");}
+        else return returnList;
     }
     //Returns a concatenated string of all bank account requests for all users.
-    public String printAllBankAccountRequests() { //Maybe sort this
+    public String printAllBankAccountRequests() throws Exception{ //Maybe sort this
         String output = "";
         int requestNumber = 1;
         for (BankAccountRequest request : getAllBankAccountRequests()) {
@@ -90,7 +90,6 @@ public class AccountRequestController {
                     + request.getREQUESTEE().getSocialSecurityNumber() + " ".repeat(14-request.getREQUESTEE().getSocialSecurityNumber().length())
                     + request.getAccountName() + " ".repeat(18-request.getAccountName().length()) + request.getCREATIONDATE() + Util.EOL;
             requestNumber += 1;
-
         }
         output = "All Bank Account Requests" + Util.EOL
                 + "-".repeat(80) + Util.EOL
@@ -104,7 +103,6 @@ public class AccountRequestController {
             if (request.getREQUESTEE().getFirstName().equals(name) || request.getREQUESTEE().getLastName().equals(name)) {
                 returnList.add(request);
             }
-
         }
         if (returnList.isEmpty()){
             throw new Exception("No bank account requests matched your search");
@@ -122,9 +120,7 @@ public class AccountRequestController {
                         + request.getAccountName() + " ".repeat(18-request.getAccountName().length()) + request.getCREATIONDATE() + Util.EOL;
                 requestNumber += 1;
         }
-        if (output.isEmpty()) {
-            throw new Exception("No bank account requests matched your search");
-        } else output = "All Bank Account Request matching name: \"" + name + "\"" + Util.EOL
+        output = "All Bank Account Request matching name: \"" + name + "\"" + Util.EOL
                         + "-".repeat(80) +  Util.EOL
                         + "Number      " + "Status        " + "Customer     " + "SSN           " + "Account Name      " + "Created   " + Util.EOL
                         + "-".repeat(80) +  Util.EOL + output + Util.EOL + "-".repeat(80) + Util.EOL;
@@ -136,15 +132,13 @@ public class AccountRequestController {
                 return request;
             }
         }
-        throw new Exception("Customer has no bank account requests.");
+        throw new Exception("The specified ID does not match any bank account request.");
     }
-    public String getBankAccountRequestStatus(String SSN) throws Exception{ //Returns status of all BankAccountRequests for a specific Customer.
+    //Returns status of all BankAccountRequests for a specific Customer, used by customer menu to show their bank account requests' status.
+    public String printBankAccountRequestStatus(String SSN) throws Exception{
         String output = "";
-        String name = ""; //Used to store Customer name for use later
         int requestNumber = 1;  //Used to number the different requests if more than one
-
         for (BankAccountRequest request : getBankAccountRequestsForSpecificCustomer(SSN)) {
-            name = request.getREQUESTEE().getFirstName() + request.getREQUESTEE().getLastName(); //Stores the Customer name to put in return string later
             output += " ".repeat(1) + requestNumber + " ".repeat(13) + request.getStatusToString() + " ".repeat(14-request.getStatusToString().length()) + request.getREQUESTEE().getFirstName()
                     + " " + request.getREQUESTEE().getLastName().charAt(0) +"." + " ".repeat(14-request.getREQUESTEE().getFirstName().length()-3)
                     + request.getREQUESTEE().getSocialSecurityNumber() + " ".repeat(11-request.getREQUESTEE().getSocialSecurityNumber().length())
@@ -152,30 +146,31 @@ public class AccountRequestController {
             requestNumber += 1;
         }
         if (output.isEmpty()) {
-            throw new Exception("You have no bank account requests.");
-        }
-        output = "Your bank account requests " + name + Util.EOL
+            throw new Exception("You have no bank account requests."); //Since this method is used for showing a customers
+        }                                                              //requests' status we want to give a different message
+        else
+        output = "Your bank account requests " + Util.EOL
                 + "-".repeat(80) + Util.EOL
                 + "Number      " + "Status        " + "Customer     " + "SSN           " + "Account Name      " + "Created   " + Util.EOL
                 + "-".repeat(80) +  Util.EOL + output + Util.EOL + "-".repeat(80) + Util.EOL;
         return output;
     }
     //Gets a list of all requests that has been neither approved nor denied. Use this when se
-    public ArrayList<BankAccountRequest> getAllPendingBankAccountRequests() {
+    public ArrayList<BankAccountRequest> getAllPendingBankAccountRequests() throws Exception{
         ArrayList<BankAccountRequest> returnList = new ArrayList<>();
         for (BankAccountRequest request : allBankAccountRequests) {
             if (request.getIsApproved() == null) {
                 returnList.add(request);
             }
         }
-        return returnList;
+        if (returnList.isEmpty()){throw new Exception("There are no pending bank account requests.");}
+        else return returnList;
     }
     //Return String of all Pending bank account requests for all customers, probably standard view for employees since you don't really care for requests that have already been resolved.
-    public String printAllPendingBankAccountRequests() throws Exception {
+    public String printAllPendingBankAccountRequests() throws Exception{
         String output = "";
-        String separatorLine = "|" + "-".repeat(30);
         int requestNumber = 1;
-        for (BankAccountRequest request : allBankAccountRequests) {
+        for (BankAccountRequest request : getAllPendingBankAccountRequests()) {
             if (request.getIsApproved() == null) {
                 output += " ".repeat(1) + requestNumber + " ".repeat(10) + request.getStatusToString() + " ".repeat(14-request.getStatusToString().length()) + request.getREQUESTEE().getFirstName()
                         + " " + request.getREQUESTEE().getLastName().charAt(0) +"." + " ".repeat(13-request.getREQUESTEE().getFirstName().length()-3)
@@ -184,9 +179,6 @@ public class AccountRequestController {
                 requestNumber += 1;
             }
         }
-        if (output.isEmpty()) {
-            throw new Exception("There are no pending bank account requests.");
-        } else
             output = "All Pending Bank Account Requests" + Util.EOL
                     + "-".repeat(80) + Util.EOL
                     + "Number      " + "Status        " + "Customer     " + "SSN           " + "Account Name      " + "Created   " + Util.EOL
@@ -197,20 +189,19 @@ public class AccountRequestController {
     public ArrayList<BankAccountRequest> getBankAccountRequestsForSpecificCustomer(String SSN) throws Exception {
         ArrayList<BankAccountRequest> bankAccountRequestsList = new ArrayList<>();
         for (BankAccountRequest request : allBankAccountRequests) {
-            if (request.getREQUESTEE().getSocialSecurityNumber().equals(SSN)) {
+            if (SSN.equals(request.getREQUESTEE().getSocialSecurityNumber())) {
                 bankAccountRequestsList.add(request);
             }
         }
         if (bankAccountRequestsList.isEmpty()) {
-            throw new Exception("There are no bank account requests for this user.");
+            throw new Exception("There are no bank account requests for this customer.");
         } else return bankAccountRequestsList;
     }
-    //Returns a String with the all bank account requests for the specified customer, for employee
+    //Returns a String with the all bank account requests for the specified customer, used by employees
     public String printBankAccountRequestsForSpecificCustomer(String SSN) throws Exception { //Returns list of all requests for the input SSN.
         String output = "";
         String name = ""; //Used to store Customer name for use later
         int requestNumber = 1;  //Used to number the different requests if more than one
-
         for (BankAccountRequest request : getBankAccountRequestsForSpecificCustomer(SSN)) {
             name = request.getREQUESTEE().getFirstName() + request.getREQUESTEE().getLastName(); //Stores the Customer name to put in return string later
             output += " ".repeat(1) + requestNumber + " ".repeat(13) + request.getStatusToString() + " ".repeat(14-request.getStatusToString().length()) + request.getREQUESTEE().getFirstName()
@@ -218,9 +209,6 @@ public class AccountRequestController {
                     + request.getREQUESTEE().getSocialSecurityNumber() + " ".repeat(11-request.getREQUESTEE().getSocialSecurityNumber().length())
                     + request.getAccountName() + " ".repeat(18-request.getAccountName().length()) + request.getCREATIONDATE() + Util.EOL;
             requestNumber += 1;
-        }
-        if (output.isEmpty()) {
-            throw new Exception("This customer has no bank account requests.");
         }
         output = "All Bank Account Requests for " + name + Util.EOL
                 + "-".repeat(80) + Util.EOL
@@ -233,10 +221,10 @@ public class AccountRequestController {
     // So we get the users input e.g. 1 then the right list depending on where in the menu we call this method.
     public BankAccountRequest getSpecificBankAccountRequestFromList(int input, ArrayList<BankAccountRequest> list) throws Exception {
         if (input < 1 || input - 1 > list.size()) {
-            throw new Exception("Invalid input, you must choose between 1-" + list.size());
+            throw new Exception("Invalid input, please choose between 1-" + list.size());
         } else {
-            return list.get(input - 1);
-        }
+            return list.get(input - 1); //gets the index of the users input -1, because we start at 1 not 0
+        }                               //We use 0 to go back in the menus
     }
 /*
  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -247,22 +235,21 @@ public class AccountRequestController {
 */
     //Returns ArrayList with all Bank Account Requests, copied and reversed
     //because then we get new requests first
-    public ArrayList<CustomerAccountRequest> getAllCustomerAccountRequests(){
+    public ArrayList<CustomerAccountRequest> getAllCustomerAccountRequests() throws Exception{
         ArrayList<CustomerAccountRequest> returnList = new ArrayList<>(allCustomerAccountRequests);
         Collections.reverse(returnList);//This should sort it by creation date (new first) because in allCustomerAccountRequests the oldest will be first in the list.
-        return returnList;
+        if (returnList.isEmpty()){throw new Exception("There are no customer account requests.");}
+        else return returnList;
     }
     //Returns a string of all Customer Account Requests
-    public String printAllCustomerAccountRequests() {
+    public String printAllCustomerAccountRequests() throws Exception{
         String output = "";
         int requestNumber = 1;
-
         for (CustomerAccountRequest request : getAllCustomerAccountRequests()) {
             output += " ".repeat(1) + requestNumber + " ".repeat(10) + request.getStatusToString() + " ".repeat(17-request.getStatusToString().length()) + request.getFirstName()
                     + " " + request.getLastName().charAt(0) +"." + " ".repeat(20-request.getFirstName().length()-3)
                     + request.getSocialSecurityNumber() + " ".repeat(22-request.getSocialSecurityNumber().length()) + Util.EOL;
             requestNumber += 1;
-
         }
         output = "All Customer Account Requests" + Util.EOL
                 + "-".repeat(80) + Util.EOL
@@ -288,61 +275,61 @@ public class AccountRequestController {
         int requestNumber = 1;
         for (CustomerAccountRequest request : getAllCustomerAccountRequestsForSearchedName(name)) {
             if (request.getFirstName().equals(name) || request.getLastName().equals(name)) {
-                output += " ".repeat(1) + requestNumber + " ".repeat(10) + request.getStatusToString() + " ".repeat(17-request.getStatusToString().length()) + request.getFirstName()
-                        + " " + request.getLastName().charAt(0) +"." + " ".repeat(20-request.getFirstName().length()-3)
-                        + request.getSocialSecurityNumber() + " ".repeat(22-request.getSocialSecurityNumber().length()) + Util.EOL;
+                output += " ".repeat(1) + requestNumber + " ".repeat(10) + request.getStatusToString() + " ".repeat(17 - request.getStatusToString().length()) + request.getFirstName()
+                        + " " + request.getLastName().charAt(0) + "." + " ".repeat(20 - request.getFirstName().length() - 3)
+                        + request.getSocialSecurityNumber() + " ".repeat(22 - request.getSocialSecurityNumber().length()) + Util.EOL;
                 requestNumber += 1;
             }
         }
-        if (output.isEmpty()) {
-            throw new Exception("No bank account requests matched your search");
-        } else output = "All Customer Account Request matching name: \"" + name + "\"" + Util.EOL
-                + "-".repeat(80) +  Util.EOL
-                + "Number      " + "Status           " + "Name                " + "SSN   			       " + "Created   " + Util.EOL
-                + "-".repeat(80) +  Util.EOL + output + Util.EOL + "-".repeat(80) + Util.EOL;
-        return output;
+            output = "All Customer Account Request matching name: \"" + name + "\"" + Util.EOL
+                    + "-".repeat(80) + Util.EOL
+                    + "Number      " + "Status           " + "Name                " + "SSN   			       " + "Created   " + Util.EOL
+                    + "-".repeat(80) + Util.EOL + output + Util.EOL + "-".repeat(80) + Util.EOL;
+            return output;
     }
+
     //Returns the specific BankAccountRequest associated with the ID (UUID 36 char auto-generated) So that we can manipulate it via the menu
     //Gets a list of all requests that has been neither approved nor denied.
-    public ArrayList<CustomerAccountRequest> getAllPendingCustomerAccountRequests() {
+    public ArrayList<CustomerAccountRequest> getAllPendingCustomerAccountRequests() throws Exception {
         ArrayList<CustomerAccountRequest> returnList = new ArrayList<>();
         for (CustomerAccountRequest request : allCustomerAccountRequests) {
             if (request.getIsApproved() == null) {
                 returnList.add(request);
             }
         }
-        return returnList;
+        if (returnList.isEmpty()){
+            throw new Exception("There are no pending customer account requests.");
+        } return returnList;
     }
     //Print all pending CustomerAccountRequests
     public String printAllPendingCustomerAccountRequests() throws Exception {
         String output = "";
         int requestNumber = 1;
         for (CustomerAccountRequest request : getAllPendingCustomerAccountRequests()) {
-
                 output += " ".repeat(1) + requestNumber + " ".repeat(10) + request.getStatusToString() + " ".repeat(17-request.getStatusToString().length()) + request.getFirstName()
                         + " " + request.getLastName().charAt(0) +"." + " ".repeat(20-request.getFirstName().length()-3)
                         + request.getSocialSecurityNumber() + " ".repeat(22-request.getSocialSecurityNumber().length()) + Util.EOL;
                 requestNumber += 1;
-
         }
-        if (getAllPendingCustomerAccountRequests() == null) {
+       /* if (getAllPendingCustomerAccountRequests().isEmpty()) { //Don't need to specify another exception here, since the method getAllAPendingCustomerAccountRequests
+                                                                  //already throws one, we just throw it further here
             throw new Exception("There are no pending customer account requests.");
-        } else
+        }  else */
             output = "All Pending Customer Account Requests" + Util.EOL
                     + "-".repeat(80) + Util.EOL
                     + "Number      " + "Status        " + "Customer     " + "SSN           " + "Account Name      " + "Created   " + Util.EOL
                     + "-".repeat(80) +  Util.EOL + output + Util.EOL + "-".repeat(80) + Util.EOL;
         return output;
     }
-    public CustomerAccountRequest getSpecificCustomerAccountRequest(String ID) {
+    public CustomerAccountRequest getSpecificCustomerAccountRequest(String ID) throws Exception {
         for (CustomerAccountRequest request : allCustomerAccountRequests) {
             if (request.getID().equals(ID)) {
                 return request;
             }
         }
-        return null;
+        throw new Exception("The specified ID does not match any customer account request.");
     }
-    public String printSpecificCustomerAccountRequest(String ID){
+    public String printSpecificCustomerAccountRequest(String ID) throws Exception{
         return getSpecificCustomerAccountRequest(ID).toString();
     }
     //Used by Employees, Searches for match in both first & ast name of  Customer Account Requests and returns an ArrayList of CustomerAccountRequest
@@ -360,7 +347,7 @@ public class AccountRequestController {
     //So we get the users input e.g. 1 then the right list depending on where in the menu we call this method.
     public CustomerAccountRequest getSpecificCustomerAccountRequestFromList(int input, ArrayList<CustomerAccountRequest> list) throws Exception {
         if (input < 1 || input - 1 > list.size()) {
-            throw new Exception("Invalid number, try again");
+            throw new Exception("Invalid input, please choose between 1- " + list.size());
         } else {
             return list.get(input - 1);
         }
