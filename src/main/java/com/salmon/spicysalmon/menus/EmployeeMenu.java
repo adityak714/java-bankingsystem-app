@@ -216,12 +216,12 @@ public class EmployeeMenu {
     }
 
     public void printSpecificCustomerTransactions(TransactionController transactionController){
-        String SSN = Util.readLine("Which customers transactions do you want to look at?");
+        String SSN = Util.readLine("Type in the SSN of the customers you want to look at:");
         System.out.println(transactionController.printTransactionsForAllAccounts(SSN));
 
     }
     public void printSpecificBankAccountTransactions(TransactionController transactionController){
-        String accID = Util.readLine("Which bank accounts transactions do you want to look at?");
+        String accID = Util.readLine("Type in the account ID of the bank account you want to look at:");
         String SSN = accID.substring(0,8);
         System.out.println(transactionController.printTransactionsForAnAccount(SSN, accID));
     }
