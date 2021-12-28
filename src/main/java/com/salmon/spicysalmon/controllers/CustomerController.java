@@ -271,6 +271,9 @@ public class CustomerController {
             return customerNotFound.getMessage();
         }
     }
+    public HashMap<String, Customer> getCustomersList(){
+        return customersList;
+    }
 }
 
 

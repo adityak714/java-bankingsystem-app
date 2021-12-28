@@ -19,12 +19,8 @@ public class EmployeeMenu {
             "Create customer",
             "Delete customer",
             "Delete bank account",
-            "Print all registered customers.",
-            "Print all transactions",
-            "Print transactions for specific customer account",
-            "Print transactions for specific bank account"
-            // Continue to add more options here and to the switch case as you see fit, it's ok to create submenus if anyone want to do that,
-            // just make a switch case inside the switch case (or make a seperate method that is called inside the switch case)
+            "List all registered customers.",
+            "List all registered bank accounts"
     };
     String EMPLOYEE_HEADING3 = "Account request handling menu: Please choose a valid option.";
     String[] EMPLOYEE_OPTIONS3 = {
@@ -78,6 +74,9 @@ public class EmployeeMenu {
                     break;
                 case 4: // print all customers
                     printAllCustomers(customerController);
+                    break;
+                case 5: // print all bank accounts
+                    printAllBankAccounts(customerController);
                     break;
             }
             break;
@@ -187,6 +186,22 @@ public class EmployeeMenu {
     public void printAllCustomers(CustomerController customerController){
         System.out.println("You have chosen: Print all registered customers.");
         System.out.println(customerController.printAllCustomers());
+    }
+    public void printAllBankAccounts(CustomerController customerController){
+        ArrayList<String> allBankAccounts = new ArrayList<>();
+        String bankAccountsOfACustomer = "";
+        for (Customer customer : customerController.getCustomersList().values()){
+            bankAccountsOfACustomer = customerController.printAllAccounts(customer.getSocialSecurityNumber());
+            allBankAccounts.add(bankAccountsOfACustomer);
+        }
+        for (String bankAccount : allBankAccounts){
+            if (bankAccount.equals("No bank accounts exist for you")){
+                allBankAccounts.remove(bankAccount);
+            } else {
+                System.out.println(bankAccount + Util.EOL);
+            }
+        }
+
     }
     public void printAllTransactions(TransactionController transactionController){
         System.out.println(transactionController.printAllTransactions());
