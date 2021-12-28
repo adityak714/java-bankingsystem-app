@@ -60,16 +60,18 @@ public class Util {
             password = readLine("Enter your password: ");
             verifiedPassword = readLine("Confirm your password: ");
 
+            System.out.println();
             if(password.equals(password.toLowerCase())) System.out.println("Your password did not have a uppercase Character");
             if(password.equals(password.toUpperCase())) System.out.println("Your password did not have a lowercase Character");
             if(!password.matches(".*[0-9].*")) System.out.println("Your password did not have a number");
             if(password.length() < 8) System.out.println("Your password was not longer than 8 characters");
             if(!password.equals(verifiedPassword)) System.out.println("The passwords do not match, please try again!");
+            System.out.println();
         } while (!(password.length() > 8
                 && !password.equals(password.toLowerCase())
                 && !password.equals(password.toUpperCase())
-                && password.matches(".*[0-9].*"))
-                && password.equals(verifiedPassword));
+                && password.matches(".*[0-9].*")
+                && password.equals(verifiedPassword)));
         return password;
     }
 }
