@@ -32,7 +32,9 @@ public class EmployeeMenu {
     };
     String EMPLOYEE_HEADING4 = "Transaction handling menu: Please choose a valid option.";
     String[] EMPLOYEE_OPTIONS4 = {
-            "Show All Transactions"
+            "Show all transactions",
+            "Show all transactions for a customer",
+            "Show all transactions for an account"
     };
 
     // the first menu the employee will see, this then branches of into a Customer and a Account request Menu
@@ -130,9 +132,15 @@ public class EmployeeMenu {
         int userInput = employeeTransactionMenu.getValidOption();
         do {
             switch (userInput){
-                case 1: //
+                case 1: // print all transactions
                     printAllTransactions(transactionController);
                     break;
+                case 2: // print all transactions for a customer
+                    printSpecificCustomerTransactions(transactionController);
+                break;
+                case 3: // print all transactions for an account
+                    printSpecificBankAccountTransactions(transactionController);
+                break;
             }
             break;
         }while (userInput != 0);
@@ -205,15 +213,17 @@ public class EmployeeMenu {
     }
     public void printAllTransactions(TransactionController transactionController){
         System.out.println(transactionController.printAllTransactions());
-
     }
+
     public void printSpecificCustomerTransactions(TransactionController transactionController){
         String SSN = Util.readLine("Which customers transactions do you want to look at?");
+        System.out.println(transactionController.printTransactionsForAllAccounts(SSN));
 
     }
     public void printSpecificBankAccountTransactions(TransactionController transactionController){
-        String SSN = Util.readLine("Which bank accounts transactions do you want to look at?");
-
+        String accID = Util.readLine("Which bank accounts transactions do you want to look at?");
+        String SSN = accID.substring(0,8);
+        System.out.println(transactionController.printTransactionsForAnAccount(SSN, accID));
     }
     // goes to a specific customers customer account requests
     public void specificCustomerAccountRequest(AccountRequestController accountRequestController) throws Exception {
