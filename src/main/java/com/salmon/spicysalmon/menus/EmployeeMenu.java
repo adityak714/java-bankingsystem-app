@@ -15,6 +15,24 @@ public class EmployeeMenu {
             "Menu for Customer handling",
             "Menu for Application handling",
     };
+
+    String MANAGER_HEADING = "Manager Menu: Please choose a valid option.";
+    String[] MANAGER_OPTIONS = {
+            "Log out",
+            "Menu for Customer handling",
+            "Menu for Application handling",
+            "Menu for Employee handling"
+    };
+
+    String MANAGER_HEADING2 = "Employee handling menu: Please choose a valid option.";
+    String[] MANAGER_OPTIONS2 = {
+            "Go back",
+            "List all registered employees",
+            "Remove an employee",
+            "Create an employee",
+            "Create a new manager"
+    };
+
     String EMPLOYEE_HEADING2 = "Customer handling menu: Please choose a valid option.";
     String[] EMPLOYEE_OPTIONS2 = {
             "Go back",
@@ -45,16 +63,27 @@ public class EmployeeMenu {
         CustomerController customerController = new CustomerController();
         EmployeeController employeeController = new EmployeeController();
         AuthenticationController authenticationController = new AuthenticationController();
+        Employee currentEmployee = employeeController.getEmployee(SSN);
+        Menu menu;
+        if(currentEmployee.getClass() == Manager.class){
+            menu = new Menu(MANAGER_HEADING, MANAGER_OPTIONS);
+        } else{
+            menu = new Menu(EMPLOYEE_HEADING, EMPLOYEE_OPTIONS);
+        }
 
-        Menu employeeMenu = new Menu(EMPLOYEE_HEADING, EMPLOYEE_OPTIONS);
         int userInput = 0;
         do {
-            System.out.println(employeeMenu);
-            userInput = employeeMenu.getValidOption();
+            System.out.print(menu);
+            userInput = menu.getValidOption();
             switch (userInput) {
                 case 0 -> System.out.println("goodbye");
                 case 1 -> showCustomerMenu(customerController, authenticationController);
                 case 2 -> showAccountRequestMenu(accountRequestController, customerController);
+                case 3 -> {
+                    if(currentEmployee.getClass() == Manager.class){
+                        showEmployeeHandlingMenu(SSN, employeeController);
+                    }
+                }
             }
         }while (userInput != 0);
     }
@@ -63,7 +92,7 @@ public class EmployeeMenu {
         Menu employeeCustomerMenu = new Menu(EMPLOYEE_HEADING2, EMPLOYEE_OPTIONS2);
         int userInput = 0;
         do {
-            System.out.println(employeeCustomerMenu);
+            System.out.print(employeeCustomerMenu);
             userInput = employeeCustomerMenu.getValidOption();
             switch (userInput){
                 case 1: // login to a specific customer account
@@ -90,7 +119,7 @@ public class EmployeeMenu {
     // Account request menu that handles all the functionality were the Employee directly interacts with Account Requests
     public void showAccountRequestMenu(AccountRequestController accountRequestController, CustomerController customerController){
         Menu employeeAccountRequestMenu = new Menu(EMPLOYEE_HEADING3,EMPLOYEE_OPTIONS3);
-        System.out.println(employeeAccountRequestMenu);
+        System.out.print(employeeAccountRequestMenu);
         int userInput = employeeAccountRequestMenu.getValidOption();
         switch (userInput){
             case 1: // approve/deny customer application
@@ -122,6 +151,50 @@ public class EmployeeMenu {
                 }
                 break;
         }
+    }
+
+    private void showEmployeeHandlingMenu(String SSN, EmployeeController employeeController){
+        Menu employeeHandlingMenu = new Menu(MANAGER_HEADING2, MANAGER_OPTIONS2);
+        int userInput = 0;
+        do {
+            System.out.print(employeeHandlingMenu);
+            userInput = employeeHandlingMenu.getValidOption();
+            switch (userInput){
+                case 1: // list all registered employees
+                    System.out.println(employeeController.printAllEmployees());
+                    break;
+                case 2: // remove an employee
+                    try{
+                        employeeController.removeEmployee(SSN);
+                        System.out.println("Employee "+SSN+" was removed successfully.");
+                    } catch (Exception e){
+                        System.out.println(e.getMessage());
+                    }
+                    break;
+                case 3: { // create a new employee
+                    String firstName = Util.readLine("Enter employee's first name: ");
+                    String lastName = Util.readLine("Enter employee's last name: ");
+                    String newSSN = Util.readLine("Enter employee's social security number: ");
+                    String password = Util.readNewPassword();
+                    String startDate = Util.getDateAndTime();
+                    employeeController.createEmployee(newSSN, password, firstName, lastName, startDate);
+                    System.out.println("Employee "+SSN+" was created successfully.");
+                    break;
+                }
+                case 4: { // create a new manager
+                    String firstName = Util.readLine("Enter manager's first name: ");
+                    String lastName = Util.readLine("Enter manager's last name: ");
+                    String newSSN = Util.readLine("Enter manager's social security number: ");
+                    String password = Util.readNewPassword();
+                    String startDate = Util.getDateAndTime();
+                    employeeController.createManager(newSSN, password, firstName, lastName, startDate);
+                    System.out.println("Manager "+SSN+" was created successfully.");
+                    break;
+                }
+                default:
+                    break;
+            }
+        }while (userInput != 0);
     }
 
     // the employee logs into a customer account, for use when the customer is next to the employee

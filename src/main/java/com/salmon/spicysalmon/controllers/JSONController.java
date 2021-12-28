@@ -62,7 +62,12 @@ public class JSONController {
             String firstName = (String) employee.get("firstName");
             String lastName = (String) employee.get("lastName");
             String startDate = (String) employee.get("startDate");
-            employeeController.createEmployee(SSN, password, firstName, lastName, startDate);
+            boolean isManager = (boolean) employee.get("isManager");
+            if(isManager){
+                employeeController.createManager(SSN, password, firstName, lastName, startDate);
+            } else{
+                employeeController.createEmployee(SSN, password, firstName, lastName, startDate);
+            }
         }
     }
 

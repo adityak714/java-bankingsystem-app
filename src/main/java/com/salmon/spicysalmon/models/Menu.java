@@ -16,12 +16,13 @@ public class Menu {
         for (int i = 0; i < MENU_OPTIONS.length; i++) {
             result += i + ". " + MENU_OPTIONS[i] + Util.EOL;
         }
-        return result+Util.EOL;
+        return result;
     }
 
     public int getValidOption(){
         int userInput;
         do{
+            System.out.println();
             userInput = Util.readInt("Type an option number: ");
             if(userInput < 0 || userInput >= MENU_OPTIONS.length){
                 System.out.println("Invalid menu option. Please type another option.");
