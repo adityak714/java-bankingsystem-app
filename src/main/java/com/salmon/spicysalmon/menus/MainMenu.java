@@ -1,7 +1,8 @@
 package com.salmon.spicysalmon.menus;
 
+import com.salmon.spicysalmon.Util;
+import com.salmon.spicysalmon.controllers.AccountRequestController;
 import com.salmon.spicysalmon.controllers.AuthenticationController;
-import com.salmon.spicysalmon.controllers.CustomerController;
 import com.salmon.spicysalmon.models.Menu;
 
 public class MainMenu {
@@ -22,12 +23,32 @@ public class MainMenu {
             System.out.print(mainMenu);
             userInput = mainMenu.getValidOption();
             switch (userInput) {
-                case 1 -> authenticationController.customerLogin();
-                case 2 -> System.out.println("Application handling");
-                case 3 -> authenticationController.employeeLogin();
-                case 0, default -> {}
+                case 1:
+                    authenticationController.customerLogin();
+                    break;
+                case 2:
+                    createCustomerAccountRequest();
+                    break;
+                case 3:
+                    authenticationController.employeeLogin();
+                default:
+                    break;
             }
         } while(userInput != 0);
     }
 
+    // read the components necessary for a customer account request and then create that request
+    public void createCustomerAccountRequest(){
+        AccountRequestController accountRequestController = new AccountRequestController();
+        String firstName = Util.readLine("Enter your first name: ");
+        String lastName = Util.readLine("Enter your last name: ");
+        String password = Util.readNewPassword();
+        String SSN = Util.readLine("Enter your social security number: ");
+        double salary = Util.readDouble("Enter your salary: ");
+        String residentialArea = Util.readLine("Enter your area of residence: ");
+        String occupation = Util.readLine("Enter your occupation: ");
+        accountRequestController.createCustomerAccountRequest(SSN, password, firstName, lastName, salary, residentialArea, occupation);
+        System.out.println("Your application has been sent. We will inform via mail when we have made a decision");
+        System.out.println("Thank you for choosing Spicy Salmon Bank!");
+    }
 }

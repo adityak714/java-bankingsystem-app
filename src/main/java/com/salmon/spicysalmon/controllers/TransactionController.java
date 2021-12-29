@@ -10,7 +10,7 @@ import java.util.*;
 
 public class TransactionController {
 
-    private static LinkedHashMap<String, LinkedHashMap<String, ArrayList<Transaction>>> allTransactions = new LinkedHashMap<>();
+    private static final LinkedHashMap<String, LinkedHashMap<String, ArrayList<Transaction>>> allTransactions = new LinkedHashMap<>();
 
     // This method creates a pair of transactions and calls the add method
     public void createTransaction(String acc1, String acc2, double amount){
@@ -120,8 +120,32 @@ public class TransactionController {
         }
     }
 
+    public String printAllTransactions(){
+        String result = "All Registered Transactions"+Util.EOL;
+        result += "-----------------------------"+Util.EOL;
+        if(!allTransactions.isEmpty()){
+            for(Transaction transaction: sortByDateEarliest()){
+                result += transaction + Util.EOL;
+            }
+        } else{
+            result += "No transactions registered yet."+Util.EOL;
+        }
+        return result;
+    }
+
     public ArrayList<Transaction> sortByDateEarliest(String SSN, String accID){
-        ArrayList<Transaction> sortedList = allTransactions.get(SSN).get(accID);
+        ArrayList<Transaction> sortedList = new ArrayList<>(allTransactions.get(SSN).get(accID));
+        sortedList.sort(Comparator.comparing(Transaction::getDATE));
+        return sortedList;
+    }
+
+    public ArrayList<Transaction> sortByDateEarliest(){
+        ArrayList<Transaction> sortedList = new ArrayList<>();
+        for(String SSN : allTransactions.keySet()){
+            for(String accID: allTransactions.get(SSN).keySet()){
+                sortedList.addAll(allTransactions.get(SSN).get(accID));
+            }
+        }
         sortedList.sort(Comparator.comparing(Transaction::getDATE));
         return sortedList;
     }
