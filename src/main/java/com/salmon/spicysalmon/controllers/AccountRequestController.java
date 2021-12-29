@@ -68,9 +68,15 @@ public class AccountRequestController {
         int requestNumber = 1;
         StringBuilder sb = new StringBuilder();
         for(BankAccountRequest request : list) { //String.format("%-10s",requestNumber); -10 means it would insert 10 empty spaces to the right of requestNumber which would be 1 for the first loop. without the dash
-               sb.append(" ").append(String.format("%-11s", requestNumber)).append(String.format("%-"+(15-request.getStatusToString().length())+"s",request.getStatusToString()))
+                sb.append(" ").append(String.format("%-11s", requestNumber)).append(String.format("%-"+(15-request.getStatusToString().length())+"s",request.getStatusToString()))
                         .append(request.getREQUESTEE().getFirstName()).append(" ").append(request.getREQUESTEE().getLastName().charAt(0)).append(String.format("%-"+(15-request.getREQUESTEE().getFirstName().length()-3)+"s","."))
                         .append(String.format("%-"+(19-request.getREQUESTEE().getSocialSecurityNumber().length())+"s",request.getREQUESTEE().getSocialSecurityNumber())).append(request.getCREATIONDATE()).append(Util.EOL);
+                /* OLD print, may use this instead. sb.append(" " + requestNumber + " ".repeat(10) + request.getStatusToString() + " ".repeat(14-request.getStatusToString().length()) + request.getREQUESTEE().getFirstName()
+                        + " " + request.getREQUESTEE().getLastName().charAt(0) +"." + " ".repeat(14-request.getREQUESTEE().getFirstName().length()-3)
+                        + request.getREQUESTEE().getSocialSecurityNumber() + " ".repeat(14-request.getREQUESTEE().getSocialSecurityNumber().length())
+                        + request.getAccountName() + " ".repeat(18-request.getAccountName().length()) + request.getCREATIONDATE() + Util.EOL);
+                        */
+
                 requestNumber += 1;
             }
       return sb.toString();
@@ -86,6 +92,7 @@ public class AccountRequestController {
         }
         return sb.toString();
     }
+
 
 /*
  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
