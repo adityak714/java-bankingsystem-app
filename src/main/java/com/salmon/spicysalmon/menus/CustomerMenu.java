@@ -177,7 +177,7 @@ public class CustomerMenu {
     /// Method to change residential status
     public void changeResidentialArea(CustomerController customerController, String SSN) {
         String residentialArea = Util.readLine("Enter your new residential area: ");
-        System.out.println(customerController.changeOccupation(residentialArea, SSN));
+        System.out.println(customerController.changeResidentialArea(residentialArea, SSN)); // bugfix changeOccupation
     }
     // Methods that displays all our information
     public void showUserInfo(CustomerController customerController, String SSN) {
