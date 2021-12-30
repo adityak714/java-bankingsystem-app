@@ -229,7 +229,7 @@ public class CustomerController {
                 return "No bank accounts exist for you";
             } else {
                 for (BankAccount account : customer.getBankAccounts()) {
-                    message += account.getAccountName() + " account" + Util.EOL +
+                    message += account.getAccountName() + " ACCOUNT" + Util.EOL +
                             "Account ID: " + account.getAccountNumber() + Util.EOL +
                             "Balance: " + account.getBalance() + " SEK" + Util.EOL +
                             Util.EOL;
