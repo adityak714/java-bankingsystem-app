@@ -4,13 +4,13 @@ import com.salmon.spicysalmon.Util;
 
 public class CustomerAccountRequest extends AccountRequest{
 
-    private String firstName;
-    private String lastName;
-    private String password;
+    private final String firstName;
+    private final String lastName;
+    private final String password;
     private final String SOCIALSECURITYNUMBER;
-    private double salary;
-    private String residentialArea;
-    private String occupation;
+    private final double salary;
+    private final String residentialArea;
+    private final String occupation;
 
     public CustomerAccountRequest(String socialSecurity, String password, String firstName, String lastName, double salary, String residentialArea, String occupation){
         super();

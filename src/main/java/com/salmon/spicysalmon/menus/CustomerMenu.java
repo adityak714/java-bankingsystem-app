@@ -31,8 +31,6 @@ public class CustomerMenu {
     String CUSTOMER_HEADING2 = "You chose to select a specific bank account: Please choose a valid option.";
     String [] CUSTOMER_OPTIONS2 =  {
             "Return to Customer Menu",
-            "Deposit Money",
-            "Withdraw Money",
             "Check Balance",
             "Money Transfer Between User Accounts",
             "Money Transfer To Another Person Bank Account",
@@ -65,17 +63,18 @@ public class CustomerMenu {
             System.out.print(customerMenu);
             userInput = customerMenu.getValidOption();
             switch (userInput) {
+
                 case 1 -> showBankAccountMenu(customerController, transactionController, SSN);
                 case 2 -> System.out.print(showAllApplications(accountRequestController, SSN));
                 case 3 -> applyForBankAccount(customerController, SSN, accountRequestController);
-
-
                 case 4 ->
                         System.out.print(transactionController.printTransactionsForAllAccounts(SSN));
                 case 5 ->
                         showAccountSettings(SSN, customerController);
                 default -> {
                 }
+
+
             }
         }while(userInput != 0);
     }
@@ -85,25 +84,32 @@ public class CustomerMenu {
         Menu bankAccountMenu = new Menu(CUSTOMER_HEADING2, CUSTOMER_OPTIONS2);
         int userInput = 0;
         System.out.print(customerController.printAllAccounts(SSN));
+        //Check if the ID is correct or not
+        int random = 0;// Initialize the variable called random
+        int number = customerController.getNumOfAccounts(SSN);
+        do {
 
-        String accountID = Util.readLine("To select a specific bank account, Enter account ID: ");
+            random = Util.readInt("To select a specific bank account, Enter account ID: ");
+
+
+
+        } while (random > number || random <= 0 );
+        String accountID = Integer.toString(random);// Parse random to String
+        ///Do-while for the bank account menu
         do {
             System.out.println(bankAccountMenu);
               userInput = bankAccountMenu.getValidOption();
             switch (userInput) {
-                case 1 -> depositMoney(customerController,SSN, accountID);
-                case 2 -> withdrawMoney(customerController,SSN, accountID);
-                case 3 -> showBalance(customerController, SSN, accountID);
-                case 4 -> transferWithinAccounts(customerController, SSN, accountID);
-                case 5 -> transferToOtherCustomer(customerController, SSN, accountID);
-                case 6 -> showRecentTransactions(transactionController, SSN, accountID);
-                case 7 -> showEarliestTransactions(transactionController, SSN, accountID);
-                case 8 -> showTransactionsForAnAccount(transactionController, SSN, accountID);
-                case 9 -> transactionsSortedInAscendingOrder(transactionController,SSN, accountID);
-                case 10 -> transactionsSortedInDescendingOrder(transactionController, SSN, accountID);
-                case 11 -> showTransactionsBetweenDates(transactionController, SSN, accountID);
+                case 1 -> showBalance(customerController, SSN, accountID);
+                case 2 -> transferWithinAccounts(customerController, SSN, accountID);
+                case 3 -> transferToOtherCustomer(customerController, SSN, accountID);
+                case 4 -> showRecentTransactions(transactionController, SSN, accountID);
+                case 5 -> showEarliestTransactions(transactionController, SSN, accountID);
+                case 6 -> showTransactionsForAnAccount(transactionController, SSN, accountID);
+                case 7 -> transactionsSortedInAscendingOrder(transactionController,SSN, accountID);
+                case 8 -> transactionsSortedInDescendingOrder(transactionController, SSN, accountID);
+                case 9 -> showTransactionsBetweenDates(transactionController, SSN, accountID);
             }
-
         } while (userInput != 0);
     }
     public void showAccountSettings(String SSN, CustomerController customerController) {
@@ -120,10 +126,6 @@ public class CustomerMenu {
             }
         } while (userOption!= 0);
     }
-
-
-
-
 
     ////Having the functionality in methods is the best for design instead of being in the switch block
     public void printSpecificAccount(CustomerController customerController, String SSN) {
@@ -170,16 +172,6 @@ public class CustomerMenu {
         System.out.print(transactionController.descendingTransactionsByPriceForAccount(SSN, accID));
     }
 
-    public void depositMoney(CustomerController customerController, String SSN, String accountID) {
-        System.out.print("Enter the deposit amount: ");
-        double depositAmount = UserIO.readDouble();
-        System.out.print(customerController.depositMoney(SSN, accountID, depositAmount));
-    }
-    public void withdrawMoney(CustomerController customerController, String SSN, String accountID) {
-        System.out.print("Enter the withdraw amount: ");
-        double withdrawAmount = UserIO.readDouble();
-        System.out.println(customerController.withdrawMoney(SSN, accountID, withdrawAmount));
-    }
     public void showBalance(CustomerController customerController, String SSN, String accountID) {
         System.out.println(customerController.checkBalance(SSN, accountID));
     }
@@ -206,7 +198,7 @@ public class CustomerMenu {
         String endDate = Util.readLine("Enter the end date: ");
         System.out.print(transactionController.sortByDateInterval(SSN, accID, startDate, endDate));
     }
-
+    //Method to show all transactions for an account
     public void showTransactionsForAnAccount(TransactionController transactionController, String SSN, String accID) {
         System.out.print(transactionController.printTransactionsForAnAccount(SSN, accID));
     }

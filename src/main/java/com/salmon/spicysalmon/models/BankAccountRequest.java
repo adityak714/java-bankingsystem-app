@@ -7,7 +7,7 @@ import java.util.UUID;
 
 public class BankAccountRequest extends AccountRequest{
     private final Customer REQUESTEE;
-    private String accountName;
+    private final String accountName;
 
 
     public BankAccountRequest(Customer customer, String accountName){

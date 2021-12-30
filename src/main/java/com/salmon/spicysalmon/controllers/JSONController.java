@@ -21,10 +21,19 @@ public class JSONController {
         this.readBankAccountRequests();
     }
 
-    private void readCustomers() throws IOException, ParseException {
+
+    // reads each key value pair from the Customers.json file and calls the createCustomer method from the customerController
+    // also reads the array of accounts in each customer JSON object.
+    private void readCustomers() throws Exception {
         CustomerController customerController = new CustomerController();
         JSONParser jsonParser = new JSONParser();
-        Object obj = jsonParser.parse(new FileReader("src/main/java/com/salmon/spicysalmon/data/Customers.json"));
+        Object obj;
+        try{
+            obj = jsonParser.parse(new FileReader("src/main/java/com/salmon/spicysalmon/data/Customers.json"));
+        } catch(FileNotFoundException fileNotFoundException){
+            // necessary for the json demo, other wise would need to create the complex directory structure
+            obj = jsonParser.parse(new FileReader("/data/Customers.json"));
+        }
         JSONArray customers = (JSONArray) obj;
         for (int i = 0; i < customers.size(); i++) {
             JSONObject customer = (JSONObject) customers.get(i);
@@ -44,16 +53,26 @@ public class JSONController {
                 // get account ID formatting correct, in accordance with Customer.java createBankAccount method
                 String accID = j < 10 ? "0" + (j + 1) : (j + 1) + "";
                 customerController.createBankAccount(SSN, accountName);
-                customerController.depositMoney(SSN, j + "", balance);
-                //BankAccount newAccount = customerController.findBankAccount(SSN, accID);
+
+
+                customerController.depositMoney(SSN, accID, balance);
+                BankAccount newAccount = customerController.findBankAccount(SSN, accID);
+
             }
         }
     }
 
+    // reads each key value pair in the Employees.json file, and calls the createEmployee method
     private void readEmployees() throws IOException, ParseException {
         EmployeeController employeeController = new EmployeeController();
         JSONParser jsonParser = new JSONParser();
-        Object obj = jsonParser.parse(new FileReader("src/main/java/com/salmon/spicysalmon/data/Employees.json"));
+        Object obj;
+        try{
+            obj = jsonParser.parse(new FileReader("src/main/java/com/salmon/spicysalmon/data/Employees.json"));
+        } catch(FileNotFoundException fileNotFoundException){
+            // necessary for the json demo, other wise would need to create the complex directory structure
+            obj = jsonParser.parse(new FileReader("/data/Employees.json"));
+        }
         JSONArray employees = (JSONArray) obj;
         for(int i=0; i<employees.size();i++){
             JSONObject employee = (JSONObject) employees.get(i);
@@ -62,14 +81,27 @@ public class JSONController {
             String firstName = (String) employee.get("firstName");
             String lastName = (String) employee.get("lastName");
             String startDate = (String) employee.get("startDate");
-            employeeController.createEmployee(SSN, password, firstName, lastName, startDate);
+            boolean isManager = (boolean) employee.get("isManager");
+            if(isManager){
+                employeeController.createManager(SSN, password, firstName, lastName, startDate);
+            } else{
+                employeeController.createEmployee(SSN, password, firstName, lastName, startDate);
+            }
         }
     }
 
+
+    // reads each key value pair from the Transactions.json file and calls the create transaction method, which creates a pair of transactions
     private void readTransactions() throws IOException, ParseException {
         TransactionController transactionController = new TransactionController();
         JSONParser jsonParser = new JSONParser();
-        Object obj = jsonParser.parse(new FileReader("src/main/java/com/salmon/spicysalmon/data/Transactions.json"));
+        Object obj;
+        try{
+            obj = jsonParser.parse(new FileReader("src/main/java/com/salmon/spicysalmon/data/Transactions.json"));
+        } catch(FileNotFoundException fileNotFoundException){
+            // necessary for the json demo, other wise would need to create the complex directory structure
+            obj = jsonParser.parse(new FileReader("/data/Transactions.json"));
+        }
         JSONArray transactions = (JSONArray) obj;
         for(int i=0; i<transactions.size(); i++){
             JSONObject transaction = (JSONObject) transactions.get(i);
@@ -81,10 +113,17 @@ public class JSONController {
         }
     }
 
+    // reads each key value pair in the CustomerAccountRequests.json file and calls the createCustomerAccountRequest method
     private void readCustomerAccountRequests() throws IOException, ParseException {
         AccountRequestController accountRequestController = new AccountRequestController();
         JSONParser jsonParser = new JSONParser();
-        Object obj = jsonParser.parse(new FileReader("src/main/java/com/salmon/spicysalmon/data/CustomerAccountRequests.json"));
+        Object obj;
+        try{
+            obj = jsonParser.parse(new FileReader("src/main/java/com/salmon/spicysalmon/data/CustomerAccountRequests.json"));
+        } catch(FileNotFoundException fileNotFoundException){
+            // necessary for the json demo, other wise would need to create the complex directory structure
+            obj = jsonParser.parse(new FileReader("/data/CustomerAccountRequests.json"));
+        }
         JSONArray applications = (JSONArray) obj;
         for(int i=0; i<applications.size(); i++){
             JSONObject application = (JSONObject) applications.get(i);
@@ -99,11 +138,18 @@ public class JSONController {
         }
     }
 
+    // reads each key value pair in the BankAccountRequests.json file and calls the createBankAccountRequest method.
     private void readBankAccountRequests() throws IOException, ParseException {
         CustomerController customerController = new CustomerController();
         AccountRequestController accountRequestController = new AccountRequestController();
         JSONParser jsonParser = new JSONParser();
-        Object obj = jsonParser.parse(new FileReader("src/main/java/com/salmon/spicysalmon/data/BankAccountRequests.json"));
+        Object obj;
+        try{
+            obj = jsonParser.parse(new FileReader("src/main/java/com/salmon/spicysalmon/data/BankAccountRequests.json"));
+        } catch(FileNotFoundException fileNotFoundException){
+            // necessary for the json demo, other wise would need to create the complex directory structure
+            obj = jsonParser.parse(new FileReader("/data/BankAccountRequests.json"));
+        }
         JSONArray applications = (JSONArray) obj;
         for(int i=0; i<applications.size(); i++){
             JSONObject application = (JSONObject) applications.get(i);

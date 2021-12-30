@@ -9,7 +9,7 @@ public class BankAccount {
     private final String CUSTOMERFIRSTNAME;
     private final String CUSTOMERLASTNAME;
     private double balance;
-    private HashMap transactionMap = new HashMap();
+    private final HashMap transactionMap = new HashMap();
 
     public BankAccount(String SSN, String ID, String customerFirstName, String customerLastName, String accName) {
         this.ID = ID;
@@ -52,5 +52,6 @@ public class BankAccount {
                 ", customerLastName='" + CUSTOMERLASTNAME + '\'' +
                 ", balance=" + balance +
                 '}';
+
     }
 }
