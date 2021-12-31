@@ -94,7 +94,9 @@ public class CustomerMenu {
 
 
         } while (random > number || random <= 0 );
-        String accountID = Integer.toString(random);// Parse random to String
+        String zero = "0";
+        String x = Integer.toString(random);
+        String accountID = zero + x;// Parse random to String
         ///Do-while for the bank account menu
         do {
             System.out.println(bankAccountMenu);
