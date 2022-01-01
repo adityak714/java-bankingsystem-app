@@ -66,32 +66,34 @@ public class CustomerAccountRequest extends AccountRequest{
     */
 
     public String toString(){
-        String line = "-".repeat(50); //Separator line to segment things
+
         String status = "";
-        if (this.getIsApproved() == null)
-            status =  "|Status: Pending" + Util.EOL
-                    + "|Created: " + this.getCREATIONDATE(); //If the request is pending we show creation date.
-        if (this.getIsApproved())
+        if (this.getIsApproved() == null) {
+            status = "|Status: Pending" + Util.EOL
+                    + "|Created: " + getCREATIONDATE(); //If the request is pending we show creation date.
+        }
+        else if (this.getIsApproved() == true){
             status = "|Status: Approved" + Util.EOL
-                    + "|Created: " + this.getCREATIONDATE() + Util.EOL //If the request was approved/denied we also show when it was resolved.
-                    + "|Resolved : " + this.getRESOLVEDDATE();
+                    + "|Created: " + getCREATIONDATE() + Util.EOL //If the request was approved/denied we also show when it was resolved.
+                    + "|Resolved : " + getRESOLVEDDATE();
+        }
         else
             status = "|Status: Denied" + Util.EOL
-                    + "|Created: " + this.getCREATIONDATE() + Util.EOL
-                    + "|Resolved : " + this.getRESOLVEDDATE();
+                    + "|Created: " + getCREATIONDATE() + Util.EOL
+                    + "|Resolved : " + getRESOLVEDDATE();
         return
-                "|" + line + Util.EOL
-                        + "Bank Account Request" + Util.EOL
+                "|" + "-".repeat(50) + Util.EOL
+                        + "|Customer Account Request" + Util.EOL
                         + status + Util.EOL
-                        + "|" + line + Util.EOL
-                        + "|CUSTOMER INFORMATION"
-                        + "|" + line + Util.EOL
-                        + "|Name: " +this.getFirstName() + " " + this.getLastName() + Util.EOL
-                        + "|SSN: " +this.getSocialSecurityNumber() + Util.EOL
-                        + "|Address: " + this.getResidentialArea() + Util.EOL
-                        + "|Occupation " + this.getOccupation() + Util.EOL
-                        + "|Salary: " + this.getSalary() + Util.EOL
-                        + "|" + line + Util.EOL;
+                        + "|" + "-".repeat(50) + Util.EOL
+                        + "|CUSTOMER INFORMATION" + Util.EOL
+                        + "|" + "-".repeat(50) + Util.EOL
+                        + "|Name: " + getFirstName() + " " + getLastName() + Util.EOL
+                        + "|SSN: " +getSocialSecurityNumber() + Util.EOL
+                        + "|Address: " + getResidentialArea() + Util.EOL
+                        + "|Occupation " + getOccupation() + Util.EOL
+                        + "|Salary: " + getSalary() + Util.EOL
+                        + "|" + "-".repeat(50) + Util.EOL;
     }
    /* public int compareTo(CustomerAccountRequest otherCustomerAccountRequest) { //Compare last name letter by letter
         int nameLength = Math.max(this.getLastName().length(), otherCustomerAccountRequest.getLastName().length()); //Checks which last name is longer

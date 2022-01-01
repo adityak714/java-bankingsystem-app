@@ -43,7 +43,7 @@ public class BankAccountRequest extends AccountRequest{
             if (this.getIsApproved() == null)
                 status =  "|Status: Pending" + Util.EOL
                         + "|Created: " + this.getCREATIONDATE(); //If the request is pending we show creation date.
-            if (this.getIsApproved())
+            else if (this.getIsApproved() == true)
                 status = "|Status: Approved" + Util.EOL
                         + "|Created: " + this.getCREATIONDATE() + Util.EOL //If the request was approved/denied we also show when it was resolved.
                         + "|Resolved : " + this.getRESOLVEDDATE();
