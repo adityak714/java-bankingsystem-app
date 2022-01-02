@@ -34,15 +34,16 @@ public abstract class AccountRequest {
         return CREATIONDATE;
     }
     public String getRESOLVEDDATE() {
-        return RESOLVEDDATE;
+        if (RESOLVEDDATE == null){return "Request is pending";}
+        else return RESOLVEDDATE;
     }
     public Boolean getIsApproved(){
         return this.isApproved;
     }
     public String getStatusToString(){
-        if (this.isApproved == null){return "Status: Pending ";}
-        if (this.isApproved){return "Status: Approved ";}
-        else return "Status: Denied)";
+        if (this.isApproved == null){return "Pending";}
+        if (this.isApproved == true){return "Approved";}
+        else return "Denied";
     }
     public String getMessage() {
         return message;
