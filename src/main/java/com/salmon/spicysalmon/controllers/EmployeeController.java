@@ -1,5 +1,7 @@
 package com.salmon.spicysalmon.controllers;
 
+import com.salmon.spicysalmon.Util;
+import com.salmon.spicysalmon.models.Customer;
 import com.salmon.spicysalmon.models.Employee;
 
 import java.util.LinkedHashMap;
@@ -29,6 +31,26 @@ public class EmployeeController {
             //If it does exist
             employeeAccounts.remove(SSN);
             return ("Employee " + SSN + " was successfully removed.");
+        }
+    }
+    //Method to change customer's password
+    public String changePassword(String testPassword, String newPassword, String SSN) {
+        String message = "";
+        try {
+            Employee employee = getEmployee(SSN);
+            employee.changePassword(testPassword, newPassword);
+            message = "Password changed successfully.";
+        } catch (Exception accountNotFound) {
+            return accountNotFound.getMessage();
+        }
+        return message;
+    }
+    public String printEmployee(String SSN) {
+        try {
+            Employee employee = getEmployee(SSN);
+            return employee.toString();
+        } catch(Exception ex) {
+            return ex.getMessage();
         }
     }
 

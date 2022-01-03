@@ -8,14 +8,15 @@ import java.util.ArrayList;
 public class EmployeeMenu {
     String EMPLOYEE_HEADING = "Employee Menu: Please choose a valid option.";
     String[] EMPLOYEE_OPTIONS = {
-            "Log out",
+            "Return to Employee Main Menu",
             "Menu for Customer handling",
             "Menu for Application handling",
-            "Menu for Transaction handling"
+            "Menu for Transaction handling",
+            "Menu for Settings"
     };
     String EMPLOYEE_HEADING2 = "Customer handling menu: Please choose a valid option.";
     String[] EMPLOYEE_OPTIONS2 = {
-            "Go back",
+            "Return to Employee Main Menu",
             "Create customer",
             "Delete customer",
             "Delete bank account",
@@ -24,7 +25,7 @@ public class EmployeeMenu {
     };
     String EMPLOYEE_HEADING3 = "Account request handling menu: Please choose a valid option.";
     String[] EMPLOYEE_OPTIONS3 = {
-            "Go back",
+            "Return to Employee Main Menu",
             "Review specific customer account request",
             "Review specific bank account request",
             "List all customer account request",
@@ -36,14 +37,20 @@ public class EmployeeMenu {
             "Show all transactions for a customer",
             "Show all transactions for an account"
     };
+    String EMPLOYEE_HEADING5 = "Settigns: Please choose a valid option.";
+    String[] EMPLOYEE_OPTIONS5 = {
+            "Return to Employee Main Menu",
+            "Update Password",
+            "My Information"
+    };
 
     // the first menu the employee will see, this then branches of into a Customer and a Account request Menu
     public void show(String SSN){
         AccountRequestController accountRequestController = new AccountRequestController();
         CustomerController customerController = new CustomerController();
-        EmployeeController employeeController = new EmployeeController();
         AuthenticationController authenticationController = new AuthenticationController();
         TransactionController transactionController = new TransactionController();
+        EmployeeController employeeController = new EmployeeController();
 
         Menu employeeMenu = new Menu(EMPLOYEE_HEADING, EMPLOYEE_OPTIONS);
         int userInput = 0;
@@ -55,6 +62,7 @@ public class EmployeeMenu {
                 case 1 -> showCustomerMenu(customerController, authenticationController);
                 case 2 -> showAccountRequestMenu(accountRequestController, customerController);
                 case 3 -> showTransactionMenu(transactionController);
+                case 4 -> showSettingsMenu(employeeController, SSN);
             }
         }while (userInput != 0);
     }
@@ -145,6 +153,23 @@ public class EmployeeMenu {
             break;
         }while (userInput != 0);
 
+    }
+    public void showSettingsMenu(EmployeeController employeeController, String SSN){
+        Menu employeeSettingsMenu = new Menu(EMPLOYEE_HEADING5,EMPLOYEE_OPTIONS5);
+        System.out.println(employeeSettingsMenu);
+        int userInput = employeeSettingsMenu.getValidOption();
+        do {
+            switch (userInput){
+                case 1: // change password
+                    changePassword(employeeController, SSN);
+                    break;
+                case 2: // my information
+                    showUserInfo(employeeController, SSN);
+                    break;
+
+            }
+            break;
+        }while (userInput != 0);
     }
 
     // creates a new customer
@@ -302,6 +327,15 @@ public class EmployeeMenu {
                 System.out.println("please input a valid option (approve/deny)");
             }
         }while (!(stringUserInput.equals("approve") || stringUserInput.equals("deny")));
+    }
+    //Method to change employee's password
+    public void changePassword(EmployeeController employeeController, String SSN) {
+        String testPassword = Util.readLine("Enter your old password: ");
+        String newPassword = Util.readLine("Enter your new password: ");
+        System.out.print(employeeController.changePassword(testPassword, newPassword, SSN));
+    }
+    public void showUserInfo(EmployeeController employeeController, String SSN) {
+        System.out.print(employeeController.printEmployee(SSN));
     }
 
 
