@@ -279,7 +279,6 @@ public class EmployeeMenu {
             System.out.println(request.toString());
             approveDenyBankAccountRequest(request, accountRequestController);
         }
-
     }
     // approves or denies a customer account request, denial needs a accompanied message as to why it was denied
     public void approveDenyCustomerAccountRequest(CustomerAccountRequest request, AccountRequestController accountRequestController) throws Exception {
@@ -293,6 +292,8 @@ public class EmployeeMenu {
             } else if (stringUserInput.equals("deny")) {
                 String message = Util.readLine("Please type in the reason for the denial:");
                 accountRequestController.denyAccountRequest(request, message);
+            } else {
+                System.out.println("please input a valid option (approve/deny)");
             }
         }while (!(stringUserInput.equals("approve") || stringUserInput.equals("deny")));
     }
@@ -307,7 +308,6 @@ public class EmployeeMenu {
                 accountRequestController.approveBankAccountRequest(request, message);
             } else if (stringUserInput.equals("deny")) {
                 String message = Util.readLine("Please type in the reason for the denial:");
-                accountRequestController.approveBankAccountRequest(request, message);
                 accountRequestController.denyAccountRequest(request, message);
             } else {
                 System.out.println("please input a valid option (approve/deny)");
