@@ -58,7 +58,6 @@ public class EmployeeMenu {
             System.out.println(employeeMenu);
             userInput = employeeMenu.getValidOption();
             switch (userInput) {
-                case 0 -> System.out.println("Goodbye");
                 case 1 -> showCustomerMenu(customerController, authenticationController);
                 case 2 -> showAccountRequestMenu(accountRequestController, customerController);
                 case 3 -> showTransactionMenu(transactionController);
@@ -221,20 +220,7 @@ public class EmployeeMenu {
         System.out.println(customerController.printAllCustomers());
     }
     public void printAllBankAccounts(CustomerController customerController){
-        ArrayList<String> allBankAccounts = new ArrayList<>();
-        String bankAccountsOfACustomer = "";
-        for (Customer customer : customerController.getCustomersList().values()){
-            bankAccountsOfACustomer = customerController.printAllAccounts(customer.getSocialSecurityNumber());
-            allBankAccounts.add(bankAccountsOfACustomer);
-        }
-        for (String bankAccount : allBankAccounts){
-            if (bankAccount.equals("No bank accounts exist for you")){
-                allBankAccounts.remove(bankAccount);
-            } else {
-                System.out.println(bankAccount + Util.EOL);
-            }
-        }
-
+        customerController.printAllBankAccounts();
     }
     public void printAllTransactions(TransactionController transactionController){
         System.out.println(transactionController.printAllTransactions());

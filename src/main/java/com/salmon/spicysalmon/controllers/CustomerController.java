@@ -5,6 +5,7 @@ import com.salmon.spicysalmon.models.BankAccount;
 import com.salmon.spicysalmon.models.Customer;
 import com.salmon.spicysalmon.models.Transaction;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class CustomerController {
@@ -273,6 +274,23 @@ public class CustomerController {
     }
     public HashMap<String, Customer> getCustomersList(){
         return customersList;
+    }
+
+    public void printAllBankAccounts(){
+        ArrayList<String> allBankAccounts = new ArrayList<>();
+        String bankAccountsOfACustomer = "";
+        for (Customer customer : getCustomersList().values()){
+            bankAccountsOfACustomer = printAllAccounts(customer.getSocialSecurityNumber());
+            allBankAccounts.add(bankAccountsOfACustomer);
+        }
+        for (String bankAccount : allBankAccounts){
+            if (bankAccount.equals("No bank accounts exist for you")){
+                allBankAccounts.remove(bankAccount);
+            } else {
+                System.out.println(bankAccount + Util.EOL);
+            }
+        }
+
     }
 }
 
