@@ -48,6 +48,19 @@ public class EmployeeController {
             throw new Exception("Employee with "+SSN+" was not found.");
         }
     }
+    //Method to change customer's password
+    public void changePassword(String testPassword, String newPassword, String SSN) throws Exception {
+        Employee employee = getEmployee(SSN);
+        employee.changePassword(testPassword, newPassword);
+    }
+    public String printEmployee(String SSN) {
+        try {
+            Employee employee = getEmployee(SSN);
+            return employee.toString();
+        } catch(Exception ex) {
+            return ex.getMessage();
+        }
+    }
 
     public String toString(String SSN){
         if (employeeAccounts.containsKey(SSN)) {
