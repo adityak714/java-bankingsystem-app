@@ -10,7 +10,7 @@ public class MainMenu {
     private final String MAIN_HEADING = "Main Menu: Please choose an option below.";
     private final String[] MAIN_OPTIONS = {
             "Close System",
-            "Login as an existing user",
+            "Customer Login", // tors 30 dec. 15:46
             "Sign up for account",
             "Authorized Personnel"
     };
@@ -35,6 +35,7 @@ public class MainMenu {
                     break;
             }
         } while(userInput != 0);
+        System.out.print("Good bye!"); // tors 30 dec. 15:39
     }
 
     // read the components necessary for a customer account request and then create that request

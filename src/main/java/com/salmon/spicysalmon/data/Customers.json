@@ -10,15 +10,15 @@
     "accounts": [
       {
         "balance": 109000,
-        "accountName": "savings"
+        "accountName": "SAVINGS"
       },
       {
         "balance": 59888,
-        "accountName": "investments"
+        "accountName": "INVESTMENTS"
       },
       {
         "balance": 10,
-        "accountName": "pension"
+        "accountName": "PENSION"
       }
     ]
   },
@@ -33,15 +33,15 @@
     "accounts": [
       {
         "balance": 109000,
-        "accountName": "savings"
+        "accountName": "SAVINGS"
       },
       {
         "balance": 59888,
-        "accountName": "investments"
+        "accountName": "INVESTMENTS"
       },
       {
         "balance": 10,
-        "accountName": "pension"
+        "accountName": "PENSION"
       }
     ]
   },
@@ -56,15 +56,15 @@
     "accounts": [
       {
         "balance": 109000,
-        "accountName": "savings"
+        "accountName": "SAVINGS"
       },
       {
         "balance": 59888,
-        "accountName": "investments"
+        "accountName": "INVESTMENTS"
       },
       {
         "balance": 10,
-        "accountName": "pension"
+        "accountName": "PENSION"
       }
     ]
   }
