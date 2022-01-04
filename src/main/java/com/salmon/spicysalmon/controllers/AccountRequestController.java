@@ -195,7 +195,8 @@ public class AccountRequestController {
     //Gets a toStringed specific request from the "getAllPendingBankAccountRequests" method. This is done to show the request information to the employee
     //Takes in a list, so we give it a list when calling it, like this: getSpecificBankAccountRequestFromList(input, getAllBankAccountRequests())
     // So we get the users input e.g. 1 then the right list depending on where in the menu we call this method.
-    public BankAccountRequest getSpecificBankAccountRequestFromList(int input, ArrayList<BankAccountRequest> list) throws Exception {
+    public BankAccountRequest getSpecificBankAccountRequestFromList(int input) throws Exception {
+        ArrayList<BankAccountRequest> list = getAllBankAccountRequests();
         if (input < 1 || input - 1 > list.size()) {
             throw new Exception("Invalid input, please choose between 1-" + list.size());
         } else {
@@ -315,7 +316,8 @@ public class AccountRequestController {
     //Gets a toStringed specific request from the "getAllPendingCustomerAccountRequests" method. This is done to show the request information to the employee
     //Takes in a list, so we give it a list when calling it, like this: getSpecificCustomerAccountRequestFromList(input, getAllCustomerAccountRequests())
     //So we get the users input e.g. 1 then the right list depending on where in the menu we call this method.
-    public CustomerAccountRequest getSpecificCustomerAccountRequestFromList(int input, ArrayList<CustomerAccountRequest> list) throws Exception {
+    public CustomerAccountRequest getSpecificCustomerAccountRequestFromList(int input) throws Exception {
+        ArrayList<CustomerAccountRequest> list = getAllCustomerAccountRequests();
         if (input < 1 || input - 1 > list.size()) {
             throw new Exception("Invalid input, please choose between 1- " + list.size());
         } else {
