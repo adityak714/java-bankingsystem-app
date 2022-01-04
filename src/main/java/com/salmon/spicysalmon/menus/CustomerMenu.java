@@ -145,14 +145,10 @@ public class CustomerMenu {
     }
     public String showAllApplications(AccountRequestController accountRequestController, String SSN) {
         try {
-            return (accountRequestController.getBankAccountRequestStatus(SSN));
+            return (accountRequestController.printBankAccountRequestsForSpecificCustomer(SSN));
         } catch (Exception exception) {
             return (exception.getMessage());
-
         }
-
-
-
     }
 
    /* public void showAllApplications(AccountRequestController accountRequestController, String SSN) {
