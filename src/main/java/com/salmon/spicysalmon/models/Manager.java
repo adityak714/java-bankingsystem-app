@@ -2,7 +2,7 @@ package com.salmon.spicysalmon.models;
 
 public class Manager extends Employee {
 
-    public Manager(String socialSecurityNumber, String password, String firstName, String lastName, String title, String startDate) {
+    public Manager(String socialSecurityNumber, String password, String firstName, String lastName, String startDate) {
         super(socialSecurityNumber, password, firstName, lastName, startDate);
     }
 

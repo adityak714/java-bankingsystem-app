@@ -14,6 +14,24 @@ public class EmployeeMenu {
             "Menu for Transaction handling",
             "Menu for Settings"
     };
+
+    String MANAGER_HEADING = "Manager Menu: Please choose a valid option.";
+    String[] MANAGER_OPTIONS = {
+            "Log out",
+            "Menu for Customer handling",
+            "Menu for Application handling",
+            "Menu for Employee handling"
+    };
+
+    String MANAGER_HEADING2 = "Employee handling menu: Please choose a valid option.";
+    String[] MANAGER_OPTIONS2 = {
+            "Go back",
+            "List all registered employees",
+            "Remove an employee",
+            "Create an employee",
+            "Create a new manager"
+    };
+
     String EMPLOYEE_HEADING2 = "Customer handling menu: Please choose a valid option.";
     String[] EMPLOYEE_OPTIONS2 = {
             "Return to Employee Main Menu",
@@ -52,25 +70,39 @@ public class EmployeeMenu {
         TransactionController transactionController = new TransactionController();
         EmployeeController employeeController = new EmployeeController();
 
-        Menu employeeMenu = new Menu(EMPLOYEE_HEADING, EMPLOYEE_OPTIONS);
+        // show relevant menu to employee based on whether they are regular or a manager
+        Employee currentEmployee = employeeController.getEmployee(SSN);
+        Menu menu;
+        if(currentEmployee.getClass() == Manager.class){
+            menu = new Menu(MANAGER_HEADING, MANAGER_OPTIONS);
+        } else{
+            menu = new Menu(EMPLOYEE_HEADING, EMPLOYEE_OPTIONS);
+        }
+
         int userInput = 0;
         do {
-            System.out.println(employeeMenu);
-            userInput = employeeMenu.getValidOption();
+            System.out.print(menu);
+            userInput = menu.getValidOption();
             switch (userInput) {
                 case 1 -> showCustomerMenu(customerController, authenticationController);
                 case 2 -> showAccountRequestMenu(accountRequestController, customerController);
                 case 3 -> showTransactionMenu(transactionController);
                 case 4 -> showSettingsMenu(employeeController, SSN);
+                case 5 -> {
+                    if(currentEmployee.getClass() == Manager.class){
+                        showEmployeeHandlingMenu(SSN, employeeController);
+                    }
+                }
             }
         }while (userInput != 0);
     }
     // Customer menu that handles all the functionality were the Employee directly interacts with customers
     public void showCustomerMenu(CustomerController customerController, AuthenticationController authenticationController){
         Menu employeeCustomerMenu = new Menu(EMPLOYEE_HEADING2, EMPLOYEE_OPTIONS2);
-        System.out.println(employeeCustomerMenu);
-        int userInput = employeeCustomerMenu.getValidOption();
+        int userInput = 0;
         do {
+            System.out.print(employeeCustomerMenu);
+            userInput = employeeCustomerMenu.getValidOption();
             switch (userInput){
                 case 1: // create customer
                     createCustomer(customerController);
@@ -88,14 +120,13 @@ public class EmployeeMenu {
                     printAllBankAccounts(customerController);
                     break;
             }
-            break;
         }while (userInput != 0);
     }
 
     // Account request menu that handles all the functionality were the Employee directly interacts with Account Requests
     public void showAccountRequestMenu(AccountRequestController accountRequestController, CustomerController customerController){
         Menu employeeAccountRequestMenu = new Menu(EMPLOYEE_HEADING3,EMPLOYEE_OPTIONS3);
-        System.out.println(employeeAccountRequestMenu);
+        System.out.print(employeeAccountRequestMenu);
         int userInput = employeeAccountRequestMenu.getValidOption();
         do {
             switch (userInput) {
@@ -153,17 +184,17 @@ public class EmployeeMenu {
         }while (userInput != 0);
 
     }
-    public void showSettingsMenu(EmployeeController employeeController, String SSN){
-        Menu employeeSettingsMenu = new Menu(EMPLOYEE_HEADING5,EMPLOYEE_OPTIONS5);
+    public void showSettingsMenu(EmployeeController employeeController, String SSN) {
+        Menu employeeSettingsMenu = new Menu(EMPLOYEE_HEADING5, EMPLOYEE_OPTIONS5);
         System.out.println(employeeSettingsMenu);
         int userInput = employeeSettingsMenu.getValidOption();
         do {
-            switch (userInput){
+            switch (userInput) {
                 case 1: // change password
                     try {
                         changePassword(employeeController, SSN);
                         System.out.println("password changed sucessfully");
-                    }catch (Exception exception){
+                    } catch (Exception exception) {
                         System.out.println(exception.getMessage());
                     }
                     break;
@@ -173,6 +204,50 @@ public class EmployeeMenu {
 
             }
             break;
+        } while (userInput != 0);
+    }
+
+    private void showEmployeeHandlingMenu(String SSN, EmployeeController employeeController){
+        Menu employeeHandlingMenu = new Menu(MANAGER_HEADING2, MANAGER_OPTIONS2);
+        int userInput = 0;
+        do {
+            System.out.print(employeeHandlingMenu);
+            userInput = employeeHandlingMenu.getValidOption();
+            switch (userInput){
+                case 1: // list all registered employees
+                    System.out.println(employeeController.printAllEmployees());
+                    break;
+                case 2: // remove an employee
+                    try{
+                        employeeController.removeEmployee(SSN);
+                        System.out.println("Employee "+SSN+" was removed successfully.");
+                    } catch (Exception e){
+                        System.out.println(e.getMessage());
+                    }
+                    break;
+                case 3: { // create a new employee
+                    String firstName = Util.readLine("Enter employee's first name: ");
+                    String lastName = Util.readLine("Enter employee's last name: ");
+                    String newSSN = Util.readLine("Enter employee's social security number: ");
+                    String password = Util.readNewPassword();
+                    String startDate = Util.getDateAndTime();
+                    employeeController.createEmployee(newSSN, password, firstName, lastName, startDate);
+                    System.out.println("Employee "+SSN+" was created successfully.");
+                    break;
+                }
+                case 4: { // create a new manager
+                    String firstName = Util.readLine("Enter manager's first name: ");
+                    String lastName = Util.readLine("Enter manager's last name: ");
+                    String newSSN = Util.readLine("Enter manager's social security number: ");
+                    String password = Util.readNewPassword();
+                    String startDate = Util.getDateAndTime();
+                    employeeController.createManager(newSSN, password, firstName, lastName, startDate);
+                    System.out.println("Manager "+SSN+" was created successfully.");
+                    break;
+                }
+                default:
+                    break;
+            }
         }while (userInput != 0);
     }
 
@@ -180,44 +255,40 @@ public class EmployeeMenu {
     public void createCustomer(CustomerController customerController){
         System.out.println("You have chosen: Create a customer.");
         String socialSecurityNumber = Util.readLine("What is your SSN?: ");
-        String password = passwordCreation();
+        String password = Util.readNewPassword();
         String firstName = Util.readLine("What is your first name?: ");
         String lastName = Util.readLine("What is your last name?: ");
-        int salary = Util.readInt("What is your salary?: ");
+        double salary = Util.readDouble("What is your salary?: ");
         String residentalArea = Util.readLine("Where do you live?: ");
         String occupation = Util.readLine("What is your occupation?: ");
-        customerController.createCustomer(socialSecurityNumber,password, firstName,lastName, salary, residentalArea, occupation);
-    }
-    public String passwordCreation(){
-        String password = "";
-        do {
-            password = Util.readLine("Create a new password, it has to have:"
-                    + Util.EOL + "Both upper-case and lower-case letters"
-                    + Util.EOL + "One number"
-                    + Util.EOL + "Longer than 8 characters" + Util.EOL);
-
-            if(password.equals(password.toLowerCase()))System.out.println("Your password did not have a uppercase Character");
-            if(password.equals(password.toUpperCase()))System.out.println("Your password did not have a lowercase Character");
-            if(!password.matches(".*[1234567890].*"))System.out.println("Your password did not have a number");
-            if(password.length() < 8)System.out.println("Your password was not longer than 8 characters");
-            System.out.println();
-        }while (!(password.length() > 8
-                && !password.equals(password.toLowerCase())
-                && !password.equals(password.toUpperCase())
-                && password.matches(".*[1234567890].*")));
-        return password;
+        try{
+            customerController.createCustomer(socialSecurityNumber,password, firstName,lastName, salary, residentalArea, occupation);
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
     }
 
     // removes a customer with the specified SSN
     public void removeCustomer(CustomerController customerController){
         System.out.println("You have chosen: Remove a customer.");
         String remove = Util.readLine("What customer do you wish to remove? Enter SSN: ");
-        System.out.println(customerController.removeCustomer(remove));
+        try{
+            customerController.removeCustomer(remove);
+            System.out.println("The customer was removed successfully.");
+        } catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+
     }
     // deletes a bank account with the specified accountNumber
     public void deleteBankAccount(CustomerController customerController){
-        String accountNumber = Util.readLine("Type in the account number of the bank account do you want to remove");
-        customerController.deleteBankAccount(accountNumber);
+        String accountNumber = Util.readLine("Type in the account number of the bank account do you want to remove: ");
+        try{
+            customerController.deleteBankAccount(accountNumber);
+            System.out.println("The bank account was removed successfully.");
+        } catch(Exception e){
+            System.out.println(e.getMessage());
+        }
     }
     // prints all customers
     public void printAllCustomers(CustomerController customerController){
@@ -328,7 +399,5 @@ public class EmployeeMenu {
     public void showUserInfo(EmployeeController employeeController, String SSN) {
         System.out.print(employeeController.printEmployee(SSN));
     }
-
-
 }
 

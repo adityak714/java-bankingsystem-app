@@ -2,4 +2,5 @@ src/Spicy Salmon.iml
 pom.xml
 /.idea
 /target
+/out
 spicy-salmon.iml
