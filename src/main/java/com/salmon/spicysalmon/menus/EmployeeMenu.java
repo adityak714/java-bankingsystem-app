@@ -64,6 +64,12 @@ public class EmployeeMenu {
 
     // the first menu the employee will see, this then branches of into a Customer and a Account request Menu
     public void show(String SSN){
+
+        // use these objects to access the methods in the controllers
+        // pass in controller into methods
+        // remove userinput as arguments
+
+
         AccountRequestController accountRequestController = new AccountRequestController();
         CustomerController customerController = new CustomerController();
         AuthenticationController authenticationController = new AuthenticationController();
@@ -124,7 +130,9 @@ public class EmployeeMenu {
     }
 
     // Account request menu that handles all the functionality were the Employee directly interacts with Account Requests
+
     public void showAccountRequestMenu(AccountRequestController accountRequestController, CustomerController customerController){
+
         Menu employeeAccountRequestMenu = new Menu(EMPLOYEE_HEADING3,EMPLOYEE_OPTIONS3);
         System.out.print(employeeAccountRequestMenu);
         int userInput = employeeAccountRequestMenu.getValidOption();

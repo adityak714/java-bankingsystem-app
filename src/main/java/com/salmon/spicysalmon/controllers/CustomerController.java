@@ -9,7 +9,7 @@ import java.util.HashMap;
 
 public class CustomerController {
     private static final HashMap<String, Customer> customersList = new HashMap<>(); // "customerList" is a better name?
-
+    //Method to create a customer.
     public void createCustomer(String SSN, String password, String firstName, String lastName, double salary, String residentialArea, String occupation) throws Exception {
         TransactionController transactionsController = new TransactionController();
         if(Util.checkSSNFormat(SSN)){
@@ -23,11 +23,12 @@ public class CustomerController {
             throw new Exception("SSN formatting incorrect, use format YYMMDDXXXX");
         }
     }
-
+    //Method to find a customer
     public Customer findCustomer(String SSN){
         return customersList.get(SSN);
     }
 
+    //Method to remove a customer
     public void removeCustomer(String SSN) throws Exception{
         Customer customer = findCustomer(SSN);
         if(customer != null){
@@ -37,6 +38,7 @@ public class CustomerController {
         }
     }
 
+    //Functionality to print all customers
     public String printAllCustomers() {
         String EOL = System.lineSeparator();
         if (customersList.isEmpty()) {
@@ -50,6 +52,7 @@ public class CustomerController {
         return message;
     }
 
+    //Functionality to display a customer
     public String printCustomer(String SSN) {
         try {
             String EOL = System.lineSeparator();
@@ -64,14 +67,7 @@ public class CustomerController {
         }
     }
 
-    public String printSpecificCustomer(String SSN) {
-        try {
-            Customer customer = findCustomer(SSN);
-            return printCustomer(customer.getSocialSecurityNumber());
-        } catch(Exception ex) {
-            return ex.getMessage();
-        }
-    }
+
 
     /*
     // method should use constructor BankAccount
@@ -85,7 +81,7 @@ public class CustomerController {
         }
     }
      */
-
+    ///Method to create a bank account for a customer
     public String createBankAccount(String SSN, String accountName){
         try {
             Customer customer = findCustomer(SSN);
@@ -96,9 +92,10 @@ public class CustomerController {
     }
 
 
-    // method needs to call createTransaction from TransactionController
+    // Method to deposit funds into accounts
     public String depositMoney(String SSN, String accID, double depositAmount)  {
         try {
+            TransactionController transactionController = new TransactionController();
             BankAccount account = findBankAccount(SSN, accID);
             String message = "";
             if (depositAmount < 0) {
@@ -113,7 +110,7 @@ public class CustomerController {
         }
     }
 
-    // method needs to call createTransaction from TransactionController
+    // Method to withdraw funds from accounts
     public String withdrawMoney(String SSN, String accountID, double amount)  {
         try {
             BankAccount account = findBankAccount(SSN, accountID);
@@ -123,14 +120,14 @@ public class CustomerController {
             } else {
                 account.setBalance(account.getBalance() - amount);
                 message = "You have withdrawn "+ amount + " SEK successfully!!";
-
             }
+
             return message;
         } catch (Exception accountNotFound){
             return accountNotFound.getMessage();
         }
     }
-
+    //Method to find the bank account of the customer
     public BankAccount findBankAccount(String SSN, String accountID){
         BankAccount desiredAccount = null;
         try{
@@ -156,7 +153,7 @@ public class CustomerController {
         }
         return 0;
     }
-
+    //Method to delete bank account
     public void deleteBankAccount(String accountNumber) throws Exception{
         String SSN = accountNumber.substring(0, 9);
         String accID = accountNumber.substring(10, 11);
@@ -192,11 +189,13 @@ public class CustomerController {
      */
 
     public String transferMoneyWithinCustomerAccounts(String SSNSender, double amount, String accountID1, String accountID2)  {
-        //TransactionController transactionController = new TransactionController();
+
         try {
+            TransactionController transactionController = new TransactionController();
             BankAccount to = findBankAccount(SSNSender, accountID2);
             depositMoney(SSNSender, accountID2, amount);
             withdrawMoney(SSNSender,accountID1, amount);
+            transactionController.createTransaction(SSNSender+accountID1, SSNSender+accountID2, amount);
             return "Successfully transferred " + amount + " SEK from Account " + accountID1 + " to Account " + accountID2 + ". ";
         } catch (Exception accountNotFound) {
             return accountNotFound.getMessage();
@@ -206,11 +205,10 @@ public class CustomerController {
     }
 
     public String transferMoneyToOtherCustomer(String SSNSender, String accountNumber, double amount, String accountID1) {
-        String SSNReceiver = accountNumber.substring(0, 9);
-        String accID2 = accountNumber.substring(10, 11);
+        String SSNReceiver = accountNumber.substring(0, 10);
+        String accID2 = accountNumber.substring(10, 12);
         try {
             TransactionController transactionController = new TransactionController();
-            BankAccount accountReceiver = findBankAccount(SSNReceiver, accID2);
             depositMoney(SSNReceiver, accID2, amount);
             withdrawMoney(SSNSender, accountID1, amount);
             transactionController.createTransaction(SSNSender+accountID1, accountNumber, amount);

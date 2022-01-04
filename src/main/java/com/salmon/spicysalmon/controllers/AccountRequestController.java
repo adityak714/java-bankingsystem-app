@@ -179,7 +179,7 @@ public class AccountRequestController {
     public ArrayList<BankAccountRequest> getBankAccountRequestsForSpecificCustomer(String SSN) throws Exception {
         ArrayList<BankAccountRequest> bankAccountRequestsList = new ArrayList<>();
         for (BankAccountRequest request : allBankAccountRequests) {
-            if (SSN.equals(request.getREQUESTEE().getSocialSecurityNumber())) {
+            if (request.getREQUESTEE().getSocialSecurityNumber().equals(SSN)) {
                 bankAccountRequestsList.add(request);
             }
         }

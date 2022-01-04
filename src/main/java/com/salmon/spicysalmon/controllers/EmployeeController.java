@@ -12,17 +12,19 @@ public class EmployeeController {
     public Employee getEmployee(String SSN){
         return employeeAccounts.get(SSN);
     }
-
+    //Method to create an employee
     public void createEmployee(String socialSecurityNumber, String password, String firstName, String lastName, String startDate){
             Employee employee = new Employee(socialSecurityNumber, password, firstName, lastName, startDate);
             employeeAccounts.put(socialSecurityNumber, employee);
     }
 
+    //Method to create a manager
     public void createManager(String socialSecurityNumber, String password, String firstName, String lastName, String startDate){
         Employee employee = new Manager(socialSecurityNumber, password, firstName, lastName, startDate);
         employeeAccounts.put(socialSecurityNumber, employee);
     }
 
+    //Method to print all registered employees
     public String printAllEmployees(){
         String result = "All Registered Employees" + Util.EOL;
         result += "----------------------------" + Util.EOL;
@@ -37,7 +39,7 @@ public class EmployeeController {
         }
         return result;
     }
-
+    // Method to remove an employee
     public void removeEmployee(String SSN) throws Exception {
         //Checks if the employee exists
         if (getEmployee(SSN) != null){

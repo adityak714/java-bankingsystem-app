@@ -53,4 +53,11 @@ public class Transaction implements Comparable<Transaction>{
     public int compareTo(Transaction o) {
         return Double.compare(this.AMOUNT, o.AMOUNT);
     }
+    public String toString() {
+        return ("TRANSACTION ID: " + getID() + Util.EOL +
+                "ACCOUNT FROM: " + getACC1() + Util.EOL +
+                "ACCOUNT TO: " + getACC2() + Util.EOL +
+                "AMOUNT: " + getAMOUNT() + Util.EOL +
+                "DATE: " + getDATE());
+    }
 }

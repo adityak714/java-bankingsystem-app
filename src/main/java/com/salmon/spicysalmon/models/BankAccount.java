@@ -52,5 +52,6 @@ public class BankAccount {
                 ", customerLastName='" + CUSTOMERLASTNAME + '\'' +
                 ", balance=" + balance +
                 '}';
+
     }
 }

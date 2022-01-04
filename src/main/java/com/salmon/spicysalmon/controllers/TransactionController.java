@@ -30,10 +30,10 @@ public class TransactionController {
     // This methods adds two transactions to their respective accounts
     public void addTransactions(String acc1, String acc2, Transaction transaction1, Transaction transaction2){
         // Extracting SSN and accountID from accountNumber
-        String SSN1 = acc1.substring(0,9);
-        String accID1 = acc1.substring(10,11);
-        String SSN2 = acc2.substring(0,9);
-        String accID2 = acc2.substring(10,11);
+        String SSN1 = acc1.substring(0,10);
+        String accID1 = acc1.substring(10,12);
+        String SSN2 = acc2.substring(0,10);
+        String accID2 = acc2.substring(10,12);
         try{
             //No exceptions will be thrown if the accounts linked hashmap exists
             allTransactions.get(SSN1).get(accID1).add(transaction1);
@@ -72,13 +72,13 @@ public class TransactionController {
             return customerNotFound.getMessage();
         }
     }
-
+    //Method to sort transactions by amount
     public ArrayList<Transaction> sortTransactionsByPriceInAcc (String SSN, String accID){
         ArrayList<Transaction> sortedList = allTransactions.get(SSN).get(accID);
         Collections.sort(sortedList);
         return sortedList;
     }
-
+    //Method to get transactions sorted in descending order of amount
     public String descendingTransactionsByPriceForAccount (String SSN, String accID) {
         ArrayList<Transaction> sortedList = sortTransactionsByPriceInAcc(SSN, accID);
         String sortedTransactions = "";
@@ -88,7 +88,7 @@ public class TransactionController {
 
         return sortedTransactions;
     }
-
+    ///Functionality for an account
     public String printTransactionsForAnAccount(String SSN, String accID){
         try {
             CustomerController customerController = new CustomerController();
@@ -102,7 +102,7 @@ public class TransactionController {
             return customerNotFound.getMessage();
         }
     }
-
+    //Functionality to print transactions for all accounts
     public String printTransactionsForAllAccounts(String SSN){
         try {
             CustomerController customerController = new CustomerController();
