@@ -91,11 +91,14 @@ public class AccountRequestController {
         StringBuilder sb = new StringBuilder();
         String accountName = "";
         String returnString = "";
-        for(BankAccountRequest request : list) { //String.format("%-10s",requestNumber); -10 means it would insert 10 empty spaces to the right of requestNumber which would be 1 for the first loop. without the dash
-           if (request.getAccountName().length() > 20) {accountName = request.getAccountName().substring(0,21);}
+        String customerName= "";
+        for(BankAccountRequest request : list) {
+           if (request.getAccountName().length() > 20) {accountName = request.getAccountName().substring(0,21);} //Shortens bank account name to 20 chars if its longer than that.
            else {accountName = request.getAccountName();}
-            sb.append(requestNumber + " ".repeat(9) + request.getStatusToString() + " ".repeat(12-request.getStatusToString().length()) + request.getREQUESTEE().getFirstName()
-                   + " " + request.getREQUESTEE().getLastName().charAt(0) +"." + " ".repeat(13-request.getREQUESTEE().getFirstName().length()-3)
+           if (request.getREQUESTEE().getFirstName().length() > 10){customerName = request.getREQUESTEE().getFirstName().substring(0,11);} //Shortens first name if longer than 10 chars
+           else {customerName = request.getREQUESTEE().getFirstName();}
+            sb.append(requestNumber + " ".repeat(10-(String.valueOf(requestNumber)).length()) + request.getStatusToString() + " ".repeat(11-request.getStatusToString().length()) + customerName
+                   + " " + request.getREQUESTEE().getLastName().charAt(0) +"." + " ".repeat(14-customerName.length()-3)
                    + request.getREQUESTEE().getSocialSecurityNumber() + " ".repeat(13-request.getREQUESTEE().getSocialSecurityNumber().length())
                    + accountName + " ".repeat(22-accountName.length()) + request.getCREATIONDATE().substring(0,10));
             requestNumber += 1;
@@ -105,7 +108,7 @@ public class AccountRequestController {
         }
         returnString = Util.EOL
                 + "--------------------------------------------------------------------------------" + Util.EOL
-                + "Number    " + "Status      " + "Customer     " + "SSN          " + "Account Name          " + "Created   " + Util.EOL
+                + "Number    " + "Status     " + "Customer      " + "SSN          " + "Account Name          " + "Created   " + Util.EOL
                 + "--------------------------------------------------------------------------------" +  Util.EOL
                 + sb.toString() + Util.EOL
                 + "--------------------------------------------------------------------------------" + Util.EOL;
@@ -221,7 +224,7 @@ public class AccountRequestController {
                 name = request.getFirstName() + " " + request.getLastName().substring(0, 26-request.getFirstName().length()) + "..";
             }
             else {name = request.getFirstName() + " " + request.getLastName();}
-            sb.append(requestNumber + " ".repeat(9)).append(request.getStatusToString() + " ".repeat(13-request.getStatusToString().length()))
+            sb.append(requestNumber + " ".repeat(10-(String.valueOf(requestNumber)).length())).append(request.getStatusToString() + " ".repeat(13-request.getStatusToString().length()))
                     .append(name + " ".repeat(29-name.length())).append(request.getSocialSecurityNumber() + " ".repeat(18-request.getSocialSecurityNumber().length())).append(request.getCREATIONDATE().substring(0,10));
 
             requestNumber += 1;

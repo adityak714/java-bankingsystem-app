@@ -16,9 +16,12 @@ public class Employee extends User{
    }
 
     public String toString(){
-        return getFirstName() + " " + getLastName() + Util.EOL
-                + getSocialSecurityNumber() + Util.EOL
-                + getStartDate() + Util.EOL;
+        return    "|--------------------------------------------------" + Util.EOL
+                + "|Employee Information" + Util.EOL
+                + "|--------------------------------------------------" + Util.EOL
+                +  super.toString() + Util.EOL
+                + "|Start Date: " + this.startDate + Util.EOL
+                + "|--------------------------------------------------";
     }
     /*public String deleteAccount(String ID) throws Exception{
 

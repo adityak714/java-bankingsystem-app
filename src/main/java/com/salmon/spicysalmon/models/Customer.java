@@ -1,5 +1,7 @@
 package com.salmon.spicysalmon.models;
 
+import com.salmon.spicysalmon.Util;
+
 import java.util.ArrayList;
 
 public class Customer extends User {
@@ -42,12 +44,41 @@ public class Customer extends User {
 
     @Override
     public String toString() {
-        return super.toString()+" Customer{" +
+        String tempArea = this.residentialArea;
+        String bankAccountsString = "";
+        StringBuilder sb = new StringBuilder();
+        if (this.bankAccounts.isEmpty()){bankAccountsString = "|Customer has no bank accounts";}
+        for (BankAccount account : this.bankAccounts){
+
+            sb.append("|").append(account.getAccountName() + " ".repeat(39-account.getAccountName().length())).append(String.format("%.2f", account.getBalance()));
+                    if (bankAccounts.indexOf(account) != bankAccounts.size()-1){
+                        sb.append(Util.EOL);
+                    }
+        }
+        bankAccountsString += sb.toString();
+        if (this.residentialArea.length() > 31){ tempArea = this.residentialArea.substring(0,32);}
+        return    "|--------------------------------------------------" + Util.EOL
+                + "|Customer Information" + Util.EOL
+                + "|--------------------------------------------------" + Util.EOL
+                + super.toString() + Util.EOL
+                + "|Salary: " + this.salary + Util.EOL
+                + "|Residential Area: " + tempArea + Util.EOL
+                + "|Occupation " + this.occupation + Util.EOL
+                + "|--------------------------------------------------" + Util.EOL
+                + "|Bank Account Name                      Balance" + Util.EOL
+                + "|--------------------------------------------------"
+                + bankAccountsString + Util.EOL
+                + "|--------------------------------------------------";
+
+
+        /*return super.toString()+" Customer{" +
                 "customerAccounts=" + bankAccounts +
                 ", salary=" + salary +
                 ", residentialArea='" + residentialArea + '\'' +
                 ", occupation='" + occupation + '\'' +
                 '}';
+
+         */
     }
 
     public double getTotalBalance(){
