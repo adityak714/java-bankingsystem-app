@@ -4,6 +4,7 @@ import com.salmon.spicysalmon.Util;
 import com.salmon.spicysalmon.models.BankAccount;
 import com.salmon.spicysalmon.models.Customer;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class CustomerController {
@@ -102,8 +103,6 @@ public class CustomerController {
             }else {
                 account.setBalance(depositAmount + account.getBalance());
                 message = "You have deposited " + depositAmount + " SEK successfully!!";
-                transactionController.createTransaction(SSN+accID, SSN+accID, depositAmount);
-
             }
             return message;
         } catch(Exception accountNotFound){
@@ -279,6 +278,27 @@ public class CustomerController {
         } catch (Exception customerNotFound) {
             return customerNotFound.getMessage();
         }
+    }
+    public HashMap<String, Customer> getCustomersList(){
+        return customersList;
+    }
+
+    public String printAllBankAccounts(){
+        ArrayList<String> allBankAccounts = new ArrayList<>();
+        String bankAccountsOfACustomer = "";
+        String result = "";
+        for (Customer customer : getCustomersList().values()){
+            bankAccountsOfACustomer = printAllAccounts(customer.getSocialSecurityNumber());
+            allBankAccounts.add(bankAccountsOfACustomer);
+        }
+        for (String bankAccount : allBankAccounts){
+            if (bankAccount.equals("No bank accounts exist for you")){
+                allBankAccounts.remove(bankAccount);
+            } else {
+                result += bankAccount + Util.EOL;
+            }
+        }
+        return result;
     }
 }
 
