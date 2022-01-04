@@ -78,13 +78,13 @@ public class AccountRequestController {
 
 
 
-/*
- +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
- |B|A|N|K|A|C|C|O|U|N|T|R|E|Q|U|E|S|T|S|
- +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-           |M|E|T|H|O|D|S|
-           +-+-+-+-+-+-+-+
- */
+    /*
+     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+     |B|A|N|K|A|C|C|O|U|N|T|R|E|Q|U|E|S|T|S|
+     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+               |M|E|T|H|O|D|S|
+               +-+-+-+-+-+-+-+
+     */
     //Used by all the bankAccountRequest print methods that has more than one request to print
     public String stringBuilderBankAccountRequest(ArrayList<BankAccountRequest> list){
         int requestNumber = 1;
@@ -92,12 +92,12 @@ public class AccountRequestController {
         String accountName = "";
         String returnString = "";
         for(BankAccountRequest request : list) { //String.format("%-10s",requestNumber); -10 means it would insert 10 empty spaces to the right of requestNumber which would be 1 for the first loop. without the dash
-           if (request.getAccountName().length() > 20) {accountName = request.getAccountName().substring(0,21);}
-           else {accountName = request.getAccountName();}
+            if (request.getAccountName().length() > 20) {accountName = request.getAccountName().substring(0,21);}
+            else {accountName = request.getAccountName();}
             sb.append(requestNumber + " ".repeat(9) + request.getStatusToString() + " ".repeat(12-request.getStatusToString().length()) + request.getREQUESTEE().getFirstName()
-                   + " " + request.getREQUESTEE().getLastName().charAt(0) +"." + " ".repeat(13-request.getREQUESTEE().getFirstName().length()-3)
-                   + request.getREQUESTEE().getSocialSecurityNumber() + " ".repeat(13-request.getREQUESTEE().getSocialSecurityNumber().length())
-                   + accountName + " ".repeat(22-accountName.length()) + request.getCREATIONDATE().substring(0,10));
+                    + " " + request.getREQUESTEE().getLastName().charAt(0) +"." + " ".repeat(13-request.getREQUESTEE().getFirstName().length()-3)
+                    + request.getREQUESTEE().getSocialSecurityNumber() + " ".repeat(13-request.getREQUESTEE().getSocialSecurityNumber().length())
+                    + accountName + " ".repeat(22-accountName.length()) + request.getCREATIONDATE().substring(0,10));
             requestNumber += 1;
             if (requestNumber != list.size() + 1) {
                 sb.append(Util.EOL);
@@ -122,8 +122,8 @@ public class AccountRequestController {
     }
     //Returns a concatenated string of all bank account requests for all users.
     public String printAllBankAccountRequests() throws Exception{ //Maybe sort this
-       String output = "All Bank Account Requests" + stringBuilderBankAccountRequest(getAllBankAccountRequests());
-       return output;
+        String output = "All Bank Account Requests" + stringBuilderBankAccountRequest(getAllBankAccountRequests());
+        return output;
     }
     public ArrayList<BankAccountRequest> getAllBankAccountRequestsForSearchedName(String name)throws Exception {
         ArrayList<BankAccountRequest> returnList = new ArrayList<>();
@@ -157,7 +157,7 @@ public class AccountRequestController {
             throw new Exception("You have no bank account requests."); //Since this method is used for showing a customers
         }                                                              //requests' status we want to give a different message
         else
-        return output;
+            return output;
     }
     //Gets a list of all requests that has been neither approved nor denied. Use this when se
     public ArrayList<BankAccountRequest> getAllPendingBankAccountRequests() throws Exception{
@@ -172,8 +172,8 @@ public class AccountRequestController {
     }
     //Return String of all Pending bank account requests for all customers, probably standard view for employees since you don't really care for requests that have already been resolved.
     public String printAllPendingBankAccountRequests() throws Exception{
-            String output = "All Pending Bank Account Requests" + stringBuilderBankAccountRequest(getAllPendingBankAccountRequests());
-            return output;
+        String output = "All Pending Bank Account Requests" + stringBuilderBankAccountRequest(getAllPendingBankAccountRequests());
+        return output;
     }
     //Return an ArrayList of BankAccountRequest objects (A customer can have more than one request) for the specified SSN
     public ArrayList<BankAccountRequest> getBankAccountRequestsForSpecificCustomer(String SSN) throws Exception {
@@ -195,20 +195,21 @@ public class AccountRequestController {
     //Gets a toStringed specific request from the "getAllPendingBankAccountRequests" method. This is done to show the request information to the employee
     //Takes in a list, so we give it a list when calling it, like this: getSpecificBankAccountRequestFromList(input, getAllBankAccountRequests())
     // So we get the users input e.g. 1 then the right list depending on where in the menu we call this method.
-    public BankAccountRequest getSpecificBankAccountRequestFromList(int input, ArrayList<BankAccountRequest> list) throws Exception {
-        if (input < 1 || input - 1 > list.size()) {
+    public BankAccountRequest getSpecificBankAccountRequestFromList(int input) throws Exception {
+        ArrayList<BankAccountRequest> list = getAllBankAccountRequests();
+        if (input < 0 || input > list.size()) {
             throw new Exception("Invalid input, please choose between 1-" + list.size());
         } else {
-            return list.get(input - 1); //gets the index of the users input -1, because we start at 1 not 0
+            return list.get(input); //gets the index of the users input -1, because we start at 1 not 0
         }                               //We use 0 to go back in the menus
     }
-/*
- +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
- |C|U|S|T|O|M|E|R|A|C|C|O|U|N|T|R|E|Q|U|E|S|T|S|
- +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-           |M|E|T|H|O|D|S|
-           +-+-+-+-+-+-+-+
-*/
+    /*
+     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+     |C|U|S|T|O|M|E|R|A|C|C|O|U|N|T|R|E|Q|U|E|S|T|S|
+     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+               |M|E|T|H|O|D|S|
+               +-+-+-+-+-+-+-+
+    */
     //Used by all customerAccountRequest methods that has more than one request to print
     public String stringBuilderCustomerAccountRequest(ArrayList<CustomerAccountRequest> list) throws Exception {
         int requestNumber = 1;
@@ -229,9 +230,9 @@ public class AccountRequestController {
             }
         }
         returnString = Util.EOL
-                     + "-".repeat(80) + Util.EOL
-                     + "Number    " + "Status       " + "Name                         " + "SSN               " + "Created   " + Util.EOL
-                     + "-".repeat(80) +  Util.EOL + sb.toString() + Util.EOL + "-".repeat(80) + Util.EOL;
+                + "-".repeat(80) + Util.EOL
+                + "Number    " + "Status       " + "Name                         " + "SSN               " + "Created   " + Util.EOL
+                + "-".repeat(80) +  Util.EOL + sb.toString() + Util.EOL + "-".repeat(80) + Util.EOL;
         return returnString;
     }
 
@@ -315,11 +316,12 @@ public class AccountRequestController {
     //Gets a toStringed specific request from the "getAllPendingCustomerAccountRequests" method. This is done to show the request information to the employee
     //Takes in a list, so we give it a list when calling it, like this: getSpecificCustomerAccountRequestFromList(input, getAllCustomerAccountRequests())
     //So we get the users input e.g. 1 then the right list depending on where in the menu we call this method.
-    public CustomerAccountRequest getSpecificCustomerAccountRequestFromList(int input, ArrayList<CustomerAccountRequest> list) throws Exception {
-        if (input < 1 || input - 1 > list.size()) {
+    public CustomerAccountRequest getSpecificCustomerAccountRequestFromList(int input) throws Exception {
+        ArrayList<CustomerAccountRequest> list = getAllCustomerAccountRequests();
+        if (input < 0 || input > list.size()) {
             throw new Exception("Invalid input, please choose between 1- " + list.size());
         } else {
-            return list.get(input - 1);
+            return list.get(input);
         }
     }
 }
