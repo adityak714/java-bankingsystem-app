@@ -323,14 +323,14 @@ public class EmployeeMenu {
     // goes to a specific customers customer account requests
     public void specificCustomerAccountRequest(AccountRequestController accountRequestController) throws Exception {
         String SSN = Util.readLine("Which customers request do you want to look at?");
-        CustomerAccountRequest CAR = accountRequestController.getCustomerAccountRequest(SSN); // CAR = Customer Account Request
+        CustomerAccountRequest CAR = accountRequestController.getCustomerAccountRequestBySSN(SSN); // CAR = Customer Account Request
         System.out.println(CAR.toString());
         approveDenyCustomerAccountRequest(CAR, accountRequestController);
     }
     // goes to a specific customers bank account requests
     public void specificBankBankAccountRequest(AccountRequestController accountRequestController) throws Exception {
         String SSN = Util.readLine("Which customers request do you want to look at?");
-        ArrayList<BankAccountRequest> BARs = accountRequestController.getSpecificCustomerBankAccountRequests(SSN); // BARs = Bank Account Requests
+        ArrayList<BankAccountRequest> BARs = accountRequestController.getBankAccountRequestsForSpecificCustomer(SSN); // BARs = Bank Account Requests
         for (BankAccountRequest BAR : BARs){
             System.out.println(BAR.toString());
         }
