@@ -276,9 +276,10 @@ public class CustomerController {
         return customersList;
     }
 
-    public void printAllBankAccounts(){
+    public String printAllBankAccounts(){
         ArrayList<String> allBankAccounts = new ArrayList<>();
         String bankAccountsOfACustomer = "";
+        String result = "";
         for (Customer customer : getCustomersList().values()){
             bankAccountsOfACustomer = printAllAccounts(customer.getSocialSecurityNumber());
             allBankAccounts.add(bankAccountsOfACustomer);
@@ -287,10 +288,10 @@ public class CustomerController {
             if (bankAccount.equals("No bank accounts exist for you")){
                 allBankAccounts.remove(bankAccount);
             } else {
-                System.out.println(bankAccount + Util.EOL);
+                result += bankAccount + Util.EOL;
             }
         }
-
+        return result;
     }
 }
 

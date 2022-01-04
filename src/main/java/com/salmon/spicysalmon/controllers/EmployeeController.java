@@ -34,16 +34,9 @@ public class EmployeeController {
         }
     }
     //Method to change customer's password
-    public String changePassword(String testPassword, String newPassword, String SSN) {
-        String message = "";
-        try {
-            Employee employee = getEmployee(SSN);
-            employee.changePassword(testPassword, newPassword);
-            message = "Password changed successfully.";
-        } catch (Exception accountNotFound) {
-            return accountNotFound.getMessage();
-        }
-        return message;
+    public void changePassword(String testPassword, String newPassword, String SSN) throws Exception {
+        Employee employee = getEmployee(SSN);
+        employee.changePassword(testPassword, newPassword);
     }
     public String printEmployee(String SSN) {
         try {

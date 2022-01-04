@@ -160,7 +160,12 @@ public class EmployeeMenu {
         do {
             switch (userInput){
                 case 1: // change password
-                    changePassword(employeeController, SSN);
+                    try {
+                        changePassword(employeeController, SSN);
+                        System.out.println("password changed sucessfully");
+                    }catch (Exception exception){
+                        System.out.println(exception.getMessage());
+                    }
                     break;
                 case 2: // my information
                     showUserInfo(employeeController, SSN);
@@ -315,10 +320,10 @@ public class EmployeeMenu {
         }while (!(stringUserInput.equals("approve") || stringUserInput.equals("deny")));
     }
     //Method to change employee's password
-    public void changePassword(EmployeeController employeeController, String SSN) {
+    public void changePassword(EmployeeController employeeController, String SSN) throws Exception {
         String testPassword = Util.readLine("Enter your old password: ");
         String newPassword = Util.readLine("Enter your new password: ");
-        System.out.print(employeeController.changePassword(testPassword, newPassword, SSN));
+        employeeController.changePassword(testPassword, newPassword, SSN);
     }
     public void showUserInfo(EmployeeController employeeController, String SSN) {
         System.out.print(employeeController.printEmployee(SSN));
