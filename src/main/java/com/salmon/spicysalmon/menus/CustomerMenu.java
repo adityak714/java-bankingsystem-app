@@ -31,6 +31,8 @@ public class CustomerMenu {
     String CUSTOMER_HEADING2 = "You chose to select a specific bank account: Please choose a valid option.";
     String [] CUSTOMER_OPTIONS2 =  {
             "Return to Customer Menu",
+            "Deposit Funds",
+            "Withdraw Funds",
             "Check Balance",
             "Money Transfer Between User Accounts",
             "Money Transfer To Another Person Bank Account",
@@ -102,15 +104,17 @@ public class CustomerMenu {
             System.out.println(bankAccountMenu);
               userInput = bankAccountMenu.getValidOption();
             switch (userInput) {
-                case 1 -> showBalance(customerController, SSN, accountID);
-                case 2 -> transferWithinAccounts(customerController, SSN, accountID);
-                case 3 -> transferToOtherCustomer(customerController, SSN, accountID);
-                case 4 -> showRecentTransactions(transactionController, SSN, accountID);
-                case 5 -> showEarliestTransactions(transactionController, SSN, accountID);
-                case 6 -> showTransactionsForAnAccount(transactionController, SSN, accountID);
-                case 7 -> transactionsSortedInAscendingOrder(transactionController,SSN, accountID);
-                case 8 -> transactionsSortedInDescendingOrder(transactionController, SSN, accountID);
-                case 9 -> showTransactionsBetweenDates(transactionController, SSN, accountID);
+                case 1 -> depositFunds(customerController,SSN, accountID);
+                case 2 -> withdrawFunds(customerController, SSN, accountID);
+                case 3 -> showBalance(customerController, SSN, accountID);
+                case 5 -> transferWithinAccounts(customerController, SSN, accountID);
+                case 6 -> transferToOtherCustomer(customerController, SSN, accountID);
+                case 7 -> showRecentTransactions(transactionController, SSN, accountID);
+                case 8 -> showEarliestTransactions(transactionController, SSN, accountID);
+                case 9 -> showTransactionsForAnAccount(transactionController, SSN, accountID);
+                case 10 -> transactionsSortedInAscendingOrder(transactionController,SSN, accountID);
+                case 11-> transactionsSortedInDescendingOrder(transactionController, SSN, accountID);
+                case 12 -> showTransactionsBetweenDates(transactionController, SSN, accountID);
             }
         } while (userInput != 0);
     }
@@ -225,6 +229,17 @@ public class CustomerMenu {
     public void showUserInfo(CustomerController customerController, String SSN) {
         System.out.print(customerController.printCustomer(SSN));
     }
+    public void depositFunds(CustomerController customerController, String SSN, String accountID) {
+        double depositAmount = Util.readDouble("Enter your deposit amount: ");
+        System.out.print(customerController.depositMoney(SSN, accountID, depositAmount));
+
+    }
+    public void withdrawFunds(CustomerController customerController, String SSN, String accountID) {
+        double withdrawAmount = Util.readDouble("Enter your withdrawal amount: ");
+        System.out.print(customerController.depositMoney(SSN, accountID, withdrawAmount));
+
+    }
+
 
 
 }
