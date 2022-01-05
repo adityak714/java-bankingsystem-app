@@ -67,7 +67,7 @@ public class TransactionController {
     // Sort transactions by descending amount
     public String sortTransactionsDescending (String SSN, String accID) { // arre tis 4 jan 20:54: bug in this method
         ArrayList<Transaction> sortedList = sortTransactionsByAmount(SSN, accID);
-        Collections.reverse(sortedList);1
+        Collections.reverse(sortedList);
         return transactionsStringBuilder(sortedList);
     }
 
