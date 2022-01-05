@@ -8,6 +8,7 @@ import com.salmon.spicysalmon.models.Customer;
 import java.util.ArrayList;
 import java.util.Collections;
 
+
 /* Maybe Customers should have an ArrayList with their requests instead or both?
    Not sure if we can have the Customers see the status of their requests,
    but this is maybe solved once we connect the GUI?
@@ -15,9 +16,6 @@ import java.util.Collections;
 public class AccountRequestController {
     public static ArrayList<BankAccountRequest> allBankAccountRequests = new ArrayList<>();
     public static ArrayList<CustomerAccountRequest> allCustomerAccountRequests = new ArrayList<>();
-
-
-
 
     //Creates a new request and puts in the ArrayList of requests
     public void createBankAccountRequest(Customer customer, String accountName) {
@@ -119,7 +117,8 @@ public class AccountRequestController {
     //because then we get new requests first
     public ArrayList<BankAccountRequest> getAllBankAccountRequests()throws Exception{
         ArrayList<BankAccountRequest> returnList = new ArrayList<>(allBankAccountRequests);
-        Collections.reverse(returnList); //This should sort it by creation date (new first) because in allBankAccountRequests the oldest will be first in the list.
+        Collections.reverse(returnList); //Will put most recent ones first
+        returnList.sort(AccountRequest::compareTo); //Will then compare Status, puts Pending requests first since those are the most interesting ones for an employee to look at
         if(returnList.isEmpty()){throw new Exception("There are no bank account requests.");}
         else return returnList;
     }
@@ -166,7 +165,7 @@ public class AccountRequestController {
     public ArrayList<BankAccountRequest> getAllPendingBankAccountRequests() throws Exception{
         ArrayList<BankAccountRequest> returnList = new ArrayList<>();
         for (BankAccountRequest request : allBankAccountRequests) {
-            if (request.getIsApproved() == null) {
+            if (request.getIsApproved() == 0) {
                 returnList.add(request);
             }
         }
@@ -277,7 +276,7 @@ public class AccountRequestController {
     public ArrayList<CustomerAccountRequest> getAllPendingCustomerAccountRequests() throws Exception {
         ArrayList<CustomerAccountRequest> returnList = new ArrayList<>();
         for (CustomerAccountRequest request : allCustomerAccountRequests) {
-            if (request.getIsApproved() == null) {
+            if (request.getIsApproved() == 0) {
                 returnList.add(request);
             }
         }
@@ -322,7 +321,7 @@ public class AccountRequestController {
     public CustomerAccountRequest getSpecificCustomerAccountRequestFromList(int input) throws Exception {
         ArrayList<CustomerAccountRequest> list = getAllCustomerAccountRequests();
         if (input < 1 || input - 1 > list.size()) {
-            throw new Exception("Invalid input, please choose between 1- " + list.size());
+            throw new Exception("Invalid input, please choose between 1-" + list.size());
         } else {
             return list.get(input - 1);
         }

@@ -40,10 +40,10 @@ public class BankAccountRequest extends AccountRequest{
             AccountRequestController accountRequestController = new AccountRequestController();
             String line = "-".repeat(50); //Separator line to segment things
             String status = "";
-            if (this.getIsApproved() == null)
+            if (this.getIsApproved() == 0)
                 status =  "|Status: Pending" + Util.EOL
                         + "|Created: " + this.getCREATIONDATE(); //If the request is pending we show creation date.
-            else if (this.getIsApproved() == true)
+            else if (this.getIsApproved() == 1)
                 status = "|Status: Approved" + Util.EOL
                         + "|Created: " + this.getCREATIONDATE() + Util.EOL //If the request was approved/denied we also show when it was resolved.
                         + "|Resolved : " + this.getRESOLVEDDATE();
@@ -53,16 +53,16 @@ public class BankAccountRequest extends AccountRequest{
                         + "|Resolved : " + this.getRESOLVEDDATE();
             return
                             "|" + line + Util.EOL
-                            + "Bank Account Request" + Util.EOL
+                            + "|Bank Account Request" + Util.EOL
                             + status + Util.EOL
                             + "|" + line + Util.EOL
-                            + "|CUSTOMER INFORMATION"
+                            + "|CUSTOMER INFORMATION" + Util.EOL
                             + "|" + line + Util.EOL
                             + "|Name: " +REQUESTEE.getFirstName() + " " + REQUESTEE.getLastName() + Util.EOL
                             + "|SSN: " +REQUESTEE.getSocialSecurityNumber() + Util.EOL
                             + "|Address: " + REQUESTEE.getResidentialArea() + Util.EOL
-                            + "|Occupation " + REQUESTEE.getOccupation() + Util.EOL
-                            + "|Salary: " + REQUESTEE.getSalary() + Util.EOL
+                            + "|Occupation: " + REQUESTEE.getOccupation() + Util.EOL
+                            + "|Salary: " + String.format("%.0f",REQUESTEE.getSalary()) + Util.EOL
                             + "|" + line + Util.EOL;
         }
 
