@@ -101,29 +101,12 @@ public class CustomerMenu {
                     case 3 -> transferToOtherCustomer(customerController, SSN, accountID);
                     case 4 -> showRecentTransactions(transactionController, SSN, accountID);
                     case 5 -> showEarliestTransactions(transactionController, SSN, accountID);
-                    case 6 -> showTransactionsForAnAccount(transactionController, SSN, accountID);
                     case 7 -> transactionsSortedInAscendingOrder(transactionController,SSN, accountID);
                     case 8 -> transactionsSortedInDescendingOrder(transactionController, SSN, accountID);
                     case 9 -> showTransactionsBetweenDates(transactionController, SSN, accountID);
                 }
-            }while (userInput != 0);
+            } while (userInput != 0);
         }
-
-        // Do-while for the bank account menu
-        do {
-            System.out.print(bankAccountMenu);
-            userInput = bankAccountMenu.getValidOption();
-            switch (userInput) {
-                case 1 -> showBalance(customerController, SSN, accountID);
-                case 2 -> transferWithinAccounts(customerController, SSN, accountID);
-                case 3 -> transferToOtherCustomer(customerController, SSN, accountID);
-                case 4 -> showRecentTransactions(transactionController, SSN, accountID);
-                case 5 -> showEarliestTransactions(transactionController, SSN, accountID);
-                case 6 -> transactionsSortedInAscendingOrder(transactionController,SSN, accountID);
-                case 7 -> transactionsSortedInDescendingOrder(transactionController, SSN, accountID);
-                case 8 -> showTransactionsBetweenDates(transactionController, SSN, accountID);
-            }
-        } while (userInput != 0);
     }
 
     public void showAccountSettings(String SSN, CustomerController customerController) {
