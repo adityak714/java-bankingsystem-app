@@ -44,11 +44,11 @@ public class MainMenu {
         String firstName = Util.readLine("Enter your first name: ");
         String lastName = Util.readLine("Enter your last name: ");
         String password = Util.readNewPassword();
-        String SSN = Util.readLine("Enter your social security number: ");
+        String socialSecurityNumber = Util.readLine("Enter your social security number: ");
         double salary = Util.readDouble("Enter your salary: ");
         String residentialArea = Util.readLine("Enter your area of residence: ");
         String occupation = Util.readLine("Enter your occupation: ");
-        accountRequestController.createCustomerAccountRequest(SSN, password, firstName, lastName, salary, residentialArea, occupation);
+        accountRequestController.createCustomerAccountRequest(socialSecurityNumber, password, firstName, lastName, salary, residentialArea, occupation);
         System.out.println("Your application has been sent. We will inform via mail when we have made a decision");
         System.out.println("Thank you for choosing Spicy Salmon Bank!");
     }
