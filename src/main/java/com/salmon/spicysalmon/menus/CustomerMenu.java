@@ -33,8 +33,8 @@ public class CustomerMenu {
             "Show Most Recent Transactions",
             "Show Oldest Transactions",
             "Show All Transactions",
-            "Show Transactions By Ascending Order Of Price",
-            "Show Transactions By Descending Order Of Price",
+            "Show Transactions By Ascending Order",
+            "Show Transactions By Descending Order",
             "Show Transactions Between Two Given Dates"
     };
     String ACCOUNT_SETTINGSHEADING = "Welcome to Account Settings: Please choose a valid option";
@@ -74,11 +74,11 @@ public class CustomerMenu {
         Menu bankAccountMenu = new Menu(CUSTOMER_HEADING2, CUSTOMER_OPTIONS2);
         int userInput = 0;
         System.out.print(customerController.printAllAccounts(SSN));
-        int random = 0;// Initialize the variable called random
+        int random = 0; // Initialize the variable called random
         int number = customerController.getNumOfAccounts(SSN);
         do {
 
-            random = Util.readInt("To select a specific bank account, Enter last digit of account ID: ");
+            random = Util.readInt("To select a specific bank account, enter last digit of account ID: ");
             if (random > number || random <= 0) {
                 System.out.println("Wrong option. You need to type a valid last digit of account ID.");
             }

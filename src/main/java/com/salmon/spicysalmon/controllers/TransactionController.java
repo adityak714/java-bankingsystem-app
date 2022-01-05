@@ -169,7 +169,7 @@ public class TransactionController {
     }
 
     public String sortByDateInterval (String SSN, String accID, String startInterval, String endInterval){
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+        SimpleDateFormat formatter = new SimpleDateFormat("YYYY/MM/DD");
         Calendar calendar = Calendar.getInstance();
         String limitedTransactionList = "";
         ArrayList<Transaction> desiredAccount = allTransactions.get(SSN).get(accID);
