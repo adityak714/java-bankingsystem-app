@@ -1,5 +1,7 @@
 package com.salmon.spicysalmon.models;
 
+import com.salmon.spicysalmon.Util;
+
 import java.util.LinkedHashMap;
 
 public abstract class User{
@@ -41,11 +43,14 @@ public abstract class User{
 
     @Override
     public String toString() {
-        return "User{" +
+        return    "|Name: " + this.firstName + " " + this.lastName + Util.EOL
+                + "|SSN: " + this.SOCIALSECURITYNUMBER;
+        /*return "User{" +
                 "firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", SOCIALSECURITYNUMBER='" + SOCIALSECURITYNUMBER + '\'' +
                 '}';
+                */
     }
 
     public boolean verifyPassword(String testPassword) {

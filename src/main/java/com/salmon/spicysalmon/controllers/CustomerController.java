@@ -37,31 +37,37 @@ public class CustomerController {
             throw new Exception("The customer was not found.");
         }
     }
-
     //Functionality to print all customers
     public String printAllCustomers() {
-        String EOL = System.lineSeparator();
+        int customerNumber = 1;
         if (customersList.isEmpty()) {
             return "No customers registered yet.";
         }
-        String message = "All registered customers:" + EOL + "-------------------------" + EOL;
-        for (String SSN : customersList.keySet()) {
-            Customer customer = customersList.get(SSN);
-            message += printCustomer(customer.getSocialSecurityNumber()) + EOL;
+        String message = "All registered customers" + Util.EOL
+                + "--------------------------------------------------" + Util.EOL
+                + "#    SSN          Name" + Util.EOL
+                + "--------------------------------------------------";
+        StringBuilder sb = new StringBuilder();
+        for (Customer customer : customersList.values()) {
+            String customerName = customer.getFirstName() + " " + customer.getLastName();
+            if (customerName.length() > 32){customerName.substring(0,33);}
+            sb.append(Util.EOL)
+                    .append(customerNumber)
+                    .append(" ".repeat(5-String.valueOf(customerNumber).length()))
+                    .append(customer.getSocialSecurityNumber())
+                    .append(" ".repeat(3)).append(customerName);
+            customerNumber += 1;
         }
+        message += sb.toString() + Util.EOL
+                + "--------------------------------------------------";
         return message;
     }
 
     //Functionality to display a customer
     public String printCustomer(String SSN) {
         try {
-            String EOL = System.lineSeparator();
             Customer customer = findCustomer(SSN);
-            String firstName = customer.getFirstName();
-            String lastName = customer.getLastName();
-            return ("Name: " + firstName + " " + lastName + EOL + "Occupation: " +
-                    customer.getOccupation() + EOL + "Residential Area: " +
-                    customer.getResidentialArea() + EOL);
+            return customer.toString();
         } catch(Exception ex) {
             return ex.getMessage();
         }

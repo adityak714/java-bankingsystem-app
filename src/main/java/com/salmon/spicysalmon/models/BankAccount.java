@@ -1,5 +1,7 @@
 package com.salmon.spicysalmon.models;
 
+import com.salmon.spicysalmon.Util;
+
 import java.util.HashMap;
 
 public class BankAccount {
@@ -46,12 +48,14 @@ public class BankAccount {
 
     @Override
     public String toString() {
-        return "Account{" +
-                "accountNumber=" + getAccountNumber() +
-                ", customerFirstName='" + CUSTOMERFIRSTNAME + '\'' +
-                ", customerLastName='" + CUSTOMERLASTNAME + '\'' +
-                ", balance=" + balance +
-                '}';
+        return    "|--------------------------------------------------" + Util.EOL
+                + "|Bank Account ID: <" + getAccountNumber() + ">" + Util.EOL
+                + "|--------------------------------------------------" + Util.EOL
+                + "|Account name: " + ACCOUNT_NAME + Util.EOL
+                + "|Balance: " + String.format("%.2f", balance) + Util.EOL
+                + "|Account Owner: " + CUSTOMERFIRSTNAME + " " + CUSTOMERLASTNAME + Util.EOL
+                + "|SSN: " + SSN + Util.EOL
+                + "|--------------------------------------------------";
 
     }
 }
