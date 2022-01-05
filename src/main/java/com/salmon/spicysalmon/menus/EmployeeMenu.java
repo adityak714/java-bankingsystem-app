@@ -311,7 +311,7 @@ public class EmployeeMenu {
     }
     //method to print all registered bank accounts
     public void printAllBankAccounts(CustomerController customerController){
-        System.out.println(customerController.printAllBankAccounts());
+        System.out.println(customerController.printAllBankAccountsEmployee());
     }
     //Method to print all transactions for all registered customers
     public void printAllTransactions(TransactionController transactionController){

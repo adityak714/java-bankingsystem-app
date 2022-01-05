@@ -249,18 +249,7 @@ public class CustomerController {
         try {
             //Assuming the customer is logged in already
             Customer customer = findCustomer(SSN);
-            String message = "";
-            if (customer.getBankAccounts().size() == 0) {
-                return "No bank accounts exist for you";
-            } else {
-                for (BankAccount account : customer.getBankAccounts()) {
-                    message += account.getAccountName() + " ACCOUNT" + Util.EOL +
-                            "Account ID: " + account.getAccountNumber() + Util.EOL +
-                            "Balance: " + account.getBalance() + " SEK" + Util.EOL +
-                            Util.EOL;
-                }
-                return message;
-            }
+            return bankAccountsStringBuilder(customer.getBankAccounts());
         } catch(Exception customerNotFound){
             return customerNotFound.getMessage();
         }
@@ -270,7 +259,7 @@ public class CustomerController {
     public String printSpecificAccount(String SSN, String accountID)  {
         try {
             BankAccount account = findBankAccount(SSN, accountID);
-            return account.toString();
+            return account.oneLineToString();
         } catch (Exception accountNotFound) {
             return accountNotFound.getMessage();
         }
@@ -312,8 +301,41 @@ public class CustomerController {
     public HashMap<String, Customer> getCustomersList(){
         return customersList;
     }
-    //Method to print all bank accounts
-    public String printAllBankAccounts() {
+
+    public String bankAccountsStringBuilder(ArrayList<BankAccount> accounts){
+        StringBuilder sb = new StringBuilder();
+        String accName, accountNumber, accID;
+        double balance;
+        if(accounts.isEmpty()){
+            return "No registered accounts were found.";
+        }
+        int counter = 0;
+        for(BankAccount account: accounts){
+            accName = account.getAccountName();
+            // trim to 10 if account name is long
+            accName = accName.length() > 11 ? accName.substring(0,12) + "." : accName;
+            accountNumber = account.getAccountNumber();
+            accID = accountNumber.charAt(10) == '0' ? String.valueOf(accountNumber.charAt(11)) : accountNumber.substring(10, 12);
+            balance = account.getBalance();
+            sb.append(accID).append(" ".repeat(6-accID.length())).append(accName).append(" ".repeat(17-accName.length()))
+                    .append(String.format("%.2f", balance)).append(" ".repeat(17-String.format("%.2f", balance).length()))
+                    .append(accountNumber);
+            counter += 1;
+            if(counter != accounts.size()){
+                sb.append(Util.EOL);
+            }
+        }
+
+        return Util.EOL
+                + "---------------------------------------------------------" + Util.EOL
+                + "#     " + "Name             " + "Balance          " + "Account Number   " + Util.EOL
+                + "---------------------------------------------------------" +  Util.EOL
+                + sb + Util.EOL
+                + "---------------------------------------------------------" + Util.EOL;
+
+    }
+
+    public String printAllBankAccountsEmployee() {
         int bankAccountNumber = 1;
         if (customersList.isEmpty()) {
             return "There are no bank accounts.";
