@@ -5,13 +5,14 @@ import com.salmon.spicysalmon.Util;
 import com.salmon.spicysalmon.controllers.AccountRequestController;
 import com.salmon.spicysalmon.controllers.CustomerController;
 import com.salmon.spicysalmon.controllers.TransactionController;
+import com.salmon.spicysalmon.models.BankAccount;
 import com.salmon.spicysalmon.models.Customer;
 import com.salmon.spicysalmon.models.Menu;
 
 
 public class CustomerMenu {
 
-    String CUSTOMER_HEADING = "Customer Menu: Please choose a valid option.";
+    // heading is dynamically generated
     String[] CUSTOMER_OPTIONS = {
             "Log out",
             "View all bank accounts",
@@ -23,8 +24,7 @@ public class CustomerMenu {
             // just make a switch case inside the switch case (or make a seperate method that is called inside the switch case)
     };
 
-
-    String CUSTOMER_HEADING2 = "You chose to select a specific bank account: Please choose a valid option.";
+    // heading is dynamically generated
     String [] CUSTOMER_OPTIONS2 =  {
             "Return to Customer Menu",
             "Check Balance",
@@ -49,7 +49,10 @@ public class CustomerMenu {
         AccountRequestController accountRequestController = new AccountRequestController();
         CustomerController customerController = new CustomerController();
         TransactionController transactionController = new TransactionController();
-        Menu customerMenu = new Menu(CUSTOMER_HEADING, CUSTOMER_OPTIONS);
+        Customer currentCustomer = customerController.findCustomer(SSN);
+        String customerHeading = "Logged in as: "+currentCustomer.getFirstName()+" "+currentCustomer.getLastName();
+        customerHeading += ". Please select an option.";
+        Menu customerMenu = new Menu(customerHeading, CUSTOMER_OPTIONS);
 
         int userInput = 0;
         do{
@@ -62,34 +65,32 @@ public class CustomerMenu {
                 case 3 -> applyForBankAccount(customerController, SSN, accountRequestController);
                 case 4 -> System.out.print(transactionController.printTransactionsForAllAccounts(SSN));
                 case 5 -> showAccountSettings(SSN, customerController);
-                default -> {
-                }
             }
         } while (userInput != 0);
+        System.out.println("You have been logged out.");
     }
 
     // Bank account menu for a specific account
     public void showBankAccountMenu(CustomerController customerController, TransactionController transactionController, String SSN) {
-        Menu bankAccountMenu = new Menu(CUSTOMER_HEADING2, CUSTOMER_OPTIONS2);
         int userInput = 0;
-        int number = customerController.getNumOfAccounts(SSN);
-        if (number == 0) {
+        int totalNumberOfAccounts = customerController.getNumOfAccounts(SSN);
+        if (totalNumberOfAccounts == 0) {
             System.out.println("You do not have a bank account.");
         } else {
-            int random = 0;// Initialize the variable called random
-            System.out.print(customerController.printAllAccounts(SSN));
+            int inputFromUser = 0;// Initialize the variable called inputFromUser
+            System.out.println(customerController.printAllAccounts(SSN));
             do {
 
-                random = Util.readInt("To select a specific bank account, Enter account ID: ");
-                if (random > number || random <= 0) {
-                    System.out.println("Wrong option. You need to type a valid account ID.");
+                inputFromUser = Util.readInt("Select the account you want to view (#): ");
+                if (inputFromUser > totalNumberOfAccounts || inputFromUser <= 0) {
+                    System.out.println("Please type in a valid option.");
                 }
 
-            } while (random > number || random <= 0 );
-            String zero = "0";
-            String x = Integer.toString(random);
-            String accountID = zero + x;// Parse random to String
-            // Check if the ID is correct or not
+            } while (inputFromUser > totalNumberOfAccounts || inputFromUser <= 0 );
+            String accountID = inputFromUser < 10 ? "0" + inputFromUser : inputFromUser+"";// Parse inputFromUser to String
+
+            String accountHeading = "You are viewing: "+customerController.printSpecificAccount(SSN, accountID);
+            Menu bankAccountMenu = new Menu(accountHeading, CUSTOMER_OPTIONS2);
 
             // Do-while for the bank account menu
             do {
@@ -125,12 +126,6 @@ public class CustomerMenu {
     }
 
     // Having the functionality in methods is the best for design instead of being in the switch block
-    public void printSpecificAccount(CustomerController customerController, String SSN) {
-        String accountNumber = Util.readLine("Enter your account ID: ");
-        customerController.printSpecificAccount(SSN, accountNumber);
-        System.out.println("______________________");
-    }
-
     public void applyForBankAccount(CustomerController customerController, String SSN, AccountRequestController accountRequestController) {
         System.out.println("Kindly follow the instructions to create an account.");
         String accountName = Util.readLine("Enter the name of the new account: ");
