@@ -44,7 +44,7 @@ public class CustomerMenu {
             "Update Residential Area",
             "My Information"
     };
-
+    //Show the customer menu
     public void show(String SSN){
         AccountRequestController accountRequestController = new AccountRequestController();
         CustomerController customerController = new CustomerController();
@@ -73,13 +73,16 @@ public class CustomerMenu {
         Menu bankAccountMenu = new Menu(CUSTOMER_HEADING2, CUSTOMER_OPTIONS2);
         int userInput = 0;
         int number = customerController.getNumOfAccounts(SSN);
+
+        //Check if you have bank accounts
         if (number == 0) {
             System.out.println("You do not have a bank account.");
         } else {
             int random = 0;// Initialize the variable called random
-            System.out.print(customerController.printAllAccounts(SSN));
-            do {
+            System.out.print(customerController.printAllAccounts(SSN)); //Prints all bank accounts
 
+            do {
+                //Make sure the account ID is valid
                 random = Util.readInt("To select a specific bank account, Enter account ID: ");
                 if (random > number || random <= 0) {
                     System.out.println("Wrong option. You need to type a valid account ID.");
@@ -108,7 +111,7 @@ public class CustomerMenu {
             } while (userInput != 0);
         }
     }
-
+    //display account settings
     public void showAccountSettings(String SSN, CustomerController customerController) {
         Menu accountSettingsMenu = new Menu(ACCOUNT_SETTINGSHEADING, ACCOUNT_SETTINGSOPTIONS);
         int userOption = 0;
@@ -130,7 +133,8 @@ public class CustomerMenu {
         customerController.printSpecificAccount(SSN, accountNumber);
         System.out.println("______________________");
     }
-
+    //This method forwards the user preferred account name to the createBankAccountRequest
+    //In the account Request Controlller
     public void applyForBankAccount(CustomerController customerController, String SSN, AccountRequestController accountRequestController) {
         System.out.println("Kindly follow the instructions to create an account.");
         String accountName = Util.readLine("Enter the name of the new account: ");
@@ -138,7 +142,7 @@ public class CustomerMenu {
         accountRequestController.createBankAccountRequest(customer, accountName);
         System.out.print("Your new bank account is pending approval.");
     }
-
+    //Method to display all bank account applications made by the customer for a bank account
     public String showAllApplications(AccountRequestController accountRequestController, String SSN) {
         try {
             return (accountRequestController.printBankAccountRequestsForSpecificCustomer(SSN));
@@ -146,17 +150,15 @@ public class CustomerMenu {
             return (exception.getMessage());
         }
     }
-
-    // use verbs when naming methods according to Java convention
+    //Method to display sorted transactions by price in ascending order of amount transferred
     public void transactionsSortedInAscendingOrder(TransactionController transactionController, String SSN, String accID) {
         System.out.print(transactionController.sortTransactionsAscending(SSN, accID));
     }
-
-    // use verbs when naming methods according to Java convention
+    //Method to display sorted transactions by price in descending order of amount transferred
     public void transactionsSortedInDescendingOrder(TransactionController transactionController, String SSN, String accID) {
         System.out.print(transactionController.sortTransactionsDescending(SSN, accID));
     }
-
+   //Method to display balance
     public void showBalance(CustomerController customerController, String SSN, String accountID) {
         System.out.println(customerController.checkBalance(SSN, accountID));
     }
@@ -176,7 +178,7 @@ public class CustomerMenu {
         double amount = Util.readDouble("Enter the amount: ");
         System.out.println(customerController.transferMoneyWithinCustomerAccounts(SSN, amount, accountID, accountID2));
     }
-
+    //This method forwards information form the menu to the customer controller to transfer money to another customer
     public void transferToOtherCustomer(CustomerController customerController, String SSN, String accountID1)  {
         String accountNumber = "";
         do  {
@@ -191,16 +193,16 @@ public class CustomerMenu {
         double amount = Util.readDouble("Enter the amount: ");
         System.out.println(customerController.transferMoneyToOtherCustomer(SSN, accountNumber, amount, accountID1));
     }
-
+    //Method to display most recent transactions
     public void showRecentTransactions(TransactionController transactionController, String SSN, String accID) {
         System.out.print(transactionController.printTransactionsSortedLatest(SSN, accID));
     }
-
+    //Displays earliest transactions
     public void showEarliestTransactions(TransactionController transactionController, String SSN, String accID) {
         System.out.print(transactionController.printTransactionsSortedEarliest(SSN, accID));
     }
 
-    // arre tis 4 jan. 20:57: bug in this method
+    //Method to print transactions within a date interval
     public void showTransactionsBetweenDates(TransactionController transactionController, String SSN, String accID) {
         String startDate = Util.readLine("Enter the start date (YYYY/MM/DD): ");
         String endDate = Util.readLine("Enter the end date (YYYY/MM/DD): ");
