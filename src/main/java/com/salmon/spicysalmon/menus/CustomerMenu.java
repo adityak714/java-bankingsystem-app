@@ -10,6 +10,7 @@ import com.salmon.spicysalmon.models.Menu;
 
 
 public class CustomerMenu {
+
     String CUSTOMER_HEADING = "Customer Menu: Please choose a valid option.";
     String[] CUSTOMER_OPTIONS = {
             "Log out",
@@ -73,7 +74,6 @@ public class CustomerMenu {
         Menu bankAccountMenu = new Menu(CUSTOMER_HEADING2, CUSTOMER_OPTIONS2);
         int userInput = 0;
         System.out.print(customerController.printAllAccounts(SSN));
-        // Check if the ID is correct or not
         int random = 0;// Initialize the variable called random
         int number = customerController.getNumOfAccounts(SSN);
         do {
@@ -87,6 +87,8 @@ public class CustomerMenu {
         String zero = "0";
         String x = Integer.toString(random);
         String accountID = zero + x;// Parse random to String
+        // Check if the ID is correct or not
+
         // Do-while for the bank account menu
         do {
             System.out.print(bankAccountMenu);
@@ -156,14 +158,30 @@ public class CustomerMenu {
     }
 
     public void transferWithinAccounts(CustomerController customerController, String SSN, String accountID) {
-        String accountID2 = Util.readLine("Enter your desired bank account ID: ");
-
+        int numberOfAccounts = customerController.getNumOfAccounts(SSN);
+        int  random = 0;
+        do  {
+            random = Util.readInt("Enter your desired bank account ID: ");
+            if (random > numberOfAccounts || random <= 0) {
+                System.out.println("Invalid accountID. You need to type a valid account ID.");
+            }
+        } while (random > numberOfAccounts || random <= 0 );
+        String zero = "0";
+        String x = Integer.toString(random);
+        String accountID2 = zero + x;
         double amount = Util.readDouble("Enter the amount: ");
         System.out.println(customerController.transferMoneyWithinCustomerAccounts(SSN, amount, accountID, accountID2));
     }
 
     public void transferToOtherCustomer(CustomerController customerController, String SSN, String accountID1)  {
-        String accountNumber = Util.readLine("Enter the account number of the recipient: ");
+        String accountNumber = "";
+        do  {
+            accountNumber = Util.readLine("Enter the account number of the recipient: ");
+            int accountNumberLength = accountNumber.length();
+            if (accountNumberLength != 12) {
+                System.out.println("The account number you entered is less than 12 digits. Try again.");
+            }
+        } while (accountNumber.length() != 12);
 
         double amount = Util.readDouble("Enter the amount: ");
         System.out.println(customerController.transferMoneyToOtherCustomer(SSN, accountNumber, amount, accountID1));
