@@ -41,7 +41,7 @@ public class CustomerController {
     public String printAllCustomers() {
         int customerNumber = 1;
         if (customersList.isEmpty()) {
-            return "No customers registered yet.";
+            return "There are no registered customers";
         }
         String message = "All registered customers" + Util.EOL
                 + "--------------------------------------------------" + Util.EOL
@@ -291,8 +291,39 @@ public class CustomerController {
         return customersList;
     }
 
-    public String printAllBankAccounts(){
-        ArrayList<String> allBankAccounts = new ArrayList<>();
+    public String printAllBankAccounts() {
+        int bankAccountNumber = 1;
+        if (customersList.isEmpty()) {
+            return "There are no bank accounts.";
+        }
+
+        String message = "All Bank Accounts" + Util.EOL
+                + "--------------------------------------------------" + Util.EOL
+                + "#   Account ID    Account Name      Owner Name" + Util.EOL
+                + "--------------------------------------------------";
+        StringBuilder sb = new StringBuilder();
+        for (Customer customer : customersList.values()) {
+            for (BankAccount bankAccount : customer.getBankAccounts()) {
+                String accountName = bankAccount.getAccountName();
+                if (accountName.length() > 17) {
+                    accountName.substring(0, 18);
+                }
+                sb.append(Util.EOL)
+                        .append(bankAccountNumber)
+                        .append(" ".repeat(4 - String.valueOf(bankAccountNumber).length()))
+                        .append(bankAccount.getAccountNumber())
+                        .append(" ".repeat(14 - bankAccount.getAccountNumber().length()))
+                        .append(accountName)
+                        .append(" ".repeat(18 - accountName.length()))
+                        .append(bankAccount.getCustomerFirstName()).append(" ").append(bankAccount.getCustomerLastName().substring(0, 1)).append(".");
+                bankAccountNumber += 1;
+            }
+        }
+        message += sb.toString() + Util.EOL
+                + "--------------------------------------------------";
+        return message;
+    }
+       /* ArrayList<String> allBankAccounts = new ArrayList<>();
         String bankAccountsOfACustomer = "";
         String result = "";
         for (Customer customer : getCustomersList().values()){
@@ -306,8 +337,8 @@ public class CustomerController {
                 result += bankAccount + Util.EOL;
             }
         }
-        return result;
+        return result;*/
     }
-}
+
 
 
