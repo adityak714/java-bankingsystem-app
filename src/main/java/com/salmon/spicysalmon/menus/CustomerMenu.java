@@ -32,7 +32,6 @@ public class CustomerMenu {
             "Money Transfer To Another Person Bank Account",
             "Show Most Recent Transactions",
             "Show Oldest Transactions",
-            "Show All Transactions",
             "Show Transactions By Ascending Order Of Price",
             "Show Transactions By Descending Order Of Price",
             "Show Transactions Between Two Given Dates"
@@ -99,10 +98,9 @@ public class CustomerMenu {
                 case 3 -> transferToOtherCustomer(customerController, SSN, accountID);
                 case 4 -> showRecentTransactions(transactionController, SSN, accountID);
                 case 5 -> showEarliestTransactions(transactionController, SSN, accountID);
-                case 6 -> showTransactionsForAnAccount(transactionController, SSN, accountID);
-                case 7 -> transactionsSortedInAscendingOrder(transactionController,SSN, accountID);
-                case 8 -> transactionsSortedInDescendingOrder(transactionController, SSN, accountID);
-                case 9 -> showTransactionsBetweenDates(transactionController, SSN, accountID);
+                case 6 -> transactionsSortedInAscendingOrder(transactionController,SSN, accountID);
+                case 7 -> transactionsSortedInDescendingOrder(transactionController, SSN, accountID);
+                case 8 -> showTransactionsBetweenDates(transactionController, SSN, accountID);
             }
         } while (userInput != 0);
     }
@@ -200,11 +198,6 @@ public class CustomerMenu {
         String startDate = Util.readLine("Enter the start date: ");
         String endDate = Util.readLine("Enter the end date: ");
         System.out.print(transactionController.sortByDateInterval(SSN, accID, startDate, endDate));
-    }
-
-    // Show all transactions for an account
-    public void showTransactionsForAnAccount(TransactionController transactionController, String SSN, String accID) {
-        System.out.print(transactionController.printTransactionsForAnAccount(SSN, accID));
     }
 
     // Change customer's password

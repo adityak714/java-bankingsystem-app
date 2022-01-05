@@ -100,7 +100,7 @@ public class Customer extends User {
         String accID = bankAccounts.size() < 10 ? "0"+(bankAccounts.size()+1) : (bankAccounts.size()+1)+"";
         BankAccount bankAccount = new BankAccount(this.getSocialSecurityNumber(), accID, this.getFirstName(), this.getLastName(), accountName);
         bankAccounts.add(bankAccount);
-        return "Account " + accountName + " created successfully.";
+        return accID;
     }
 
     public String deleteBankAccount(String accID){

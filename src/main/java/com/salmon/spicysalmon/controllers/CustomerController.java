@@ -16,6 +16,7 @@ public class CustomerController {
             if(findCustomer(SSN) == null && transactionsController.checkIfSSNUnique(SSN)) {
                 Customer newCustomer = new Customer(SSN, password, firstName, lastName, salary, residentialArea, occupation);
                 customersList.put(SSN, newCustomer);
+                transactionsController.initializeCustomer(SSN);
             } else{
                 throw new Exception("A customer with that SSN already exists.");
             }
@@ -88,13 +89,11 @@ public class CustomerController {
     }
      */
     ///Method to create a bank account for a customer
-    public String createBankAccount(String SSN, String accountName){
-        try {
-            Customer customer = findCustomer(SSN);
-            return customer.createBankAccount(accountName);
-        } catch(Exception ex) {
-            return ex.getMessage();
-        }
+    public void createBankAccount(String SSN, String accountName){
+        TransactionController transactionController = new TransactionController();
+        Customer customer = findCustomer(SSN);
+        String newAccID = customer.createBankAccount(accountName);
+        transactionController.initializeBankAccount(SSN, newAccID);
     }
 
 

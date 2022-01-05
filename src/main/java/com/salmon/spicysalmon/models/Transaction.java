@@ -14,7 +14,7 @@ public class Transaction implements Comparable<Transaction>{
     public final String DATE;
     
     public Transaction(String acc1, String acc2, double amount){
-        this.ID = UUID.randomUUID().toString().replace("-", "");
+        this.ID = UUID.randomUUID().toString().replace("-", "").substring(0,11);
         this.ACC1 = acc1;
         this.ACC2 = acc2;
         this.AMOUNT = amount;
@@ -22,7 +22,7 @@ public class Transaction implements Comparable<Transaction>{
     }
 
     public Transaction(String acc1, String acc2, double amount, String date){
-        this.ID = UUID.randomUUID().toString().replace("-", "");
+        this.ID = UUID.randomUUID().toString().replace("-", "").substring(0,11);
         this.ACC1 = acc1;
         this.ACC2 = acc2;
         this.AMOUNT = amount;
