@@ -192,10 +192,18 @@ public class CustomerController {
 
         try {
             TransactionController transactionController = new TransactionController();
-            depositMoney(SSNSender, accountID2, amount);
-            withdrawMoney(SSNSender,accountID1, amount);
-            transactionController.createTransaction(SSNSender+accountID1, SSNSender+accountID2, amount);
-            return "Successfully transferred " + amount + " SEK from Account " + accountID1 + " to Account " + accountID2 + ". ";
+            BankAccount from = findBankAccount(SSNSender, accountID1);
+
+            if (from.getBalance() < amount ) {
+                return "Amount too large to transfer";
+            }
+            else {
+                depositMoney(SSNSender, accountID2, amount);
+                withdrawMoney(SSNSender,accountID1, amount);
+                transactionController.createTransaction(SSNSender+accountID1, SSNSender+accountID2, amount);
+                return "Successfully transferred " + amount + " SEK from Account " + accountID1 + " to Account " + accountID2 + ". ";
+            }
+
         } catch (Exception accountNotFound) {
             return accountNotFound.getMessage();
         }
@@ -206,16 +214,30 @@ public class CustomerController {
     public String transferMoneyToOtherCustomer(String SSNSender, String accountNumber, double amount, String accountID1) {
         String SSNReceiver = accountNumber.substring(0, 10);
         String accID2 = accountNumber.substring(10, 12);
-        try {
-            TransactionController transactionController = new TransactionController();
-            depositMoney(SSNReceiver, accID2, amount);
-            withdrawMoney(SSNSender, accountID1, amount);
-            transactionController.createTransaction(SSNSender+accountID1, accountNumber, amount);
-            return "Successfully transferred " + amount + " SEK to " + accountNumber;
-            // Make a transaction here too
-        } catch (Exception accountNotFound){
-            return accountNotFound.getMessage();
+        BankAccount to = findBankAccount(SSNReceiver, accID2);
+        if (to == null) {
+            return "Receipient account not found";
         }
+        else {
+            try {
+
+
+                TransactionController transactionController = new TransactionController();
+                BankAccount from = findBankAccount(SSNSender, accountID1);
+                if (from.getBalance() < amount ) {
+                    return "Amount too large to transfer";
+                } else {
+                    depositMoney(SSNReceiver, accID2, amount);
+                    withdrawMoney(SSNSender, accountID1, amount);
+                    transactionController.createTransaction(SSNSender+accountID1, accountNumber, amount);
+                    return "Successfully transferred " + amount + " SEK to " + accountNumber;
+                }
+                // Make a transaction here too
+            } catch (Exception accountNotFound){
+                return accountNotFound.getMessage();
+            }
+        }
+
     }
 
     public String printAllAccounts(String SSN) {
