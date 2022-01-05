@@ -150,10 +150,12 @@ public class CustomerMenu {
         }
     }
 
+    // use verbs when naming methods according to Java convention
     public void transactionsSortedInAscendingOrder(TransactionController transactionController, String SSN, String accID) {
         System.out.print(transactionController.sortTransactionsAscending(SSN, accID));
     }
 
+    // use verbs when naming methods according to Java convention
     public void transactionsSortedInDescendingOrder(TransactionController transactionController, String SSN, String accID) {
         System.out.print(transactionController.sortTransactionsDescending(SSN, accID));
     }
