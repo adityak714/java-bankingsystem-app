@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class EmployeeMenu {
     String EMPLOYEE_HEADING = "Employee Menu: Please choose a valid option.";
     String[] EMPLOYEE_OPTIONS = {
-            "Return to Employee Main Menu",
+            "Return to Main Menu",
             "Menu for Customer handling",
             "Menu for Application handling",
             "Menu for Transaction handling",
@@ -17,15 +17,17 @@ public class EmployeeMenu {
 
     String MANAGER_HEADING = "Manager Menu: Please choose a valid option.";
     String[] MANAGER_OPTIONS = {
-            "Log out",
+            "Return to Main Menu",
             "Menu for Customer handling",
             "Menu for Application handling",
+            "Menu for Transaction handling",
+            "Menu for Settings",
             "Menu for Employee handling"
     };
 
     String MANAGER_HEADING2 = "Employee handling menu: Please choose a valid option.";
     String[] MANAGER_OPTIONS2 = {
-            "Go back",
+            "Return to Main Menu",
             "List all registered employees",
             "Remove an employee",
             "Create an employee",
@@ -34,7 +36,7 @@ public class EmployeeMenu {
 
     String EMPLOYEE_HEADING2 = "Customer handling menu: Please choose a valid option.";
     String[] EMPLOYEE_OPTIONS2 = {
-            "Return to Employee Main Menu",
+            "Return to Main Menu",
             "Create customer",
             "Delete customer",
             "Delete bank account",
@@ -43,7 +45,7 @@ public class EmployeeMenu {
     };
     String EMPLOYEE_HEADING3 = "Account request handling menu: Please choose a valid option.";
     String[] EMPLOYEE_OPTIONS3 = {
-            "Return to Employee Main Menu",
+            "Return to Main Menu",
             "Review specific customer account request",
             "Review specific bank account request",
             "List all customer account request",
@@ -51,13 +53,14 @@ public class EmployeeMenu {
     };
     String EMPLOYEE_HEADING4 = "Transaction handling menu: Please choose a valid option.";
     String[] EMPLOYEE_OPTIONS4 = {
+            "Return to Main Menu",
             "Show all transactions",
             "Show all transactions for a customer",
             "Show all transactions for an account"
     };
     String EMPLOYEE_HEADING5 = "Settigns: Please choose a valid option.";
     String[] EMPLOYEE_OPTIONS5 = {
-            "Return to Employee Main Menu",
+            "Return to Main Menu",
             "Update Password",
             "My Information"
     };
@@ -174,21 +177,21 @@ public class EmployeeMenu {
 
     public void showTransactionMenu(TransactionController transactionController){
         Menu employeeTransactionMenu = new Menu(EMPLOYEE_HEADING4, EMPLOYEE_OPTIONS4);
-        System.out.println(employeeTransactionMenu);
-        int userInput = employeeTransactionMenu.getValidOption();
+        int userInput = 0;
         do {
+            System.out.println(employeeTransactionMenu);
+            userInput = employeeTransactionMenu.getValidOption();
             switch (userInput){
                 case 1: // print all transactions
                     printAllTransactions(transactionController);
                     break;
                 case 2: // print all transactions for a customer
                     printSpecificCustomerTransactions(transactionController);
-                break;
+                    break;
                 case 3: // print all transactions for an account
                     printSpecificBankAccountTransactions(transactionController);
-                break;
+                    break;
             }
-            break;
         }while (userInput != 0);
 
     }
@@ -316,9 +319,10 @@ public class EmployeeMenu {
 
     }
     public void printSpecificBankAccountTransactions(TransactionController transactionController){
-        String accID = Util.readLine("Type in the account ID of the bank account you want to look at:");
-        String SSN = accID.substring(0,8);
-        System.out.println(transactionController.printTransactionsForAnAccount(SSN, accID));
+        String accountNumber = Util.readLine("Type in the account number of the bank account you want to look at:");
+        String SSN = accountNumber.substring(0,10);
+        String accountID = accountNumber.substring(10,12);
+        System.out.println(transactionController.printTransactionsForAnAccount(SSN, accountID));
     }
     // goes to a specific customers customer account requests
     public void specificCustomerAccountRequest(AccountRequestController accountRequestController) throws Exception {
@@ -347,9 +351,9 @@ public class EmployeeMenu {
     // lists all customer account requests, then allows the employee to approve/deny that request
     public void listAllCustomerAccountRequests(AccountRequestController accountRequestController) throws Exception {
         System.out.println(accountRequestController.printAllCustomerAccountRequests());
-        int requestNum = (Util.readInt("Which request do you want to look at? type 0 to exit")) - 1;
+        int requestNum = (Util.readInt("Which request do you want to look at? type 0 to exit"));
         if (requestNum != 0){
-            CustomerAccountRequest request = accountRequestController.getSpecificCustomerAccountRequestFromList(requestNum);
+            CustomerAccountRequest request = accountRequestController.getSpecificCustomerAccountRequestFromList(requestNum-1);
             System.out.println(request.toString());
             approveDenyCustomerAccountRequest(request, accountRequestController);
         }
@@ -357,9 +361,9 @@ public class EmployeeMenu {
     // lists all bank account requests, then allows the employee to approve/deny that request
     public void listAllBankAccountRequests(AccountRequestController accountRequestController) throws Exception {
         System.out.println(accountRequestController.printAllBankAccountRequests());
-        int requestNum = (Util.readInt("Which request do you want to check out? type 0 to exit")) -1;
+        int requestNum = (Util.readInt("Which request do you want to check out? type 0 to exit"));
         if (requestNum != 0){
-            BankAccountRequest request = accountRequestController.getSpecificBankAccountRequestFromList(requestNum);
+            BankAccountRequest request = accountRequestController.getSpecificBankAccountRequestFromList(requestNum-1);
             System.out.println(request.toString());
             approveDenyBankAccountRequest(request, accountRequestController);
         }
@@ -368,7 +372,7 @@ public class EmployeeMenu {
     public void approveDenyCustomerAccountRequest(CustomerAccountRequest request, AccountRequestController accountRequestController) throws Exception {
         String stringUserInput = "";
         do {
-            stringUserInput = Util.readLine("Please type in: approve or deny");
+            stringUserInput = Util.readLine("Please type in \"approve\" or \"deny\": ");
             if (stringUserInput.equals("approve")) {
                 //Util.readLine("Please type in the reason for the approval:"); do we need message for approval?
                 String message = Util.readLine("Please type in the reason for the approval:");
@@ -377,7 +381,7 @@ public class EmployeeMenu {
                 String message = Util.readLine("Please type in the reason for the denial:");
                 accountRequestController.denyAccountRequest(request, message);
             } else {
-                System.out.println("please input a valid option (approve/deny)");
+                System.out.println("Please input a valid option (\"approve\" or \"deny\").");
             }
         }while (!(stringUserInput.equals("approve") || stringUserInput.equals("deny")));
     }
@@ -385,16 +389,16 @@ public class EmployeeMenu {
     public void approveDenyBankAccountRequest(BankAccountRequest request, AccountRequestController accountRequestController){
         String stringUserInput = "";
         do {
-            stringUserInput = Util.readLine("Please type in: approve or deny");
+            stringUserInput = Util.readLine("Please type in \"approve\" or \"deny\": ");
             if (stringUserInput.equals("approve")) {
                 //Util.readLine("Please type in the reason for the approval:"); do we need message for approval?
-                String message = Util.readLine("Please type in the reason for the approval:");
+                String message = Util.readLine("Please type in the reason for the approval (can be left blank): ");
                 accountRequestController.approveBankAccountRequest(request, message);
             } else if (stringUserInput.equals("deny")) {
-                String message = Util.readLine("Please type in the reason for the denial:");
+                String message = Util.readLine("Please type in the reason for the denial: ");
                 accountRequestController.denyAccountRequest(request, message);
             } else {
-                System.out.println("please input a valid option (approve/deny)");
+                System.out.println("Please input a valid option (\"approve\" or \"deny\").");
             }
         }while (!(stringUserInput.equals("approve") || stringUserInput.equals("deny")));
     }

@@ -198,7 +198,6 @@ public class CustomerController {
 
         try {
             TransactionController transactionController = new TransactionController();
-            BankAccount to = findBankAccount(SSNSender, accountID2);
             depositMoney(SSNSender, accountID2, amount);
             withdrawMoney(SSNSender,accountID1, amount);
             transactionController.createTransaction(SSNSender+accountID1, SSNSender+accountID2, amount);
@@ -206,8 +205,8 @@ public class CustomerController {
         } catch (Exception accountNotFound) {
             return accountNotFound.getMessage();
         }
-            //Create a transaction here right
-           // transactionController.createTransaction(SSNSender+accountID1, SSNSender+accountID2, amount);
+        //Create a transaction here right
+        // transactionController.createTransaction(SSNSender+accountID1, SSNSender+accountID2, amount);
     }
 
     public String transferMoneyToOtherCustomer(String SSNSender, String accountNumber, double amount, String accountID1) {
@@ -221,7 +220,7 @@ public class CustomerController {
             return "Successfully transferred " + amount + " SEK to " + accountNumber;
             // Make a transaction here too
         } catch (Exception accountNotFound){
-          return accountNotFound.getMessage();
+            return accountNotFound.getMessage();
         }
     }
 
