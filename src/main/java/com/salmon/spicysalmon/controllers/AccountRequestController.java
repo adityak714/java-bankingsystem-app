@@ -91,14 +91,14 @@ public class AccountRequestController {
         String returnString = "";
         String customerName= "";
         for(BankAccountRequest request : list) {
-           if (request.getAccountName().length() > 20) {accountName = request.getAccountName().substring(0,21);} //Shortens bank account name to 20 chars if its longer than that.
+           if (request.getAccountName().length() > 23) {accountName = request.getAccountName().substring(0,24);} //Shortens bank account name to 20 chars if its longer than that.
            else {accountName = request.getAccountName();}
            if (request.getREQUESTEE().getFirstName().length() > 10){customerName = request.getREQUESTEE().getFirstName().substring(0,11);} //Shortens first name if longer than 10 chars
            else {customerName = request.getREQUESTEE().getFirstName();}
-            sb.append(requestNumber + " ".repeat(10-(String.valueOf(requestNumber)).length()) + request.getStatusToString() + " ".repeat(11-request.getStatusToString().length()) + customerName
+            sb.append(requestNumber + " ".repeat(5-(String.valueOf(requestNumber)).length()) + request.getStatusToString() + " ".repeat(11-request.getStatusToString().length()) + customerName
                    + " " + request.getREQUESTEE().getLastName().charAt(0) +"." + " ".repeat(14-customerName.length()-3)
                    + request.getREQUESTEE().getSocialSecurityNumber() + " ".repeat(13-request.getREQUESTEE().getSocialSecurityNumber().length())
-                   + accountName + " ".repeat(22-accountName.length()) + request.getCREATIONDATE().substring(0,10));
+                   + accountName + " ".repeat(25-accountName.length()) + request.getCREATIONDATE().substring(0,10));
             requestNumber += 1;
             if (requestNumber != list.size() + 1) {
                 sb.append(Util.EOL);
@@ -106,7 +106,7 @@ public class AccountRequestController {
         }
         returnString = Util.EOL
                 + "--------------------------------------------------------------------------------" + Util.EOL
-                + "Number    " + "Status     " + "Customer      " + "SSN          " + "Account Name          " + "Created   " + Util.EOL
+                + "#    " + "Status     " + "Customer      " + "SSN          " + "Account Name             " + "Created   " + Util.EOL
                 + "--------------------------------------------------------------------------------" +  Util.EOL
                 + sb.toString() + Util.EOL
                 + "--------------------------------------------------------------------------------" + Util.EOL;
@@ -223,8 +223,14 @@ public class AccountRequestController {
                 name = request.getFirstName() + " " + request.getLastName().substring(0, 26-request.getFirstName().length()) + "..";
             }
             else {name = request.getFirstName() + " " + request.getLastName();}
-            sb.append(requestNumber + " ".repeat(10-(String.valueOf(requestNumber)).length())).append(request.getStatusToString() + " ".repeat(13-request.getStatusToString().length()))
-                    .append(name + " ".repeat(29-name.length())).append(request.getSocialSecurityNumber() + " ".repeat(18-request.getSocialSecurityNumber().length())).append(request.getCREATIONDATE().substring(0,10));
+            sb.append(requestNumber)
+                    .append(" ".repeat(5-(String.valueOf(requestNumber)).length()))
+                    .append(request.getStatusToString())
+                    .append(" ".repeat(12-request.getStatusToString().length()))
+                    .append(name)
+                    .append(" ".repeat(27-name.length()))
+                    .append(request.getSocialSecurityNumber()).append(" ".repeat(16-request.getSocialSecurityNumber().length()))
+                    .append(request.getCREATIONDATE().substring(0,10));
 
             requestNumber += 1;
             if (requestNumber != list.size()+1) {
@@ -232,9 +238,9 @@ public class AccountRequestController {
             }
         }
         returnString = Util.EOL
-                     + "-".repeat(80) + Util.EOL
-                     + "Number    " + "Status       " + "Name                         " + "SSN               " + "Created   " + Util.EOL
-                     + "-".repeat(80) +  Util.EOL + sb.toString() + Util.EOL + "-".repeat(80) + Util.EOL;
+                     + "-".repeat(70) + Util.EOL
+                     + "#    " + "Status      " + "Name                       " + "SSN             " + "Created   " + Util.EOL
+                     + "-".repeat(70) +  Util.EOL + sb.toString() + Util.EOL + "-".repeat(70) + Util.EOL;
         return returnString;
     }
 
