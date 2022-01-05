@@ -309,7 +309,7 @@ public class EmployeeMenu {
         System.out.println(customerController.printAllCustomers());
     }
     public void printAllBankAccounts(CustomerController customerController){
-        customerController.printAllBankAccounts();
+        System.out.println(customerController.printAllBankAccounts());
     }
     public void printAllTransactions(TransactionController transactionController){
         System.out.println(transactionController.printAllTransactions());

@@ -45,10 +45,12 @@ public class BankAccountRequest extends AccountRequest{
                         + "|Created: " + this.getCREATIONDATE(); //If the request is pending we show creation date.
             else if (this.getIsApproved() == 1)
                 status = "|Status: Approved" + Util.EOL
+                        + "|Message: " + this.getMessage() + Util.EOL
                         + "|Created: " + this.getCREATIONDATE() + Util.EOL //If the request was approved/denied we also show when it was resolved.
                         + "|Resolved : " + this.getRESOLVEDDATE();
             else
                 status = "|Status: Denied" + Util.EOL
+                        + "|Message: " + this.getMessage() + Util.EOL
                         + "|Created: " + this.getCREATIONDATE() + Util.EOL
                         + "|Resolved : " + this.getRESOLVEDDATE();
             return
@@ -65,18 +67,4 @@ public class BankAccountRequest extends AccountRequest{
                             + "|Salary: " + String.format("%.0f",REQUESTEE.getSalary()) + Util.EOL
                             + "|" + line + Util.EOL;
         }
-
-
-    /*public int compareTo(Customer otherCustomer) { //Compare last name letter by letter
-            int nameLength = Math.max(this.getREQUESTEE().getLastName().length(), otherCustomer.getLastName().length()); //Checks which last name is longer
-            for (int i = 0; i < nameLength; i++) {
-                if (this.getREQUESTEE().getLastName().toLowerCase().charAt(i) < otherCustomer.getLastName().toLowerCase().charAt(i)){
-                    return -1;
-                }
-                if (this.getREQUESTEE().getLastName().toLowerCase().charAt(i) > otherCustomer.getLastName().toLowerCase().charAt(i)){
-                    return 1;
-                }
-            }
-            return 0;
-        }*/
 }
