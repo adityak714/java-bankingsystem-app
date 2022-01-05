@@ -9,6 +9,7 @@ import java.util.LinkedHashMap;
 public class EmployeeController {
     private static final LinkedHashMap<String, Employee> employeeAccounts = new LinkedHashMap<>();
 
+    //Method to retrieve the employee from the list of employees.
     public Employee getEmployee(String SSN){
         return employeeAccounts.get(SSN);
     }
@@ -55,6 +56,7 @@ public class EmployeeController {
         Employee employee = getEmployee(SSN);
         employee.changePassword(testPassword, newPassword);
     }
+    //Method to print an employee
     public String printEmployee(String SSN) {
         try {
             Employee employee = getEmployee(SSN);

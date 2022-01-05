@@ -174,7 +174,7 @@ public class EmployeeMenu {
         }while (userInput != 0);
 
     }
-
+    // menu for transactions
     public void showTransactionMenu(TransactionController transactionController){
         Menu employeeTransactionMenu = new Menu(EMPLOYEE_HEADING4, EMPLOYEE_OPTIONS4);
         int userInput = 0;
@@ -195,6 +195,7 @@ public class EmployeeMenu {
         }while (userInput != 0);
 
     }
+    // method to display menu for settings
     public void showSettingsMenu(EmployeeController employeeController, String SSN) {
         Menu employeeSettingsMenu = new Menu(EMPLOYEE_HEADING5, EMPLOYEE_OPTIONS5);
         System.out.println(employeeSettingsMenu);
@@ -217,7 +218,7 @@ public class EmployeeMenu {
             break;
         } while (userInput != 0);
     }
-
+    // menu for employee handling
     private void showEmployeeHandlingMenu(String SSN, EmployeeController employeeController){
         Menu employeeHandlingMenu = new Menu(MANAGER_HEADING2, MANAGER_OPTIONS2);
         int userInput = 0;
@@ -306,13 +307,15 @@ public class EmployeeMenu {
         System.out.println("You have chosen: Print all registered customers.");
         System.out.println(customerController.printAllCustomers());
     }
+    //method to print all registered bank accounts
     public void printAllBankAccounts(CustomerController customerController){
         customerController.printAllBankAccounts();
     }
+    //Method to print all transactions for all registered customers
     public void printAllTransactions(TransactionController transactionController){
         System.out.println(transactionController.printAllTransactions());
     }
-
+    //method to print a specific customer's transactions
     public void printSpecificCustomerTransactions(TransactionController transactionController){
         String SSN = Util.readLine("Type in the SSN of the customers you want to look at: ");
         System.out.println(transactionController.printTransactionsForAllAccounts(SSN));
@@ -408,6 +411,7 @@ public class EmployeeMenu {
         String newPassword = Util.readLine("Enter your new password: ");
         employeeController.changePassword(testPassword, newPassword, SSN);
     }
+    // Method to print the information of an employee
     public void showUserInfo(EmployeeController employeeController, String SSN) {
         System.out.print(employeeController.printEmployee(SSN));
     }

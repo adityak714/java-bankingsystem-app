@@ -8,11 +8,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class CustomerController {
-    private static final HashMap<String, Customer> customersList = new HashMap<>(); // "customerList" is a better name?
+    private static final HashMap<String, Customer> customersList = new HashMap<>(); // Arraylist of customers
     //Method to create a customer.
     public void createCustomer(String SSN, String password, String firstName, String lastName, double salary, String residentialArea, String occupation) throws Exception {
         TransactionController transactionsController = new TransactionController();
         if(Util.checkSSNFormat(SSN)){
+            //If customer exists and the SSN is unique
             if(findCustomer(SSN) == null && transactionsController.checkIfSSNUnique(SSN)) {
                 Customer newCustomer = new Customer(SSN, password, firstName, lastName, salary, residentialArea, occupation);
                 customersList.put(SSN, newCustomer);
@@ -187,7 +188,7 @@ public class CustomerController {
     }
 
      */
-
+    ///Method to transfer money from one account to another owned by the same person
     public String transferMoneyWithinCustomerAccounts(String SSNSender, double amount, String accountID1, String accountID2)  {
 
         try {
@@ -210,12 +211,13 @@ public class CustomerController {
         //Create a transaction here right
         // transactionController.createTransaction(SSNSender+accountID1, SSNSender+accountID2, amount);
     }
-
+    //Method for transfer of money from a logged in customer to another customer
     public String transferMoneyToOtherCustomer(String SSNSender, String accountNumber, double amount, String accountID1) {
         String SSNReceiver = accountNumber.substring(0, 10);
         String accID2 = accountNumber.substring(10, 12);
-        BankAccount to = findBankAccount(SSNReceiver, accID2);
-        if (to == null) {
+        BankAccount receipient = findBankAccount(SSNReceiver, accID2);
+        //Check if account is not registered
+        if (receipient == null) {
             return "Receipient account not found";
         }
         else {
@@ -239,7 +241,7 @@ public class CustomerController {
         }
 
     }
-
+    //Method to print all registered bank accounts
     public String printAllAccounts(String SSN) {
         try {
             //Assuming the customer is logged in already
@@ -261,7 +263,7 @@ public class CustomerController {
         }
     }
 
-    //Added this so we can show this to the customer
+    //Method to display the bank account of a customer
     public String printSpecificAccount(String SSN, String accountID)  {
         try {
             BankAccount account = findBankAccount(SSN, accountID);
@@ -270,7 +272,7 @@ public class CustomerController {
             return accountNotFound.getMessage();
         }
     }
-
+    //Method to change the password of a customer
     public String changePassword(String testPassword, String newPassword, String SSN) {
         String message = "";
         try {
@@ -282,7 +284,7 @@ public class CustomerController {
         }
         return message;
     }
-
+    //Method that changes the occupation of the customer
     public String changeOccupation(String occupation, String SSN) {
         try {
             Customer customer = findCustomer(SSN);
@@ -293,7 +295,7 @@ public class CustomerController {
             return customerNotFound.getMessage();
         }
     }
-
+    //method that changes the residential area of a customer
     public String changeResidentialArea(String residentialArea, String SSN) {
         try {
             Customer customer = findCustomer(SSN);
@@ -303,6 +305,7 @@ public class CustomerController {
             return customerNotFound.getMessage();
         }
     }
+    //Returns all registered customers
     public HashMap<String, Customer> getCustomersList(){
         return customersList;
     }

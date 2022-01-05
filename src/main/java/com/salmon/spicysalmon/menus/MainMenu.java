@@ -14,7 +14,7 @@ public class MainMenu {
             "Sign up for account",
             "Authorized Personnel"
     };
-
+    //Method to show main menu
     public void show(){
         int userInput = 0;
         Menu mainMenu = new Menu(MAIN_HEADING, MAIN_OPTIONS);
