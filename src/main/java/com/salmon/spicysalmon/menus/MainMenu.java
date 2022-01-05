@@ -14,7 +14,7 @@ public class MainMenu {
             "Sign up for account",
             "Authorized Personnel"
     };
-
+    //Method to show main menu
     public void show(){
         int userInput = 0;
         Menu mainMenu = new Menu(MAIN_HEADING, MAIN_OPTIONS);
@@ -35,7 +35,7 @@ public class MainMenu {
                     break;
             }
         } while(userInput != 0);
-        System.out.print("Good bye!"); // tors 30 dec. 15:39
+        System.out.print("Goodbye!");
     }
 
     // read the components necessary for a customer account request and then create that request

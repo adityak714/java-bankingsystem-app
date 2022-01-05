@@ -1,5 +1,6 @@
 package com.salmon.spicysalmon;
 
+import java.io.Console;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Scanner;
@@ -49,6 +50,17 @@ public class Util {
         return SSN.matches("^\\d{10}$");
     }
 
+    public static String readPassword(String message){
+        System.out.print(message);
+        try{
+            Console console = System.console();
+            char[] passwordChars = console.readPassword();
+            return String.valueOf(passwordChars);
+        } catch(Exception e){
+            return readLine("");
+        }
+    }
+
     public static String readNewPassword(){
         String password = "";
         String verifiedPassword = "";
@@ -56,15 +68,15 @@ public class Util {
             System.out.println("Create a new password, it has to have:"
                     + Util.EOL + "Both upper-case and lower-case letters"
                     + Util.EOL + "One number"
-                    + Util.EOL + "Longer than 8 characters" + Util.EOL);
-            password = readLine("Enter your password: ");
-            verifiedPassword = readLine("Confirm your password: ");
+                    + Util.EOL + "At least 8 characters" + Util.EOL);
+            password = readPassword("Enter your password: ");
+            verifiedPassword = readPassword("Confirm your password: ");
 
             System.out.println();
             if(password.equals(password.toLowerCase())) System.out.println("Your password did not have a uppercase Character");
             if(password.equals(password.toUpperCase())) System.out.println("Your password did not have a lowercase Character");
             if(!password.matches(".*[0-9].*")) System.out.println("Your password did not have a number");
-            if(password.length() < 8) System.out.println("Your password was not longer than 8 characters");
+            if(password.length() <= 8) System.out.println("Your password was not 8 or more characters");
             if(!password.equals(verifiedPassword)) System.out.println("The passwords do not match, please try again!");
             System.out.println();
         } while (!(password.length() > 8

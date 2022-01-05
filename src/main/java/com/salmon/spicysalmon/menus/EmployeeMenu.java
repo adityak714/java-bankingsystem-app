@@ -175,7 +175,7 @@ public class EmployeeMenu {
         }while (userInput != 0);
 
     }
-
+    // menu for transactions
     public void showTransactionMenu(TransactionController transactionController){
         Menu employeeTransactionMenu = new Menu(EMPLOYEE_HEADING4, EMPLOYEE_OPTIONS4);
         int userInput = 0;
@@ -196,6 +196,7 @@ public class EmployeeMenu {
         }while (userInput != 0);
 
     }
+    // method to display menu for settings
     public void showSettingsMenu(EmployeeController employeeController, String SSN) {
         Menu employeeSettingsMenu = new Menu(EMPLOYEE_HEADING5, EMPLOYEE_OPTIONS5);
         int userInput = 0;
@@ -219,7 +220,7 @@ public class EmployeeMenu {
             break;
         } while (userInput != 0);
     }
-
+    // menu for employee handling
     private void showEmployeeHandlingMenu(String SSN, EmployeeController employeeController){
         Menu employeeHandlingMenu = new Menu(MANAGER_HEADING2, MANAGER_OPTIONS2);
         int userInput = 0;
@@ -308,34 +309,36 @@ public class EmployeeMenu {
         System.out.println("You have chosen: Print all registered customers.");
         System.out.println(customerController.printAllCustomers());
     }
+    //method to print all registered bank accounts
     public void printAllBankAccounts(CustomerController customerController){
-        System.out.println(customerController.printAllBankAccounts());
+        System.out.println(customerController.printAllBankAccountsEmployee());
     }
+    //Method to print all transactions for all registered customers
     public void printAllTransactions(TransactionController transactionController){
         System.out.println(transactionController.printAllTransactions());
     }
-
+    //method to print a specific customer's transactions
     public void printSpecificCustomerTransactions(TransactionController transactionController){
-        String SSN = Util.readLine("Type in the SSN of the customers you want to look at:");
+        String SSN = Util.readLine("Type in the SSN of the customers you want to look at: ");
         System.out.println(transactionController.printTransactionsForAllAccounts(SSN));
 
     }
     public void printSpecificBankAccountTransactions(TransactionController transactionController){
-        String accountNumber = Util.readLine("Type in the account number of the bank account you want to look at:");
+        String accountNumber = Util.readLine("Type in the account number of the bank account you want to look at: ");
         String SSN = accountNumber.substring(0,10);
         String accountID = accountNumber.substring(10,12);
         System.out.println(transactionController.printTransactionsForAnAccount(SSN, accountID));
     }
     // goes to a specific customers customer account requests
     public void specificCustomerAccountRequest(AccountRequestController accountRequestController) throws Exception {
-        String SSN = Util.readLine("Which customers request do you want to look at?");
+        String SSN = Util.readLine("Which customer's request do you want to look at? Type the SSN: ");
         CustomerAccountRequest CAR = accountRequestController.getCustomerAccountRequestBySSN(SSN); // CAR = Customer Account Request
         System.out.println(CAR.toString());
         approveDenyCustomerAccountRequest(CAR, accountRequestController);
     }
     // goes to a specific customers bank account requests
     public void specificBankBankAccountRequest(AccountRequestController accountRequestController) throws Exception {
-        String SSN = Util.readLine("Which customers request do you want to look at?");
+        String SSN = Util.readLine("Which customers request do you want to look at? Type the SSN: ");
         ArrayList<BankAccountRequest> BARs = accountRequestController.getBankAccountRequestsForSpecificCustomer(SSN); // BARs = Bank Account Requests
         for (BankAccountRequest BAR : BARs){
             System.out.println(BAR.toString());
@@ -343,7 +346,7 @@ public class EmployeeMenu {
         if (BARs.size() == 1){
             approveDenyBankAccountRequest(BARs.get(0), accountRequestController);
         }else {
-            int userInput = (Util.readInt("Which request do you want to look at?")) - 1;
+            int userInput = (Util.readInt("Which request do you want to look at: ")) - 1;
             BankAccountRequest BAR = BARs.get(userInput);
             System.out.println(BAR);
             approveDenyBankAccountRequest(BAR, accountRequestController);
@@ -353,7 +356,7 @@ public class EmployeeMenu {
     // lists all customer account requests, then allows the employee to approve/deny that request
     public void listAllCustomerAccountRequests(AccountRequestController accountRequestController) throws Exception {
         System.out.println(accountRequestController.printAllCustomerAccountRequests());
-        int requestNum = (Util.readInt("Which request do you want to look at? type 0 to exit"));
+        int requestNum = (Util.readInt("Which request do you want to look at (type 0 to exit): "));
         if (requestNum != 0){
             CustomerAccountRequest request = accountRequestController.getSpecificCustomerAccountRequestFromList(requestNum-1);
             System.out.println(request.toString());
@@ -363,7 +366,7 @@ public class EmployeeMenu {
     // lists all bank account requests, then allows the employee to approve/deny that request
     public void listAllBankAccountRequests(AccountRequestController accountRequestController) throws Exception {
         System.out.println(accountRequestController.printAllBankAccountRequests());
-        int requestNum = (Util.readInt("Which request do you want to check out? type 0 to exit"));
+        int requestNum = (Util.readInt("Which request do you want to check out (type 0 to exit): "));
         if (requestNum != 0){
             BankAccountRequest request = accountRequestController.getSpecificBankAccountRequestFromList(requestNum-1);
             System.out.println(request.toString());
@@ -410,6 +413,7 @@ public class EmployeeMenu {
         String newPassword = Util.readLine("Enter your new password: ");
         employeeController.changePassword(testPassword, newPassword, SSN);
     }
+    // Method to print the information of an employee
     public void showUserInfo(EmployeeController employeeController, String SSN) {
         System.out.print(employeeController.printEmployee(SSN));
     }
