@@ -54,11 +54,11 @@ public abstract class AccountRequest implements Comparable<AccountRequest>{
 
     @Override
     public int compareTo(AccountRequest otherRequest) {
-        if (this.isApproved < otherRequest.getIsApproved())
-            return 1;
-        if (this.isApproved > otherRequest.getIsApproved())
+        if (this.getIsApproved() == 0)
             return -1;
-       else
-        return 0;
+        if (this.getIsApproved() > otherRequest.getIsApproved())
+            return 1;
+        else
+            return 0;
     }
 }

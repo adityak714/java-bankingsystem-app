@@ -242,9 +242,9 @@ public class AccountRequestController {
     //Returns ArrayList with all Bank Account Requests, copied and reversed
     //because then we get new requests first
     public ArrayList<CustomerAccountRequest> getAllCustomerAccountRequests() throws Exception{
-        ArrayList<CustomerAccountRequest> returnList = new ArrayList<>();
-        returnList.addAll(allCustomerAccountRequests);
+        ArrayList<CustomerAccountRequest> returnList = new ArrayList<>(allCustomerAccountRequests);
         Collections.reverse(returnList);//This should sort it by creation date (new first) because in allCustomerAccountRequests the oldest will be first in the list.
+        returnList.sort(AccountRequest::compareTo);
         if (returnList.isEmpty()){throw new Exception("There are no customer account requests.");}
         else return returnList;
     }
