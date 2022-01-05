@@ -148,13 +148,11 @@ public class TransactionController {
         Calendar calendar = Calendar.getInstance();
         String limitedTransactionList = "";
         ArrayList<Transaction> desiredAccount = allTransactions.get(SSN).get(accID);
-
         try {
             Date lowerBoundDate = formatter.parse(startInterval);
             Date upperBoundDate = formatter.parse(endInterval);
             Date currentDay = calendar.getTime();
-
-            //If the customer sets an upperbound of ex. 2034, the method sets it back to the current date
+                //If the customer sets an upperbound of ex. 2034, the method sets it back to the current date
             if(upperBoundDate.after(currentDay)){
                 upperBoundDate = currentDay;
             }
@@ -167,11 +165,10 @@ public class TransactionController {
                 }
             }
         }
-
         catch (ParseException p){
             return "Please enter the date in the form YYYY/MM/DD";
-        }
 
+        }
         return limitedTransactionList;
     }
 
@@ -220,3 +217,4 @@ public class TransactionController {
     }
 
 }
+
