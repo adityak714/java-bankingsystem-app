@@ -14,7 +14,7 @@ public class AuthenticationController {
     private String[] getLoginInfo() {
         System.out.println(Util.EOL + "Login: Please fill in your details!");
         String SSN = Util.readLine("Social Security Number: ");
-        String password = Util.readLine("Password: ");
+        String password = Util.readPassword("Password: ");
         return new String[]{SSN, password};
     }
 
