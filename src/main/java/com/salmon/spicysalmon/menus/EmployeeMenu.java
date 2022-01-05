@@ -177,9 +177,10 @@ public class EmployeeMenu {
 
     public void showTransactionMenu(TransactionController transactionController){
         Menu employeeTransactionMenu = new Menu(EMPLOYEE_HEADING4, EMPLOYEE_OPTIONS4);
-        System.out.println(employeeTransactionMenu);
-        int userInput = employeeTransactionMenu.getValidOption();
+        int userInput = 0;
         do {
+            System.out.println(employeeTransactionMenu);
+            userInput = employeeTransactionMenu.getValidOption();
             switch (userInput){
                 case 1: // print all transactions
                     printAllTransactions(transactionController);
@@ -391,7 +392,7 @@ public class EmployeeMenu {
             stringUserInput = Util.readLine("Please type in \"approve\" or \"deny\": ");
             if (stringUserInput.equals("approve")) {
                 //Util.readLine("Please type in the reason for the approval:"); do we need message for approval?
-                String message = Util.readLine("Please type in the reason for the approval: ");
+                String message = Util.readLine("Please type in the reason for the approval (can be left blank): ");
                 accountRequestController.approveBankAccountRequest(request, message);
             } else if (stringUserInput.equals("deny")) {
                 String message = Util.readLine("Please type in the reason for the denial: ");
