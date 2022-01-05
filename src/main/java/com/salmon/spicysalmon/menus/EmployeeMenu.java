@@ -198,9 +198,10 @@ public class EmployeeMenu {
     }
     public void showSettingsMenu(EmployeeController employeeController, String SSN) {
         Menu employeeSettingsMenu = new Menu(EMPLOYEE_HEADING5, EMPLOYEE_OPTIONS5);
-        System.out.println(employeeSettingsMenu);
-        int userInput = employeeSettingsMenu.getValidOption();
+        int userInput = 0;
         do {
+            System.out.println(employeeSettingsMenu);
+            userInput = employeeSettingsMenu.getValidOption();
             switch (userInput) {
                 case 1: // change password
                     try {
