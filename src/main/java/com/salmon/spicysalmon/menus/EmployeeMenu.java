@@ -138,8 +138,10 @@ public class EmployeeMenu {
 
         Menu employeeAccountRequestMenu = new Menu(EMPLOYEE_HEADING3,EMPLOYEE_OPTIONS3);
         System.out.print(employeeAccountRequestMenu);
-        int userInput = employeeAccountRequestMenu.getValidOption();
+        int userInput = 0;
         do {
+            System.out.print(employeeAccountRequestMenu);
+            userInput = employeeAccountRequestMenu.getValidOption();
             switch (userInput) {
                 case 1: // approve/deny customer application
                     try {
@@ -170,7 +172,6 @@ public class EmployeeMenu {
                     }
                     break;
             }
-            break;
         }while (userInput != 0);
 
     }
@@ -198,9 +199,10 @@ public class EmployeeMenu {
     // method to display menu for settings
     public void showSettingsMenu(EmployeeController employeeController, String SSN) {
         Menu employeeSettingsMenu = new Menu(EMPLOYEE_HEADING5, EMPLOYEE_OPTIONS5);
-        System.out.println(employeeSettingsMenu);
-        int userInput = employeeSettingsMenu.getValidOption();
+        int userInput = 0;
         do {
+            System.out.println(employeeSettingsMenu);
+            userInput = employeeSettingsMenu.getValidOption();
             switch (userInput) {
                 case 1: // change password
                     try {
@@ -266,15 +268,15 @@ public class EmployeeMenu {
     // creates a new customer
     public void createCustomer(CustomerController customerController){
         System.out.println("You have chosen: Create a customer.");
-        String socialSecurityNumber = Util.readLine("What is your SSN?: ");
+        String firstName = Util.readLine("Enter your first name: ");
+        String lastName = Util.readLine("Enter your last name: ");
         String password = Util.readNewPassword();
-        String firstName = Util.readLine("What is your first name?: ");
-        String lastName = Util.readLine("What is your last name?: ");
-        double salary = Util.readDouble("What is your salary?: ");
-        String residentalArea = Util.readLine("Where do you live?: ");
-        String occupation = Util.readLine("What is your occupation?: ");
+        String socialSecurityNumber = Util.readLine("Enter your social security number: ");
+        double salary = Util.readDouble("Enter your salary: ");
+        String residentialArea = Util.readLine("Enter your area of residence: ");
+        String occupation = Util.readLine("Enter your occupation: ");
         try{
-            customerController.createCustomer(socialSecurityNumber,password, firstName,lastName, salary, residentalArea, occupation);
+            customerController.createCustomer(socialSecurityNumber,password, firstName,lastName, salary, residentialArea, occupation);
         } catch (Exception e){
             System.out.println(e.getMessage());
         }
@@ -309,7 +311,7 @@ public class EmployeeMenu {
     }
     //method to print all registered bank accounts
     public void printAllBankAccounts(CustomerController customerController){
-        customerController.printAllBankAccounts();
+        System.out.println(customerController.printAllBankAccounts());
     }
     //Method to print all transactions for all registered customers
     public void printAllTransactions(TransactionController transactionController){

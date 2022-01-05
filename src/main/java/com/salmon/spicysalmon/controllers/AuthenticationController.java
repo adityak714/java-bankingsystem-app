@@ -14,7 +14,7 @@ public class AuthenticationController {
     private String[] getLoginInfo() {
         System.out.println(Util.EOL + "Login: Please fill in your details!");
         String SSN = Util.readLine("Social Security Number: ");
-        String password = Util.readLine("Password: ");
+        String password = Util.readPassword("Password: ");
         return new String[]{SSN, password};
     }
   /// Verifies customer login
@@ -26,7 +26,7 @@ public class AuthenticationController {
         Customer loggedInCustomer = customerController.findCustomer(SSN);
         if (loggedInCustomer != null && loggedInCustomer.verifyPassword(password)) {
             CustomerMenu customerMenu = new CustomerMenu();
-            customerMenu.show(SSN); //Added the SSN in the brackets
+            customerMenu.show(SSN); // Added the SSN in the brackets
         } else {
             System.out.println("Username or password incorrect.");
         }

@@ -40,43 +40,31 @@ public class BankAccountRequest extends AccountRequest{
             AccountRequestController accountRequestController = new AccountRequestController();
             String line = "-".repeat(50); //Separator line to segment things
             String status = "";
-            if (this.getIsApproved() == null)
+            if (this.getIsApproved() == 0)
                 status =  "|Status: Pending" + Util.EOL
                         + "|Created: " + this.getCREATIONDATE(); //If the request is pending we show creation date.
-            else if (this.getIsApproved() == true)
+            else if (this.getIsApproved() == 1)
                 status = "|Status: Approved" + Util.EOL
+                        + "|Message: " + this.getMessage() + Util.EOL
                         + "|Created: " + this.getCREATIONDATE() + Util.EOL //If the request was approved/denied we also show when it was resolved.
                         + "|Resolved : " + this.getRESOLVEDDATE();
             else
                 status = "|Status: Denied" + Util.EOL
+                        + "|Message: " + this.getMessage() + Util.EOL
                         + "|Created: " + this.getCREATIONDATE() + Util.EOL
                         + "|Resolved : " + this.getRESOLVEDDATE();
             return
                             "|" + line + Util.EOL
-                            + "Bank Account Request" + Util.EOL
+                            + "|Bank Account Request" + Util.EOL
                             + status + Util.EOL
                             + "|" + line + Util.EOL
-                            + "|CUSTOMER INFORMATION"
+                            + "|CUSTOMER INFORMATION" + Util.EOL
                             + "|" + line + Util.EOL
                             + "|Name: " +REQUESTEE.getFirstName() + " " + REQUESTEE.getLastName() + Util.EOL
                             + "|SSN: " +REQUESTEE.getSocialSecurityNumber() + Util.EOL
                             + "|Address: " + REQUESTEE.getResidentialArea() + Util.EOL
-                            + "|Occupation " + REQUESTEE.getOccupation() + Util.EOL
-                            + "|Salary: " + REQUESTEE.getSalary() + Util.EOL
+                            + "|Occupation: " + REQUESTEE.getOccupation() + Util.EOL
+                            + "|Salary: " + String.format("%.0f",REQUESTEE.getSalary()) + Util.EOL
                             + "|" + line + Util.EOL;
         }
-
-
-    /*public int compareTo(Customer otherCustomer) { //Compare last name letter by letter
-            int nameLength = Math.max(this.getREQUESTEE().getLastName().length(), otherCustomer.getLastName().length()); //Checks which last name is longer
-            for (int i = 0; i < nameLength; i++) {
-                if (this.getREQUESTEE().getLastName().toLowerCase().charAt(i) < otherCustomer.getLastName().toLowerCase().charAt(i)){
-                    return -1;
-                }
-                if (this.getREQUESTEE().getLastName().toLowerCase().charAt(i) > otherCustomer.getLastName().toLowerCase().charAt(i)){
-                    return 1;
-                }
-            }
-            return 0;
-        }*/
 }

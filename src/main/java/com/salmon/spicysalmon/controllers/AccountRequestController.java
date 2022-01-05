@@ -8,6 +8,7 @@ import com.salmon.spicysalmon.models.Customer;
 import java.util.ArrayList;
 import java.util.Collections;
 
+
 /* Maybe Customers should have an ArrayList with their requests instead or both?
    Not sure if we can have the Customers see the status of their requests,
    but this is maybe solved once we connect the GUI?
@@ -15,9 +16,6 @@ import java.util.Collections;
 public class AccountRequestController {
     public static ArrayList<BankAccountRequest> allBankAccountRequests = new ArrayList<>();
     public static ArrayList<CustomerAccountRequest> allCustomerAccountRequests = new ArrayList<>();
-
-
-
 
     //Creates a new request and puts in the ArrayList of requests
     public void createBankAccountRequest(Customer customer, String accountName) {
@@ -91,13 +89,16 @@ public class AccountRequestController {
         StringBuilder sb = new StringBuilder();
         String accountName = "";
         String returnString = "";
-        for(BankAccountRequest request : list) { //String.format("%-10s",requestNumber); -10 means it would insert 10 empty spaces to the right of requestNumber which would be 1 for the first loop. without the dash
-            if (request.getAccountName().length() > 20) {accountName = request.getAccountName().substring(0,21);}
-            else {accountName = request.getAccountName();}
-            sb.append(requestNumber + " ".repeat(9) + request.getStatusToString() + " ".repeat(12-request.getStatusToString().length()) + request.getREQUESTEE().getFirstName()
-                    + " " + request.getREQUESTEE().getLastName().charAt(0) +"." + " ".repeat(13-request.getREQUESTEE().getFirstName().length()-3)
-                    + request.getREQUESTEE().getSocialSecurityNumber() + " ".repeat(13-request.getREQUESTEE().getSocialSecurityNumber().length())
-                    + accountName + " ".repeat(22-accountName.length()) + request.getCREATIONDATE().substring(0,10));
+        String customerName= "";
+        for(BankAccountRequest request : list) {
+           if (request.getAccountName().length() > 23) {accountName = request.getAccountName().substring(0,24);} //Shortens bank account name to 20 chars if its longer than that.
+           else {accountName = request.getAccountName();}
+           if (request.getREQUESTEE().getFirstName().length() > 10){customerName = request.getREQUESTEE().getFirstName().substring(0,11);} //Shortens first name if longer than 10 chars
+           else {customerName = request.getREQUESTEE().getFirstName();}
+            sb.append(requestNumber + " ".repeat(5-(String.valueOf(requestNumber)).length()) + request.getStatusToString() + " ".repeat(11-request.getStatusToString().length()) + customerName
+                   + " " + request.getREQUESTEE().getLastName().charAt(0) +"." + " ".repeat(14-customerName.length()-3)
+                   + request.getREQUESTEE().getSocialSecurityNumber() + " ".repeat(13-request.getREQUESTEE().getSocialSecurityNumber().length())
+                   + accountName + " ".repeat(25-accountName.length()) + request.getCREATIONDATE().substring(0,10));
             requestNumber += 1;
             if (requestNumber != list.size() + 1) {
                 sb.append(Util.EOL);
@@ -105,7 +106,7 @@ public class AccountRequestController {
         }
         returnString = Util.EOL
                 + "--------------------------------------------------------------------------------" + Util.EOL
-                + "Number    " + "Status      " + "Customer     " + "SSN          " + "Account Name          " + "Created   " + Util.EOL
+                + "#    " + "Status     " + "Customer      " + "SSN          " + "Account Name             " + "Created   " + Util.EOL
                 + "--------------------------------------------------------------------------------" +  Util.EOL
                 + sb.toString() + Util.EOL
                 + "--------------------------------------------------------------------------------" + Util.EOL;
@@ -116,7 +117,8 @@ public class AccountRequestController {
     //because then we get new requests first
     public ArrayList<BankAccountRequest> getAllBankAccountRequests()throws Exception{
         ArrayList<BankAccountRequest> returnList = new ArrayList<>(allBankAccountRequests);
-        Collections.reverse(returnList); //This should sort it by creation date (new first) because in allBankAccountRequests the oldest will be first in the list.
+        Collections.reverse(returnList); //Will put most recent ones first
+        returnList.sort(AccountRequest::compareTo); //Will then compare Status, puts Pending requests first since those are the most interesting ones for an employee to look at
         if(returnList.isEmpty()){throw new Exception("There are no bank account requests.");}
         else return returnList;
     }
@@ -163,7 +165,7 @@ public class AccountRequestController {
     public ArrayList<BankAccountRequest> getAllPendingBankAccountRequests() throws Exception{
         ArrayList<BankAccountRequest> returnList = new ArrayList<>();
         for (BankAccountRequest request : allBankAccountRequests) {
-            if (request.getIsApproved() == null) {
+            if (request.getIsApproved() == 0) {
                 returnList.add(request);
             }
         }
@@ -221,8 +223,14 @@ public class AccountRequestController {
                 name = request.getFirstName() + " " + request.getLastName().substring(0, 26-request.getFirstName().length()) + "..";
             }
             else {name = request.getFirstName() + " " + request.getLastName();}
-            sb.append(requestNumber + " ".repeat(9)).append(request.getStatusToString() + " ".repeat(13-request.getStatusToString().length()))
-                    .append(name + " ".repeat(29-name.length())).append(request.getSocialSecurityNumber() + " ".repeat(18-request.getSocialSecurityNumber().length())).append(request.getCREATIONDATE().substring(0,10));
+            sb.append(requestNumber)
+                    .append(" ".repeat(5-(String.valueOf(requestNumber)).length()))
+                    .append(request.getStatusToString())
+                    .append(" ".repeat(12-request.getStatusToString().length()))
+                    .append(name)
+                    .append(" ".repeat(27-name.length()))
+                    .append(request.getSocialSecurityNumber()).append(" ".repeat(16-request.getSocialSecurityNumber().length()))
+                    .append(request.getCREATIONDATE().substring(0,10));
 
             requestNumber += 1;
             if (requestNumber != list.size()+1) {
@@ -230,9 +238,9 @@ public class AccountRequestController {
             }
         }
         returnString = Util.EOL
-                + "-".repeat(80) + Util.EOL
-                + "Number    " + "Status       " + "Name                         " + "SSN               " + "Created   " + Util.EOL
-                + "-".repeat(80) +  Util.EOL + sb.toString() + Util.EOL + "-".repeat(80) + Util.EOL;
+                     + "-".repeat(70) + Util.EOL
+                     + "#    " + "Status      " + "Name                       " + "SSN             " + "Created   " + Util.EOL
+                     + "-".repeat(70) +  Util.EOL + sb.toString() + Util.EOL + "-".repeat(70) + Util.EOL;
         return returnString;
     }
 
@@ -240,9 +248,9 @@ public class AccountRequestController {
     //Returns ArrayList with all Bank Account Requests, copied and reversed
     //because then we get new requests first
     public ArrayList<CustomerAccountRequest> getAllCustomerAccountRequests() throws Exception{
-        ArrayList<CustomerAccountRequest> returnList = new ArrayList<>();
-        returnList.addAll(allCustomerAccountRequests);
+        ArrayList<CustomerAccountRequest> returnList = new ArrayList<>(allCustomerAccountRequests);
         Collections.reverse(returnList);//This should sort it by creation date (new first) because in allCustomerAccountRequests the oldest will be first in the list.
+        returnList.sort(AccountRequest::compareTo);
         if (returnList.isEmpty()){throw new Exception("There are no customer account requests.");}
         else return returnList;
     }
@@ -274,7 +282,7 @@ public class AccountRequestController {
     public ArrayList<CustomerAccountRequest> getAllPendingCustomerAccountRequests() throws Exception {
         ArrayList<CustomerAccountRequest> returnList = new ArrayList<>();
         for (CustomerAccountRequest request : allCustomerAccountRequests) {
-            if (request.getIsApproved() == null) {
+            if (request.getIsApproved() == 0) {
                 returnList.add(request);
             }
         }

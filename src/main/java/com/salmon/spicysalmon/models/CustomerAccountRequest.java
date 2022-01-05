@@ -66,19 +66,20 @@ public class CustomerAccountRequest extends AccountRequest{
     */
 
     public String toString(){
-
         String status = "";
-        if (this.getIsApproved() == null) {
+        if (this.getIsApproved() == 0) {
             status = "|Status: Pending" + Util.EOL
                     + "|Created: " + getCREATIONDATE(); //If the request is pending we show creation date.
         }
-        else if (this.getIsApproved() == true){
+        else if (this.getIsApproved() == 1){
             status = "|Status: Approved" + Util.EOL
+                    + "|Message: " + this.getMessage() + Util.EOL
                     + "|Created: " + getCREATIONDATE() + Util.EOL //If the request was approved/denied we also show when it was resolved.
                     + "|Resolved : " + getRESOLVEDDATE();
         }
         else
             status = "|Status: Denied" + Util.EOL
+                    + "|Message: " + this.getMessage() + Util.EOL
                     + "|Created: " + getCREATIONDATE() + Util.EOL
                     + "|Resolved : " + getRESOLVEDDATE();
         return

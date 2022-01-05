@@ -17,6 +17,7 @@ public class CustomerController {
             if(findCustomer(SSN) == null && transactionsController.checkIfSSNUnique(SSN)) {
                 Customer newCustomer = new Customer(SSN, password, firstName, lastName, salary, residentialArea, occupation);
                 customersList.put(SSN, newCustomer);
+                transactionsController.initializeCustomer(SSN);
             } else{
                 throw new Exception("A customer with that SSN already exists.");
             }
@@ -38,31 +39,37 @@ public class CustomerController {
             throw new Exception("The customer was not found.");
         }
     }
-
     //Functionality to print all customers
     public String printAllCustomers() {
-        String EOL = System.lineSeparator();
+        int customerNumber = 1;
         if (customersList.isEmpty()) {
-            return "No customers registered yet.";
+            return "There are no registered customers";
         }
-        String message = "All registered customers:" + EOL + "-------------------------" + EOL;
-        for (String SSN : customersList.keySet()) {
-            Customer customer = customersList.get(SSN);
-            message += printCustomer(customer.getSocialSecurityNumber()) + EOL;
+        String message = "All registered customers" + Util.EOL
+                + "--------------------------------------------------" + Util.EOL
+                + "#    SSN          Name" + Util.EOL
+                + "--------------------------------------------------";
+        StringBuilder sb = new StringBuilder();
+        for (Customer customer : customersList.values()) {
+            String customerName = customer.getFirstName() + " " + customer.getLastName();
+            if (customerName.length() > 32){customerName.substring(0,33);}
+            sb.append(Util.EOL)
+                    .append(customerNumber)
+                    .append(" ".repeat(5-String.valueOf(customerNumber).length()))
+                    .append(customer.getSocialSecurityNumber())
+                    .append(" ".repeat(3)).append(customerName);
+            customerNumber += 1;
         }
+        message += sb.toString() + Util.EOL
+                + "--------------------------------------------------";
         return message;
     }
 
     //Functionality to display a customer
     public String printCustomer(String SSN) {
         try {
-            String EOL = System.lineSeparator();
             Customer customer = findCustomer(SSN);
-            String firstName = customer.getFirstName();
-            String lastName = customer.getLastName();
-            return ("Name: " + firstName + " " + lastName + EOL + "Occupation: " +
-                    customer.getOccupation() + EOL + "Residential Area: " +
-                    customer.getResidentialArea() + EOL);
+            return customer.toString();
         } catch(Exception ex) {
             return ex.getMessage();
         }
@@ -83,13 +90,11 @@ public class CustomerController {
     }
      */
     ///Method to create a bank account for a customer
-    public String createBankAccount(String SSN, String accountName){
-        try {
-            Customer customer = findCustomer(SSN);
-            return customer.createBankAccount(accountName);
-        } catch(Exception ex) {
-            return ex.getMessage();
-        }
+    public void createBankAccount(String SSN, String accountName){
+        TransactionController transactionController = new TransactionController();
+        Customer customer = findCustomer(SSN);
+        String newAccID = customer.createBankAccount(accountName);
+        transactionController.initializeBankAccount(SSN, newAccID);
     }
 
 
@@ -310,8 +315,39 @@ public class CustomerController {
         return customersList;
     }
 
-    public String printAllBankAccounts(){
-        ArrayList<String> allBankAccounts = new ArrayList<>();
+    public String printAllBankAccounts() {
+        int bankAccountNumber = 1;
+        if (customersList.isEmpty()) {
+            return "There are no bank accounts.";
+        }
+
+        String message = "All Bank Accounts" + Util.EOL
+                + "--------------------------------------------------" + Util.EOL
+                + "#   Account ID    Account Name      Owner Name" + Util.EOL
+                + "--------------------------------------------------";
+        StringBuilder sb = new StringBuilder();
+        for (Customer customer : customersList.values()) {
+            for (BankAccount bankAccount : customer.getBankAccounts()) {
+                String accountName = bankAccount.getAccountName();
+                if (accountName.length() > 17) {
+                    accountName.substring(0, 18);
+                }
+                sb.append(Util.EOL)
+                        .append(bankAccountNumber)
+                        .append(" ".repeat(4 - String.valueOf(bankAccountNumber).length()))
+                        .append(bankAccount.getAccountNumber())
+                        .append(" ".repeat(14 - bankAccount.getAccountNumber().length()))
+                        .append(accountName)
+                        .append(" ".repeat(18 - accountName.length()))
+                        .append(bankAccount.getCustomerFirstName()).append(" ").append(bankAccount.getCustomerLastName().substring(0, 1)).append(".");
+                bankAccountNumber += 1;
+            }
+        }
+        message += sb.toString() + Util.EOL
+                + "--------------------------------------------------";
+        return message;
+    }
+       /* ArrayList<String> allBankAccounts = new ArrayList<>();
         String bankAccountsOfACustomer = "";
         String result = "";
         for (Customer customer : getCustomersList().values()){
@@ -325,8 +361,8 @@ public class CustomerController {
                 result += bankAccount + Util.EOL;
             }
         }
-        return result;
+        return result;*/
     }
-}
+
 
 
