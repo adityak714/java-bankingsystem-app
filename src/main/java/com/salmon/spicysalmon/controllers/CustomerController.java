@@ -227,8 +227,6 @@ public class CustomerController {
         }
         else {
             try {
-
-
                 TransactionController transactionController = new TransactionController();
                 BankAccount from = findBankAccount(SSNSender, accountID1);
                 if (from.getBalance() < amount ) {
@@ -314,7 +312,7 @@ public class CustomerController {
     public HashMap<String, Customer> getCustomersList(){
         return customersList;
     }
-
+    //Method to print all bank accounts
     public String printAllBankAccounts() {
         int bankAccountNumber = 1;
         if (customersList.isEmpty()) {
