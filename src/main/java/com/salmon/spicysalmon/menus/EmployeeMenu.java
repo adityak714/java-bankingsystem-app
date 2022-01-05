@@ -265,15 +265,15 @@ public class EmployeeMenu {
     // creates a new customer
     public void createCustomer(CustomerController customerController){
         System.out.println("You have chosen: Create a customer.");
-        String socialSecurityNumber = Util.readLine("What is your SSN?: ");
+        String firstName = Util.readLine("Enter your first name: ");
+        String lastName = Util.readLine("Enter your last name: ");
         String password = Util.readNewPassword();
-        String firstName = Util.readLine("What is your first name?: ");
-        String lastName = Util.readLine("What is your last name?: ");
-        double salary = Util.readDouble("What is your salary?: ");
-        String residentalArea = Util.readLine("Where do you live?: ");
-        String occupation = Util.readLine("What is your occupation?: ");
+        String socialSecurityNumber = Util.readLine("Enter your social security number: ");
+        double salary = Util.readDouble("Enter your salary: ");
+        String residentialArea = Util.readLine("Enter your area of residence: ");
+        String occupation = Util.readLine("Enter your occupation: ");
         try{
-            customerController.createCustomer(socialSecurityNumber,password, firstName,lastName, salary, residentalArea, occupation);
+            customerController.createCustomer(socialSecurityNumber,password, firstName,lastName, salary, residentialArea, occupation);
         } catch (Exception e){
             System.out.println(e.getMessage());
         }
