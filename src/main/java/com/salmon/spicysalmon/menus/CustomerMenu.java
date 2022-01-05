@@ -75,7 +75,7 @@ public class CustomerMenu {
 
         int totalNumberOfAccounts = customerController.getNumOfAccounts(SSN);
         if (totalNumberOfAccounts == 0) {
-            System.out.println("You do not have a bank account.");
+            System.out.println("You do not have a bank account. You can apply for one in the main menu.");
         } else {
             int inputFromUser = 0;// Initialize the variable called inputFromUser
             System.out.println(customerController.printAllAccounts(SSN));
@@ -88,12 +88,11 @@ public class CustomerMenu {
             } while (inputFromUser > totalNumberOfAccounts || inputFromUser <= 0 );
             String accountID = inputFromUser < 10 ? "0" + inputFromUser : inputFromUser+"";// Parse inputFromUser to String
 
-            String accountHeading = "You are viewing: "+customerController.printSpecificAccount(SSN, accountID);
-            Menu bankAccountMenu = new Menu(accountHeading, CUSTOMER_OPTIONS2);
-
             // Do-while for the bank account menu
             int userInput = 0;
             do {
+                String accountHeading = "Current Account: "+customerController.printSpecificAccount(SSN, accountID);
+                Menu bankAccountMenu = new Menu(accountHeading, CUSTOMER_OPTIONS2);
                 System.out.print(bankAccountMenu);
                 userInput = bankAccountMenu.getValidOption();
                 switch (userInput) {
@@ -160,15 +159,20 @@ public class CustomerMenu {
     public void transferWithinAccounts(CustomerController customerController, String SSN, String accountID) {
         int numberOfAccounts = customerController.getNumOfAccounts(SSN);
         int  random = 0;
+        String accountID2;
         do  {
+            System.out.println(customerController.printAllAccounts(SSN));
             random = Util.readInt("Enter your desired bank account ID: ");
             if (random > numberOfAccounts || random <= 0) {
                 System.out.println("Invalid accountID. You need to type a valid account ID.");
             }
-        } while (random > numberOfAccounts || random <= 0 );
-        String zero = "0";
-        String x = Integer.toString(random);
-        String accountID2 = zero + x;
+            accountID2 = random < 10 ? "0" + random : random+"";
+            // make sure the current account cannot be typed in again.
+            if(accountID2.equals(accountID)){
+                System.out.println("You cannot transfer money within the same account.");
+            }
+        } while (random > numberOfAccounts || random <= 0 || accountID2.equals(accountID));
+
         double amount = Util.readDouble("Enter the amount: ");
         System.out.println(customerController.transferMoneyWithinCustomerAccounts(SSN, amount, accountID, accountID2));
     }
@@ -177,12 +181,10 @@ public class CustomerMenu {
         String accountNumber = "";
         do  {
             accountNumber = Util.readLine("Enter the account number of the recipient: ");
-
-            int accountNumberLength = accountNumber.length();
-            if (accountNumberLength != 12) {
-                System.out.println("The account number you entered is less than 12 digits. Try again.");
+            if (!Util.isValidAccountNumberFormat(accountNumber)) {
+                System.out.println("The account number you entered has an incorrect format. Try again.");
             }
-        } while (accountNumber.length() != 12);
+        } while (!Util.isValidAccountNumberFormat(accountNumber));
 
         double amount = Util.readDouble("Enter the amount: ");
         System.out.println(customerController.transferMoneyToOtherCustomer(SSN, accountNumber, amount, accountID1));

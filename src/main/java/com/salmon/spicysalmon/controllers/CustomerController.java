@@ -12,17 +12,13 @@ public class CustomerController {
     //Method to create a customer.
     public void createCustomer(String SSN, String password, String firstName, String lastName, double salary, String residentialArea, String occupation) throws Exception {
         TransactionController transactionsController = new TransactionController();
-        if(Util.checkSSNFormat(SSN)){
-            //If customer exists and the SSN is unique
-            if(findCustomer(SSN) == null && transactionsController.checkIfSSNUnique(SSN)) {
-                Customer newCustomer = new Customer(SSN, password, firstName, lastName, salary, residentialArea, occupation);
-                customersList.put(SSN, newCustomer);
-                transactionsController.initializeCustomer(SSN);
-            } else{
-                throw new Exception("A customer with that SSN already exists.");
-            }
+        //If customer exists and the SSN is unique
+        if(findCustomer(SSN) == null && transactionsController.checkIfSSNUnique(SSN)) {
+            Customer newCustomer = new Customer(SSN, password, firstName, lastName, salary, residentialArea, occupation);
+            customersList.put(SSN, newCustomer);
+            transactionsController.initializeCustomer(SSN);
         } else{
-            throw new Exception("SSN formatting incorrect, use format YYMMDDXXXX");
+            throw new Exception("A customer with that SSN already exists.");
         }
     }
     //Method to find a customer

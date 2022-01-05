@@ -46,8 +46,11 @@ public class Util {
         return formatter.format(calendar.getTime());
     }
 
-    public static boolean checkSSNFormat(String SSN){
+    public static boolean isValidSSNFormat(String SSN){
         return SSN.matches("^\\d{10}$");
+    }
+    public static boolean isValidAccountNumberFormat(String accNum){
+        return accNum.matches("^\\d{12}$");
     }
 
     public static String readPassword(String message){
