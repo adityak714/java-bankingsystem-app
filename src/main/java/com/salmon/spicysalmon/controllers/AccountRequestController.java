@@ -14,8 +14,8 @@ import java.util.Collections;
    but this is maybe solved once we connect the GUI?
  */
 public class AccountRequestController {
-    public static ArrayList<BankAccountRequest> allBankAccountRequests = new ArrayList<>();
-    public static ArrayList<CustomerAccountRequest> allCustomerAccountRequests = new ArrayList<>();
+    private static final ArrayList<BankAccountRequest> allBankAccountRequests = new ArrayList<>();
+    private static final ArrayList<CustomerAccountRequest> allCustomerAccountRequests = new ArrayList<>();
 
     //Creates a new request and puts in the ArrayList of requests
     public void createBankAccountRequest(Customer customer, String accountName) {
