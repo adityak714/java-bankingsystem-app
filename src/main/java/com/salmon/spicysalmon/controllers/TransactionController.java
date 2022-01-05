@@ -1,6 +1,8 @@
 package com.salmon.spicysalmon.controllers;
 
 import com.salmon.spicysalmon.Util;
+import com.salmon.spicysalmon.models.BankAccount;
+import com.salmon.spicysalmon.models.Customer;
 import com.salmon.spicysalmon.models.Transaction;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -25,6 +27,16 @@ public class TransactionController {
         addTransactions(acc1, acc2, transaction1, transaction2);
     }
 
+    public void initializeCustomer(String SSN){
+        LinkedHashMap<String, ArrayList<Transaction>> newMap = new LinkedHashMap<>();
+        allTransactions.put(SSN, newMap);
+    }
+
+    public void initializeBankAccount(String SSN, String accID){
+        ArrayList<Transaction> newList= new ArrayList<>();
+        allTransactions.get(SSN).put(accID, newList);
+    }
+
     // Adds two transactions to their respective accounts
     public void addTransactions(String acc1, String acc2, Transaction transaction1, Transaction transaction2){
         // Extracting SSN and accountID from accountNumber
@@ -32,23 +44,8 @@ public class TransactionController {
         String accID1 = acc1.substring(10,12);
         String SSN2 = acc2.substring(0,10);
         String accID2 = acc2.substring(10,12);
-        try{
-            // No exceptions will be thrown if the accounts linked hashmap exists
-            allTransactions.get(SSN1).get(accID1).add(transaction1);
-            allTransactions.get(SSN2).get(accID2).add(transaction2);
-        } catch(NullPointerException e){
-            // initializes the transactions array with the appropriate collections and adds the transactions
-            ArrayList<Transaction> arr1 = new ArrayList<>();
-            arr1.add(transaction1);
-            ArrayList<Transaction> arr2 = new ArrayList<>();
-            arr2.add(transaction2);
-            LinkedHashMap<String, ArrayList<Transaction>> lm1 = new LinkedHashMap<>();
-            lm1.put(accID1, arr1);
-            LinkedHashMap<String, ArrayList<Transaction>> lm2 = new LinkedHashMap<>();
-            lm2.put(accID2, arr2);
-            allTransactions.put(SSN1, lm1);
-            allTransactions.put(SSN2, lm2);
-        }
+        allTransactions.get(SSN1).get(accID1).add(transaction1);
+        allTransactions.get(SSN2).get(accID2).add(transaction2);
     }
 
     public boolean checkIfSSNUnique(String SSN) {
@@ -56,17 +53,8 @@ public class TransactionController {
     }
 
     public String sortTransactionsAscending (String SSN, String accID){
-        try {
-            ArrayList<Transaction> sortedList = sortTransactionsByAmount(SSN, accID);
-            String sortedTransactions = "====================================================" + Util.EOL;
-            for (Transaction transaction : sortedList) {
-                sortedTransactions += transaction + Util.EOL +
-                        "====================================================" + Util.EOL;
-            }
-            return sortedTransactions;
-        } catch (Exception customerNotFound) {
-            return customerNotFound.getMessage();
-        }
+        ArrayList<Transaction> sortedList = sortTransactionsByAmount(SSN, accID);
+        return transactionsStringBuilder(sortedList);
     }
 
     // Sort transactions by amount
@@ -79,12 +67,8 @@ public class TransactionController {
     // Sort transactions by descending amount
     public String sortTransactionsDescending (String SSN, String accID) { // arre tis 4 jan 20:54: bug in this method
         ArrayList<Transaction> sortedList = sortTransactionsByAmount(SSN, accID);
-        String sortedTransactions = "";
-        for(int i = sortedList.size(); i > 0; i--){
-            sortedTransactions += sortedList.get(i) + Util.EOL +
-                    "====================================================" + Util.EOL;
-        }
-        return sortedTransactions;
+        Collections.reverse(sortedList);1
+        return transactionsStringBuilder(sortedList);
     }
 
     public String printTransactionsForAnAccount(String SSN, String accID){
@@ -149,23 +133,14 @@ public class TransactionController {
     }
 
     public String printTransactionsSortedEarliest(String SSN, String accID){
-        String transactionsList = "====================================================" + Util.EOL;
-        for(Transaction transaction : sortTransactionsDateEarliest(SSN, accID)){
-            transactionsList += transaction + Util.EOL +
-                    "====================================================" + Util.EOL;
-        }
-
-        return transactionsList;
+        ArrayList<Transaction> sortedEarliest = sortTransactionsDateEarliest(SSN, accID);
+        return transactionsStringBuilder(sortedEarliest);
     }
 
     public String printTransactionsSortedLatest(String SSN, String accID){
         ArrayList<Transaction> sortedList = sortTransactionsDateEarliest(SSN, accID);
-        String transactionsList = "====================================================" + Util.EOL;
-        for(int i=sortedList.size()-1; i>=0; i--){
-            transactionsList += sortedList.get(i) + Util.EOL +
-                    "====================================================" + Util.EOL;
-        }
-        return transactionsList;
+        Collections.reverse(sortedList);
+        return transactionsStringBuilder(sortedList);
     }
 
     public String sortByDateInterval (String SSN, String accID, String startInterval, String endInterval){
@@ -196,5 +171,50 @@ public class TransactionController {
         }
         return limitedTransactionList;
     }
+
+    public String transactionsStringBuilder(ArrayList<Transaction> transactions){
+        CustomerController customerController = new CustomerController();
+
+        StringBuilder sb = new StringBuilder();
+        String ID, ACC1, ACC2, DATE;
+        double AMOUNT;
+
+        int counter = 0;
+        for(Transaction transaction: transactions){
+            ID = transaction.getID();
+            ACC2 = transaction.getACC2();
+            DATE = transaction.getDATE().substring(0,11);
+            AMOUNT = transaction.getAMOUNT();
+
+            // get sender/reciever name
+            BankAccount theAccount = theAccount = customerController.findBankAccount(ACC2.substring(0,10), ACC2.substring(10,12));
+            // trim to 10, if firstName is longer than 10 letters
+            String firstName = theAccount.getCustomerFirstName();
+            firstName = firstName.length() > 10 ? firstName.substring(0,11)+"." : firstName;
+            // concatenate the first letter of the last Name
+            String personName = firstName + " " + theAccount.getCustomerLastName().charAt(0)+".";
+            String toFrom = personName + " ("+ACC2+")";
+            // append with appropriate number of spaces
+            sb.append(ID).append(" ".repeat(8)).append(toFrom).append(" ".repeat(AMOUNT > 0 ? 32-toFrom.length() : 31-toFrom.length()))
+                    .append(String.format("%.2f", AMOUNT)).append(" ".repeat(AMOUNT > 0 ? 13-String.format("%.2f", AMOUNT).length() : 14-String.format("%.2f", AMOUNT).length()))
+                    .append(DATE).append(" ".repeat(19-DATE.length()));
+            counter += 1;
+            if(counter != transactions.size()){
+                sb.append(Util.EOL);
+            }
+        }
+
+        if(transactions.isEmpty()){
+            return "No transactions for this account have been recorded.";
+        }
+
+        return Util.EOL
+                + "-----------------------------------------------------------------------------" + Util.EOL
+                + "ID                 " + "To/From                        " + "Amount        " + "Date   " + Util.EOL
+                + "-----------------------------------------------------------------------------" +  Util.EOL
+                + sb + Util.EOL
+                + "-----------------------------------------------------------------------------" + Util.EOL;
+    }
+
 }
 
