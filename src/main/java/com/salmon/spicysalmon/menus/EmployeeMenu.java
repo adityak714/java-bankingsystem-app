@@ -271,12 +271,19 @@ public class EmployeeMenu {
         String firstName = Util.readLine("Enter your first name: ");
         String lastName = Util.readLine("Enter your last name: ");
         String password = Util.readNewPassword();
-        String socialSecurityNumber = Util.readLine("Enter your social security number: ");
+        String SSN;
+        // make sure correct SSN format is inputted.
+        do{
+            SSN = Util.readLine("Enter your social security number: ");
+            if(!Util.isValidSSNFormat(SSN)){
+                System.out.println("Please use format YYMMDDXXXX");
+            }
+        }while(!Util.isValidSSNFormat(SSN));
         double salary = Util.readDouble("Enter your salary: ");
         String residentialArea = Util.readLine("Enter your area of residence: ");
         String occupation = Util.readLine("Enter your occupation: ");
         try{
-            customerController.createCustomer(socialSecurityNumber,password, firstName,lastName, salary, residentialArea, occupation);
+            customerController.createCustomer(SSN ,password, firstName,lastName, salary, residentialArea, occupation);
         } catch (Exception e){
             System.out.println(e.getMessage());
         }
