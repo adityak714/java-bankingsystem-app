@@ -1,6 +1,7 @@
 package com.salmon.spicysalmon.controllers;
 
 import com.salmon.spicysalmon.Util;
+import com.salmon.spicysalmon.models.BankAccountRequest;
 import com.salmon.spicysalmon.models.Transaction;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -53,6 +54,33 @@ public class TransactionController {
 
     public boolean checkIfSSNUnique(String SSN) {
         return allTransactions.get(SSN) == null;
+    }
+
+    //Returns a string used in printing all transactions
+    public String stringBuilderAllTransactions(ArrayList<Transaction> list){
+        int number = 1;
+        String amount = "";
+        StringBuilder sb = new StringBuilder();
+        for(Transaction transaction : list) {
+            amount = String.format("%.2f",transaction.AMOUNT);
+            if(!amount.startsWith("-")){ amount = " "+amount;}
+            sb.append(number).append(" ".repeat(6-String.valueOf(number).length()))
+                    .append(transaction.ACC1).append(" ".repeat(5))
+                    .append(transaction.ACC2).append(" ".repeat(4))
+                    .append(amount).append(" ".repeat(14-amount.length()))
+                    .append(transaction.DATE.substring(0,10)).append(" ".repeat(4))
+                    .append(transaction.ID);
+            number += 1;
+            if (number!= list.size() + 1) {
+                sb.append(Util.EOL);
+            }
+        }
+        return Util.EOL
+                + "------------------------------------------------------------------------------" + Util.EOL
+                + "#     From             To               Amount       Date          ID" + Util.EOL
+                + "------------------------------------------------------------------------------" +  Util.EOL
+                + sb.toString() + Util.EOL
+                + "------------------------------------------------------------------------------" + Util.EOL;
     }
 
     public String sortTransactionsAscending (String SSN, String accID){
@@ -119,13 +147,10 @@ public class TransactionController {
 
     public String printAllTransactions(){
         String result = "All Registered Transactions" + Util.EOL;
-        result += "====================================================" + Util.EOL;
         if(!allTransactions.isEmpty()){
-            for(Transaction transaction: sortTransactionsDateEarliest()){
-                result += transaction + Util.EOL +
-                        "====================================================" + Util.EOL;
+            result += stringBuilderAllTransactions(sortTransactionsDateEarliest());
             }
-        } else{
+         else{
             result += "No transactions registered yet." + Util.EOL;
         }
         return result;
