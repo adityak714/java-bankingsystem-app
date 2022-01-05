@@ -57,7 +57,7 @@ public class Util {
             char[] passwordChars = console.readPassword();
             return String.valueOf(passwordChars);
         } catch(Exception e){
-            return readLine(message);
+            return readLine("");
         }
     }
 
