@@ -73,38 +73,43 @@ public class CustomerMenu {
     public void showBankAccountMenu(CustomerController customerController, TransactionController transactionController, String SSN) {
         Menu bankAccountMenu = new Menu(CUSTOMER_HEADING2, CUSTOMER_OPTIONS2);
         int userInput = 0;
-        System.out.print(customerController.printAllAccounts(SSN));
-        int random = 0;// Initialize the variable called random
         int number = customerController.getNumOfAccounts(SSN);
-        do {
+        if (number == 0) {
+            System.out.println("You do not have a bank account.");
+        } else {
+            int random = 0;// Initialize the variable called random
+            System.out.print(customerController.printAllAccounts(SSN));
+            do {
 
-            random = Util.readInt("To select a specific bank account, Enter account ID: ");
-            if (random > number || random <= 0) {
-                System.out.println("Wrong option. You need to type a valid account ID.");
-            }
+                random = Util.readInt("To select a specific bank account, Enter account ID: ");
+                if (random > number || random <= 0) {
+                    System.out.println("Wrong option. You need to type a valid account ID.");
+                }
 
-        } while (random > number || random <= 0 );
-        String zero = "0";
-        String x = Integer.toString(random);
-        String accountID = zero + x;// Parse random to String
-        // Check if the ID is correct or not
+            } while (random > number || random <= 0 );
+            String zero = "0";
+            String x = Integer.toString(random);
+            String accountID = zero + x;// Parse random to String
+            // Check if the ID is correct or not
 
-        // Do-while for the bank account menu
-        do {
-            System.out.print(bankAccountMenu);
-            userInput = bankAccountMenu.getValidOption();
-            switch (userInput) {
-                case 1 -> showBalance(customerController, SSN, accountID);
-                case 2 -> transferWithinAccounts(customerController, SSN, accountID);
-                case 3 -> transferToOtherCustomer(customerController, SSN, accountID);
-                case 4 -> showRecentTransactions(transactionController, SSN, accountID);
-                case 5 -> showEarliestTransactions(transactionController, SSN, accountID);
-                case 6 -> showTransactionsForAnAccount(transactionController, SSN, accountID);
-                case 7 -> transactionsSortedInAscendingOrder(transactionController,SSN, accountID);
-                case 8 -> transactionsSortedInDescendingOrder(transactionController, SSN, accountID);
-                case 9 -> showTransactionsBetweenDates(transactionController, SSN, accountID);
-            }
-        } while (userInput != 0);
+            // Do-while for the bank account menu
+            do {
+                System.out.print(bankAccountMenu);
+                userInput = bankAccountMenu.getValidOption();
+                switch (userInput) {
+                    case 1 -> showBalance(customerController, SSN, accountID);
+                    case 2 -> transferWithinAccounts(customerController, SSN, accountID);
+                    case 3 -> transferToOtherCustomer(customerController, SSN, accountID);
+                    case 4 -> showRecentTransactions(transactionController, SSN, accountID);
+                    case 5 -> showEarliestTransactions(transactionController, SSN, accountID);
+                    case 6 -> showTransactionsForAnAccount(transactionController, SSN, accountID);
+                    case 7 -> transactionsSortedInAscendingOrder(transactionController,SSN, accountID);
+                    case 8 -> transactionsSortedInDescendingOrder(transactionController, SSN, accountID);
+                    case 9 -> showTransactionsBetweenDates(transactionController, SSN, accountID);
+                }
+            }while (userInput != 0);
+        }
+
     }
 
     public void showAccountSettings(String SSN, CustomerController customerController) {
@@ -177,6 +182,7 @@ public class CustomerMenu {
         String accountNumber = "";
         do  {
             accountNumber = Util.readLine("Enter the account number of the recipient: ");
+
             int accountNumberLength = accountNumber.length();
             if (accountNumberLength != 12) {
                 System.out.println("The account number you entered is less than 12 digits. Try again.");
@@ -197,8 +203,8 @@ public class CustomerMenu {
 
     // arre tis 4 jan. 20:57: bug in this method
     public void showTransactionsBetweenDates(TransactionController transactionController, String SSN, String accID) {
-        String startDate = Util.readLine("Enter the start date: ");
-        String endDate = Util.readLine("Enter the end date: ");
+        String startDate = Util.readLine("Enter the start date (YYYY/MM/DD): ");
+        String endDate = Util.readLine("Enter the end date (YYYY/MM/DD): ");
         System.out.print(transactionController.sortByDateInterval(SSN, accID, startDate, endDate));
     }
 
