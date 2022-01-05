@@ -78,9 +78,9 @@ public class CustomerMenu {
         int number = customerController.getNumOfAccounts(SSN);
         do {
 
-            random = Util.readInt("To select a specific bank account, Enter account ID: ");
+            random = Util.readInt("To select a specific bank account, Enter last digit of account ID: ");
             if (random > number || random <= 0) {
-                System.out.println("Wrong option. You need to type a valid account ID.");
+                System.out.println("Wrong option. You need to type a valid last digit of account ID.");
             }
 
         } while (random > number || random <= 0 );
@@ -145,10 +145,12 @@ public class CustomerMenu {
         }
     }
 
+    // use verbs when naming methods according to Java convention
     public void transactionsSortedInAscendingOrder(TransactionController transactionController, String SSN, String accID) {
         System.out.print(transactionController.sortTransactionsAscending(SSN, accID));
     }
 
+    // use verbs when naming methods according to Java convention
     public void transactionsSortedInDescendingOrder(TransactionController transactionController, String SSN, String accID) {
         System.out.print(transactionController.sortTransactionsDescending(SSN, accID));
     }
