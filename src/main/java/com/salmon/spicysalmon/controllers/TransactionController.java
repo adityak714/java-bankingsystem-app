@@ -26,12 +26,12 @@ public class TransactionController {
         Transaction transaction2 = new Transaction(acc2, acc1, amount, date);
         addTransactions(acc1, acc2, transaction1, transaction2);
     }
-
+    //Method to initialize transactions for a customer
     public void initializeCustomer(String SSN){
         LinkedHashMap<String, ArrayList<Transaction>> newMap = new LinkedHashMap<>();
         allTransactions.put(SSN, newMap);
     }
-
+    //Method to initialize bank account
     public void initializeBankAccount(String SSN, String accID){
         ArrayList<Transaction> newList= new ArrayList<>();
         allTransactions.get(SSN).put(accID, newList);
@@ -47,11 +47,11 @@ public class TransactionController {
         allTransactions.get(SSN1).get(accID1).add(transaction1);
         allTransactions.get(SSN2).get(accID2).add(transaction2);
     }
-
+    //This method check to see if there are transactions that exists
     public boolean checkIfSSNUnique(String SSN) {
         return allTransactions.get(SSN) == null;
     }
-
+    //Sort transactions in ascending order of price
     public String sortTransactionsAscending (String SSN, String accID){
         ArrayList<Transaction> sortedList = sortTransactionsByAmount(SSN, accID);
         return transactionsStringBuilder(sortedList);
@@ -70,7 +70,7 @@ public class TransactionController {
         Collections.reverse(sortedList);
         return transactionsStringBuilder(sortedList);
     }
-
+    //Returns a string that has the transactions for an account
     public String printTransactionsForAnAccount(String SSN, String accID){
         try {
             String transactionForAnAccount = "====================================================" + Util.EOL;
@@ -100,7 +100,7 @@ public class TransactionController {
             return customerNotFound.getMessage();
         }
     }
-
+    //Method returns all transactions
     public String printAllTransactions(){
         String result = "All Registered Transactions" + Util.EOL;
         result += "====================================================" + Util.EOL;
@@ -114,13 +114,13 @@ public class TransactionController {
         }
         return result;
     }
-
+    //Returns an arraylist of earliest transactions
     public ArrayList<Transaction> sortTransactionsDateEarliest(String SSN, String accID){
         ArrayList<Transaction> sortedList = new ArrayList<>(allTransactions.get(SSN).get(accID));
         sortedList.sort(Comparator.comparing(Transaction::getDATE));
         return sortedList;
     }
-
+    //Returns an arraylist of earliest transactions "duplicate code"
     public ArrayList<Transaction> sortTransactionsDateEarliest(){
         ArrayList<Transaction> sortedList = new ArrayList<>();
         for(String SSN : allTransactions.keySet()){
@@ -131,18 +131,18 @@ public class TransactionController {
         sortedList.sort(Comparator.comparing(Transaction::getDATE));
         return sortedList;
     }
-
+    //Methods that retrieves earliest transactions for printing
     public String printTransactionsSortedEarliest(String SSN, String accID){
         ArrayList<Transaction> sortedEarliest = sortTransactionsDateEarliest(SSN, accID);
         return transactionsStringBuilder(sortedEarliest);
     }
-
+    //Latest transactions sorted by this method
     public String printTransactionsSortedLatest(String SSN, String accID){
         ArrayList<Transaction> sortedList = sortTransactionsDateEarliest(SSN, accID);
         Collections.reverse(sortedList);
         return transactionsStringBuilder(sortedList);
     }
-
+    //This method returns transactions within a date interval
     public String sortByDateInterval (String SSN, String accID, String startInterval, String endInterval){
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
         Calendar calendar = Calendar.getInstance();
@@ -171,7 +171,7 @@ public class TransactionController {
         }
         return limitedTransactionList;
     }
-
+    //Stringbuilder for transactions
     public String transactionsStringBuilder(ArrayList<Transaction> transactions){
         CustomerController customerController = new CustomerController();
 

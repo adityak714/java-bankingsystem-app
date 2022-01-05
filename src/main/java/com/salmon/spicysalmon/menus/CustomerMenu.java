@@ -44,7 +44,7 @@ public class CustomerMenu {
             "Update Residential Area",
             "My Information"
     };
-
+    //Show the customer menu
     public void show(String SSN){
         AccountRequestController accountRequestController = new AccountRequestController();
         CustomerController customerController = new CustomerController();
@@ -72,20 +72,19 @@ public class CustomerMenu {
 
     // Bank account menu for a specific account
     public void showBankAccountMenu(CustomerController customerController, TransactionController transactionController, String SSN) {
-        int userInput = 0;
+
         int totalNumberOfAccounts = customerController.getNumOfAccounts(SSN);
         if (totalNumberOfAccounts == 0) {
             System.out.println("You do not have a bank account.");
         } else {
             int inputFromUser = 0;// Initialize the variable called inputFromUser
             System.out.println(customerController.printAllAccounts(SSN));
+            // make sure account id is valid
             do {
-
                 inputFromUser = Util.readInt("Select the account you want to view (#): ");
                 if (inputFromUser > totalNumberOfAccounts || inputFromUser <= 0) {
                     System.out.println("Please type in a valid option.");
                 }
-
             } while (inputFromUser > totalNumberOfAccounts || inputFromUser <= 0 );
             String accountID = inputFromUser < 10 ? "0" + inputFromUser : inputFromUser+"";// Parse inputFromUser to String
 
@@ -93,6 +92,7 @@ public class CustomerMenu {
             Menu bankAccountMenu = new Menu(accountHeading, CUSTOMER_OPTIONS2);
 
             // Do-while for the bank account menu
+            int userInput = 0;
             do {
                 System.out.print(bankAccountMenu);
                 userInput = bankAccountMenu.getValidOption();
@@ -109,7 +109,7 @@ public class CustomerMenu {
             } while (userInput != 0);
         }
     }
-
+    //display account settings
     public void showAccountSettings(String SSN, CustomerController customerController) {
         Menu accountSettingsMenu = new Menu(ACCOUNT_SETTINGSHEADING, ACCOUNT_SETTINGSOPTIONS);
         int userOption = 0;
@@ -126,6 +126,9 @@ public class CustomerMenu {
     }
 
     // Having the functionality in methods is the best for design instead of being in the switch block
+
+    //This method forwards the user preferred account name to the createBankAccountRequest
+    //In the account Request Controlller
     public void applyForBankAccount(CustomerController customerController, String SSN, AccountRequestController accountRequestController) {
         System.out.println("Kindly follow the instructions to create an account.");
         String accountName = Util.readLine("Enter the name of the new account: ");
@@ -133,7 +136,7 @@ public class CustomerMenu {
         accountRequestController.createBankAccountRequest(customer, accountName);
         System.out.print("Your new bank account is pending approval.");
     }
-
+    //Method to display all bank account applications made by the customer for a bank account
     public String showAllApplications(AccountRequestController accountRequestController, String SSN) {
         try {
             return (accountRequestController.printBankAccountRequestsForSpecificCustomer(SSN));
@@ -141,17 +144,15 @@ public class CustomerMenu {
             return (exception.getMessage());
         }
     }
-
-    // use verbs when naming methods according to Java convention
+    //Method to display sorted transactions by price in ascending order of amount transferred
     public void transactionsSortedInAscendingOrder(TransactionController transactionController, String SSN, String accID) {
         System.out.print(transactionController.sortTransactionsAscending(SSN, accID));
     }
-
-    // use verbs when naming methods according to Java convention
+    //Method to display sorted transactions by price in descending order of amount transferred
     public void transactionsSortedInDescendingOrder(TransactionController transactionController, String SSN, String accID) {
         System.out.print(transactionController.sortTransactionsDescending(SSN, accID));
     }
-
+   //Method to display balance
     public void showBalance(CustomerController customerController, String SSN, String accountID) {
         System.out.println(customerController.checkBalance(SSN, accountID));
     }
@@ -171,7 +172,7 @@ public class CustomerMenu {
         double amount = Util.readDouble("Enter the amount: ");
         System.out.println(customerController.transferMoneyWithinCustomerAccounts(SSN, amount, accountID, accountID2));
     }
-
+    //This method forwards information form the menu to the customer controller to transfer money to another customer
     public void transferToOtherCustomer(CustomerController customerController, String SSN, String accountID1)  {
         String accountNumber = "";
         do  {
@@ -186,16 +187,16 @@ public class CustomerMenu {
         double amount = Util.readDouble("Enter the amount: ");
         System.out.println(customerController.transferMoneyToOtherCustomer(SSN, accountNumber, amount, accountID1));
     }
-
+    //Method to display most recent transactions
     public void showRecentTransactions(TransactionController transactionController, String SSN, String accID) {
         System.out.print(transactionController.printTransactionsSortedLatest(SSN, accID));
     }
-
+    //Displays earliest transactions
     public void showEarliestTransactions(TransactionController transactionController, String SSN, String accID) {
         System.out.print(transactionController.printTransactionsSortedEarliest(SSN, accID));
     }
 
-    // arre tis 4 jan. 20:57: bug in this method
+    //Method to print transactions within a date interval
     public void showTransactionsBetweenDates(TransactionController transactionController, String SSN, String accID) {
         String startDate = Util.readLine("Enter the start date (YYYY/MM/DD): ");
         String endDate = Util.readLine("Enter the end date (YYYY/MM/DD): ");
