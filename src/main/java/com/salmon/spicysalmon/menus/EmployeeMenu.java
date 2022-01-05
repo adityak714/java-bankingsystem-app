@@ -138,8 +138,10 @@ public class EmployeeMenu {
 
         Menu employeeAccountRequestMenu = new Menu(EMPLOYEE_HEADING3,EMPLOYEE_OPTIONS3);
         System.out.print(employeeAccountRequestMenu);
-        int userInput = employeeAccountRequestMenu.getValidOption();
+        int userInput = 0;
         do {
+            System.out.print(employeeAccountRequestMenu);
+            userInput = employeeAccountRequestMenu.getValidOption();
             switch (userInput) {
                 case 1: // approve/deny customer application
                     try {
@@ -170,7 +172,6 @@ public class EmployeeMenu {
                     }
                     break;
             }
-            break;
         }while (userInput != 0);
 
     }
