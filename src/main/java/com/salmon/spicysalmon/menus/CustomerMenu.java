@@ -33,8 +33,8 @@ public class CustomerMenu {
             "Show Most Recent Transactions",
             "Show Oldest Transactions",
             "Show All Transactions",
-            "Show Transactions By Ascending Order",
-            "Show Transactions By Descending Order",
+            "Show Transactions By Ascending Order Of Amount",
+            "Show Transactions By Descending Order Of Amount",
             "Show Transactions Between Two Given Dates"
     };
     String ACCOUNT_SETTINGSHEADING = "Welcome to Account Settings: Please choose a valid option";
