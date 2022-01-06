@@ -2,7 +2,6 @@ package com.salmon.spicysalmon.controllers;
 
 import com.salmon.spicysalmon.Util;
 import com.salmon.spicysalmon.models.BankAccount;
-import com.salmon.spicysalmon.models.BankAccountRequest;
 import com.salmon.spicysalmon.models.Transaction;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -68,33 +67,6 @@ public class TransactionController {
         return allTransactions.get(SSN) == null;
     }
 
-    //Returns a string used in printing all transactions
-    public String stringBuilderAllTransactions(ArrayList<Transaction> list){
-        int number = 1;
-        String amount = "";
-        StringBuilder sb = new StringBuilder();
-        for(Transaction transaction : list) {
-            amount = String.format("%.2f",transaction.AMOUNT);
-            if(!amount.startsWith("-")){ amount = " "+amount;}
-            sb.append(number).append(" ".repeat(6-String.valueOf(number).length()))
-                    .append(transaction.ACC1).append(" ".repeat(5))
-                    .append(transaction.ACC2).append(" ".repeat(4))
-                    .append(amount).append(" ".repeat(14-amount.length()))
-                    .append(transaction.DATE.substring(0,10)).append(" ".repeat(4))
-                    .append(transaction.ID);
-            number += 1;
-            if (number!= list.size() + 1) {
-                sb.append(Util.EOL);
-            }
-        }
-        return Util.EOL
-                + "------------------------------------------------------------------------------" + Util.EOL
-                + "#     From             To               Amount       Date          ID" + Util.EOL
-                + "------------------------------------------------------------------------------" +  Util.EOL
-                + sb.toString() + Util.EOL
-                + "------------------------------------------------------------------------------" + Util.EOL;
-    }
-
     public String sortTransactionsAscending (String SSN, String accID){
         ArrayList<Transaction> sortedList = sortTransactionsByAmount(SSN, accID);
         try {
@@ -124,12 +96,9 @@ public class TransactionController {
     //Returns a string that has the transactions for an account
     public String printTransactionsForAnAccount(String SSN, String accID){
         try {
-            String transactionForAnAccount = "====================================================" + Util.EOL;
-            for(Transaction transaction : allTransactions.get(SSN).get(accID)){
-                transactionForAnAccount += transaction + Util.EOL +
-                        "====================================================" + Util.EOL;
-            }
-            return transactionForAnAccount;
+            //get list from
+            ArrayList<Transaction> list = new ArrayList<>(allTransactions.get(SSN).get(accID));
+            return transactionsStringBuilderEmployee(list);
         } catch (Exception customerNotFound){
             return customerNotFound.getMessage();
         }
@@ -140,9 +109,7 @@ public class TransactionController {
         try {
             ArrayList<Transaction> listOfAccounts = new ArrayList<>();
             for(String accountKey : allTransactions.get(SSN).keySet()){
-                for(Transaction transaction : allTransactions.get(SSN).get(accountKey)){
-                    listOfAccounts.add(transaction);
-                }
+                listOfAccounts.addAll(allTransactions.get(SSN).get(accountKey));
             }
             return transactionsStringBuilder(listOfAccounts);
         }
@@ -154,7 +121,7 @@ public class TransactionController {
     public String printAllTransactions(){
         String result = "All Registered Transactions" + Util.EOL;
         if(!allTransactions.isEmpty()){
-            result += stringBuilderAllTransactions(sortTransactionsDateEarliest());
+            result += transactionsStringBuilderEmployee(sortTransactionsDateEarliest());
             }
          else{
             result += "No transactions registered yet." + Util.EOL;
@@ -229,7 +196,7 @@ public class TransactionController {
         return transactionsStringBuilder(limitedTransactionList);
     }
 
-    //StringBuilder for transactions
+    //StringBuilder for transactions used by the customer
     public String transactionsStringBuilder(ArrayList<Transaction> transactions) throws Exception{
         CustomerController customerController = new CustomerController();
 
@@ -238,6 +205,11 @@ public class TransactionController {
         double AMOUNT;
 
         int counter = 0;
+
+        if(transactions.isEmpty()){
+            return "No transactions for this account have been recorded.";
+        }
+
         for(Transaction transaction: transactions){
             ID = transaction.getID();
             ACC2 = transaction.getACC2();
@@ -268,16 +240,42 @@ public class TransactionController {
             }
         }
 
-        if(transactions.isEmpty()){
-            return "No transactions for this account have been recorded.";
-        }
-
         return Util.EOL
                 + "-----------------------------------------------------------------------------" + Util.EOL
                 + "ID                 " + "To/From                        " + "Amount        " + "Date   " + Util.EOL
                 + "-----------------------------------------------------------------------------" +  Util.EOL
                 + sb + Util.EOL
                 + "-----------------------------------------------------------------------------" + Util.EOL;
+    }
+
+    //Returns a string used in printing transactions, used by the employee
+    public String transactionsStringBuilderEmployee(ArrayList<Transaction> list){
+        if(list.isEmpty()){
+            return "No transactions for this account have been recorded.";
+        }
+        int number = 1;
+        String amount = "";
+        StringBuilder sb = new StringBuilder();
+        for(Transaction transaction : list) {
+            amount = String.format("%.2f",transaction.AMOUNT);
+            if(!amount.startsWith("-")){ amount = " "+amount;}
+            sb.append(number).append(" ".repeat(6-String.valueOf(number).length()))
+                    .append(transaction.ACC1).append(" ".repeat(5))
+                    .append(transaction.ACC2).append(" ".repeat(4))
+                    .append(amount).append(" ".repeat(14-amount.length()))
+                    .append(transaction.DATE.substring(0,10)).append(" ".repeat(4))
+                    .append(transaction.ID);
+            number += 1;
+            if (number!= list.size() + 1) {
+                sb.append(Util.EOL);
+            }
+        }
+        return Util.EOL
+                + "------------------------------------------------------------------------------" + Util.EOL
+                + "#     From             To               Amount       Date          ID" + Util.EOL
+                + "------------------------------------------------------------------------------" +  Util.EOL
+                + sb.toString() + Util.EOL
+                + "------------------------------------------------------------------------------" + Util.EOL;
     }
 
 }

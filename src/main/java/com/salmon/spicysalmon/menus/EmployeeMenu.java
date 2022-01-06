@@ -193,7 +193,7 @@ public class EmployeeMenu {
         Menu employeeTransactionMenu = new Menu(EMPLOYEE_HEADING4, EMPLOYEE_OPTIONS4);
         int userInput = 0;
         do {
-            System.out.println(employeeTransactionMenu);
+            System.out.print(employeeTransactionMenu);
             userInput = employeeTransactionMenu.getValidOption();
             switch (userInput){
                 case 1: // print all transactions
@@ -214,7 +214,7 @@ public class EmployeeMenu {
         Menu employeeSettingsMenu = new Menu(EMPLOYEE_HEADING5, EMPLOYEE_OPTIONS5);
         int userInput = 0;
         do {
-            System.out.println(employeeSettingsMenu);
+            System.out.print(employeeSettingsMenu);
             userInput = employeeSettingsMenu.getValidOption();
             switch (userInput) {
                 case 1: // change password
