@@ -14,7 +14,7 @@ public class MainMenu {
             "Sign up for account",
             "Authorized Personnel"
     };
-
+    //Method to show main menu
     public void show(){
         int userInput = 0;
         Menu mainMenu = new Menu(MAIN_HEADING, MAIN_OPTIONS);
@@ -41,14 +41,21 @@ public class MainMenu {
     // read the components necessary for a customer account request and then create that request
     public void createCustomerAccountRequest(){
         AccountRequestController accountRequestController = new AccountRequestController();
-        String firstName = Util.readLine("Enter your first name: ");
+        String firstName = Util.readLine("Enter your first name (type EXIT to exit this menu): ");
+        if (firstName.equals("EXIT")) return;
         String lastName = Util.readLine("Enter your last name: ");
         String password = Util.readNewPassword();
-        String socialSecurityNumber = Util.readLine("Enter your social security number: ");
+        String SSN = "";
+        do{
+            SSN = Util.readLine("Enter your social security number: ");
+            if(!Util.isValidSSNFormat(SSN)){
+                System.out.println("Please use format YYMMDDXXXX");
+            }
+        }while(!Util.isValidSSNFormat(SSN));
         double salary = Util.readDouble("Enter your salary: ");
         String residentialArea = Util.readLine("Enter your area of residence: ");
         String occupation = Util.readLine("Enter your occupation: ");
-        accountRequestController.createCustomerAccountRequest(socialSecurityNumber, password, firstName, lastName, salary, residentialArea, occupation);
+        accountRequestController.createCustomerAccountRequest(SSN, password, firstName, lastName, salary, residentialArea, occupation);
         System.out.println("Your application has been sent. We will inform via mail when we have made a decision");
         System.out.println("Thank you for choosing Spicy Salmon Bank!");
     }

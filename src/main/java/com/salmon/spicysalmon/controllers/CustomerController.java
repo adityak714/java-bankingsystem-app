@@ -8,19 +8,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class CustomerController {
-    private static final HashMap<String, Customer> customersList = new HashMap<>(); // "customerList" is a better name?
+    private static final HashMap<String, Customer> customersList = new HashMap<>(); // Arraylist of customers
     //Method to create a customer.
     public void createCustomer(String SSN, String password, String firstName, String lastName, double salary, String residentialArea, String occupation) throws Exception {
         TransactionController transactionsController = new TransactionController();
-        if(Util.checkSSNFormat(SSN)){
-            if(findCustomer(SSN) == null && transactionsController.checkIfSSNUnique(SSN)) {
-                Customer newCustomer = new Customer(SSN, password, firstName, lastName, salary, residentialArea, occupation);
-                customersList.put(SSN, newCustomer);
-            } else{
-                throw new Exception("A customer with that SSN already exists.");
-            }
+        //If customer exists and the SSN is unique
+        if(findCustomer(SSN) == null && transactionsController.checkIfSSNUnique(SSN)) {
+            Customer newCustomer = new Customer(SSN, password, firstName, lastName, salary, residentialArea, occupation);
+            customersList.put(SSN, newCustomer);
+            transactionsController.initializeCustomer(SSN);
         } else{
-            throw new Exception("SSN formatting incorrect, use format YYMMDDXXXX");
+            throw new Exception("A customer with that SSN already exists.");
         }
     }
     //Method to find a customer
@@ -32,7 +30,7 @@ public class CustomerController {
     public void removeCustomer(String SSN) throws Exception{
         Customer customer = findCustomer(SSN);
         if(customer != null){
-            customersList.remove(customer);
+            customersList.remove(SSN, customer);
         } else{
             throw new Exception("The customer was not found.");
         }
@@ -67,7 +65,9 @@ public class CustomerController {
     public String printCustomer(String SSN) {
         try {
             Customer customer = findCustomer(SSN);
-            return customer.toString();
+            String result = customer.toString();
+            result += bankAccountsStringBuilder(customer.getBankAccounts());
+            return result;
         } catch(Exception ex) {
             return ex.getMessage();
         }
@@ -88,12 +88,14 @@ public class CustomerController {
     }
      */
     ///Method to create a bank account for a customer
-    public String createBankAccount(String SSN, String accountName){
-        try {
-            Customer customer = findCustomer(SSN);
-            return customer.createBankAccount(accountName);
-        } catch(Exception ex) {
-            return ex.getMessage();
+    public void createBankAccount(String SSN, String accountName) throws Exception {
+        TransactionController transactionController = new TransactionController();
+        Customer customer = findCustomer(SSN);
+        if(customer != null){
+            String newAccID = customer.createBankAccount(accountName);
+            transactionController.initializeBankAccount(SSN, newAccID);
+        } else{
+            throw new Exception("No customer with that SSN was found.");
         }
     }
 
@@ -101,7 +103,6 @@ public class CustomerController {
     // Method to deposit funds into accounts
     public String depositMoney(String SSN, String accID, double depositAmount)  {
         try {
-            TransactionController transactionController = new TransactionController();
             BankAccount account = findBankAccount(SSN, accID);
             String message = "";
             if (depositAmount < 0) {
@@ -134,21 +135,19 @@ public class CustomerController {
         }
     }
     //Method to find the bank account of the customer
-    public BankAccount findBankAccount(String SSN, String accountID){
+    public BankAccount findBankAccount(String SSN, String accountID) throws Exception{
+        Customer customer = findCustomer(SSN);
+        String accountNumber = SSN + accountID;
         BankAccount desiredAccount = null;
-        try{
-            Customer customer = findCustomer(SSN);
-            String accountNumber = SSN + accountID;
-            for (BankAccount account : customer.getBankAccounts()) {
-                if (account.getAccountNumber().equals(accountNumber)) {
-                    desiredAccount = account;
-                }
+        for (BankAccount account : customer.getBankAccounts()) {
+            if (account.getAccountNumber().equals(accountNumber)) {
+                desiredAccount = account;
             }
-            return desiredAccount;
-
-        } catch(Exception e){
-            return desiredAccount;
         }
+        if(desiredAccount == null){
+            throw new Exception("Bank account not found.");
+        }
+        return desiredAccount;
     }
 
     // Returns the number of bank accounts a customer has, from the SSN
@@ -193,10 +192,8 @@ public class CustomerController {
     }
 
      */
-
-    public String transferMoneyWithinCustomerAccounts(String SSNSender, double amount, String accountID1, String accountID2)  {
-
-        try {
+    ///Method to transfer money from one account to another owned by the same person
+    public String transferMoneyWithinCustomerAccounts(String SSNSender, double amount, String accountID1, String accountID2) throws Exception {
             TransactionController transactionController = new TransactionController();
             BankAccount from = findBankAccount(SSNSender, accountID1);
 
@@ -209,25 +206,20 @@ public class CustomerController {
                 transactionController.createTransaction(SSNSender+accountID1, SSNSender+accountID2, amount);
                 return "Successfully transferred " + amount + " SEK from Account " + accountID1 + " to Account " + accountID2 + ". ";
             }
-
-        } catch (Exception accountNotFound) {
-            return accountNotFound.getMessage();
-        }
         //Create a transaction here right
         // transactionController.createTransaction(SSNSender+accountID1, SSNSender+accountID2, amount);
     }
-
-    public String transferMoneyToOtherCustomer(String SSNSender, String accountNumber, double amount, String accountID1) {
+    //Method for transfer of money from a logged in customer to another customer
+    public String transferMoneyToOtherCustomer(String SSNSender, String accountNumber, double amount, String accountID1) throws Exception{
         String SSNReceiver = accountNumber.substring(0, 10);
         String accID2 = accountNumber.substring(10, 12);
-        BankAccount to = findBankAccount(SSNReceiver, accID2);
-        if (to == null) {
+        BankAccount receipient = findBankAccount(SSNReceiver, accID2);
+        //Check if account is not registered
+        if (receipient == null) {
             return "Receipient account not found";
         }
         else {
             try {
-
-
                 TransactionController transactionController = new TransactionController();
                 BankAccount from = findBankAccount(SSNSender, accountID1);
                 if (from.getBalance() < amount ) {
@@ -245,38 +237,27 @@ public class CustomerController {
         }
 
     }
-
+    //Method to print all registered bank accounts
     public String printAllAccounts(String SSN) {
         try {
             //Assuming the customer is logged in already
             Customer customer = findCustomer(SSN);
-            String message = "";
-            if (customer.getBankAccounts().size() == 0) {
-                return "No bank accounts exist for you";
-            } else {
-                for (BankAccount account : customer.getBankAccounts()) {
-                    message += account.getAccountName() + " ACCOUNT" + Util.EOL +
-                            "Account ID: " + account.getAccountNumber() + Util.EOL +
-                            "Balance: " + account.getBalance() + " SEK" + Util.EOL +
-                            Util.EOL;
-                }
-                return message;
-            }
+            return bankAccountsStringBuilder(customer.getBankAccounts());
         } catch(Exception customerNotFound){
             return customerNotFound.getMessage();
         }
     }
 
-    //Added this so we can show this to the customer
+    //Method to display the bank account of a customer
     public String printSpecificAccount(String SSN, String accountID)  {
         try {
             BankAccount account = findBankAccount(SSN, accountID);
-            return account.toString();
+            return account.oneLineToString();
         } catch (Exception accountNotFound) {
             return accountNotFound.getMessage();
         }
     }
-
+    //Method to change the password of a customer
     public String changePassword(String testPassword, String newPassword, String SSN) {
         String message = "";
         try {
@@ -288,7 +269,7 @@ public class CustomerController {
         }
         return message;
     }
-
+    //Method that changes the occupation of the customer
     public String changeOccupation(String occupation, String SSN) {
         try {
             Customer customer = findCustomer(SSN);
@@ -299,7 +280,7 @@ public class CustomerController {
             return customerNotFound.getMessage();
         }
     }
-
+    //method that changes the residential area of a customer
     public String changeResidentialArea(String residentialArea, String SSN) {
         try {
             Customer customer = findCustomer(SSN);
@@ -309,11 +290,45 @@ public class CustomerController {
             return customerNotFound.getMessage();
         }
     }
+    //Returns all registered customers
     public HashMap<String, Customer> getCustomersList(){
         return customersList;
     }
 
-    public String printAllBankAccounts() {
+    public String bankAccountsStringBuilder(ArrayList<BankAccount> accounts){
+        StringBuilder sb = new StringBuilder();
+        String accName, accountNumber, accID;
+        double balance;
+        if(accounts.isEmpty()){
+            return "No registered accounts were found.";
+        }
+        int counter = 0;
+        for(BankAccount account: accounts){
+            accName = account.getAccountName();
+            // trim to 10 if account name is long
+            accName = accName.length() > 11 ? accName.substring(0,12) + "." : accName;
+            accountNumber = account.getAccountNumber();
+            accID = accountNumber.charAt(10) == '0' ? String.valueOf(accountNumber.charAt(11)) : accountNumber.substring(10, 12);
+            balance = account.getBalance();
+            sb.append(accID).append(" ".repeat(6-accID.length())).append(accName).append(" ".repeat(17-accName.length()))
+                    .append(String.format("%.2f", balance)).append(" ".repeat(17-String.format("%.2f", balance).length()))
+                    .append(accountNumber);
+            counter += 1;
+            if(counter != accounts.size()){
+                sb.append(Util.EOL);
+            }
+        }
+
+        return Util.EOL
+                + "---------------------------------------------------------" + Util.EOL
+                + "#     " + "Name             " + "Balance          " + "Account Number   " + Util.EOL
+                + "---------------------------------------------------------" +  Util.EOL
+                + sb + Util.EOL
+                + "---------------------------------------------------------" + Util.EOL;
+
+    }
+
+    public String printAllBankAccountsEmployee() {
         int bankAccountNumber = 1;
         if (customersList.isEmpty()) {
             return "There are no bank accounts.";

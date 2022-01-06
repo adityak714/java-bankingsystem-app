@@ -58,4 +58,8 @@ public class BankAccount {
                 + "|--------------------------------------------------";
 
     }
+    // Investments 898722.00; #89901123123123
+    public String oneLineToString(){
+        return ACCOUNT_NAME+" (#"+getAccountNumber()+"), "+String.format("%.2f", balance)+" SEK";
+    }
 }
