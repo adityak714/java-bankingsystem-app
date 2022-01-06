@@ -101,9 +101,9 @@ public class CustomerMenu {
                     case 3 -> transferToOtherCustomer(customerController, SSN, accountID);
                     case 4 -> showRecentTransactions(transactionController, SSN, accountID);
                     case 5 -> showEarliestTransactions(transactionController, SSN, accountID);
-                    case 7 -> transactionsSortedInAscendingOrder(transactionController,SSN, accountID);
-                    case 8 -> transactionsSortedInDescendingOrder(transactionController, SSN, accountID);
-                    case 9 -> showTransactionsBetweenDates(transactionController, SSN, accountID);
+                    case 6 -> transactionsSortedInAscendingOrder(transactionController,SSN, accountID);
+                    case 7 -> transactionsSortedInDescendingOrder(transactionController, SSN, accountID);
+                    case 8 -> showTransactionsBetweenDates(transactionController, SSN, accountID);
                 }
             } while (userInput != 0);
         }
@@ -209,9 +209,13 @@ public class CustomerMenu {
 
     //Method to print transactions within a date interval
     public void showTransactionsBetweenDates(TransactionController transactionController, String SSN, String accID) {
-        String startDate = Util.readLine("Enter the start date (YYYY/MM/DD): ");
-        String endDate = Util.readLine("Enter the end date (YYYY/MM/DD): ");
-        System.out.print(transactionController.sortByDateInterval(SSN, accID, startDate, endDate));
+        try {
+            String startDate = Util.readLine("Enter the start date (YYYY/MM/DD): ");
+            String endDate = Util.readLine("Enter the end date (YYYY/MM/DD): ");
+            System.out.print(transactionController.sortByDateInterval(SSN, accID, startDate, endDate));
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     // Change customer's password
