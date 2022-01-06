@@ -30,7 +30,7 @@ public class CustomerController {
     public void removeCustomer(String SSN) throws Exception{
         Customer customer = findCustomer(SSN);
         if(customer != null){
-            customersList.remove(customer);
+            customersList.remove(SSN, customer);
         } else{
             throw new Exception("The customer was not found.");
         }
