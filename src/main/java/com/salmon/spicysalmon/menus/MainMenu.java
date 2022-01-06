@@ -41,10 +41,11 @@ public class MainMenu {
     // read the components necessary for a customer account request and then create that request
     public void createCustomerAccountRequest(){
         AccountRequestController accountRequestController = new AccountRequestController();
-        String firstName = Util.readLine("Enter your first name: ");
+        String firstName = Util.readLine("Enter your first name (type EXIT to exit this menu): ");
+        if (firstName.equals("EXIT")) return;
         String lastName = Util.readLine("Enter your last name: ");
         String password = Util.readNewPassword();
-        String SSN;
+        String SSN = "";
         do{
             SSN = Util.readLine("Enter your social security number: ");
             if(!Util.isValidSSNFormat(SSN)){
