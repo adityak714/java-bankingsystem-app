@@ -354,7 +354,7 @@ public class EmployeeMenu {
             }
         } while(!Util.isValidAccountNumberFormat(accountNumber));
         double amount = Util.readDouble("Enter the deposit amount: ");
-        String customerPassword = Util.readPassword("Type in customer password, to verify deposit: ");
+        String customerPassword = Util.readPassword("Ask customer to type in their password in order to verify deposit: ");
         String SSN = accountNumber.substring(0,10);
         String accID = accountNumber.substring(10,12);
         if(customerAuthentication(SSN, customerPassword, customerController)){

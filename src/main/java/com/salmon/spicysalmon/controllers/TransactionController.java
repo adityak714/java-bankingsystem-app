@@ -30,12 +30,12 @@ public class TransactionController {
     // used by employees to withdraw and deposit;
     public void createEmployeeTransaction(String accNum, double amount){
         if(amount > 0){
-            Transaction newTransaction = new Transaction(accNum, "7H3 B4NK (Deposit)", amount);
+            Transaction newTransaction = new Transaction(accNum, "Spicy Deposit", amount);
             String SSN = accNum.substring(0,10);
             String id = accNum.substring(10,12);
             allTransactions.get(SSN).get(id).add(newTransaction);
         } else{
-            Transaction newTransaction = new Transaction(accNum, "7H3 B4NK (Withdrawal)", amount);
+            Transaction newTransaction = new Transaction(accNum, "Spicy Withdrawal", amount);
             String SSN = accNum.substring(0,10);
             String id = accNum.substring(10,12);
             allTransactions.get(SSN).get(id).add(newTransaction);
