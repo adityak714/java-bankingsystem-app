@@ -411,6 +411,14 @@ public class EmployeeMenu {
     }
     //method to print a specific customer's transactions
     public void printSpecificCustomerTransactions(TransactionController transactionController){
+        String SSN = "";
+        do {
+            SSN = Util.readLine("Type in the SSN of the customer you want to look at (type EXIT to exit this menu): ");
+            if (SSN.equals("EXIT")) return;
+            if (!Util.isValidSSNFormat(SSN)){
+                System.out.println("Please enter a valid account number.");
+            }
+        }while (!Util.isValidSSNFormat(SSN));
         String SSN = Util.readLine("Type in the SSN of the customers you want to look at: ");
         System.out.println(transactionController.printTransactionsForAllAccounts(SSN));
 
