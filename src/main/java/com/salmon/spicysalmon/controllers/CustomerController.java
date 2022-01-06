@@ -86,18 +86,21 @@ public class CustomerController {
     }
      */
     ///Method to create a bank account for a customer
-    public void createBankAccount(String SSN, String accountName){
+    public void createBankAccount(String SSN, String accountName) throws Exception {
         TransactionController transactionController = new TransactionController();
         Customer customer = findCustomer(SSN);
-        String newAccID = customer.createBankAccount(accountName);
-        transactionController.initializeBankAccount(SSN, newAccID);
+        if(customer != null){
+            String newAccID = customer.createBankAccount(accountName);
+            transactionController.initializeBankAccount(SSN, newAccID);
+        } else{
+            throw new Exception("No customer with that SSN was found.");
+        }
     }
 
 
     // Method to deposit funds into accounts
     public String depositMoney(String SSN, String accID, double depositAmount)  {
         try {
-            TransactionController transactionController = new TransactionController();
             BankAccount account = findBankAccount(SSN, accID);
             String message = "";
             if (depositAmount < 0) {
@@ -130,21 +133,19 @@ public class CustomerController {
         }
     }
     //Method to find the bank account of the customer
-    public BankAccount findBankAccount(String SSN, String accountID){
+    public BankAccount findBankAccount(String SSN, String accountID) throws Exception{
+        Customer customer = findCustomer(SSN);
+        String accountNumber = SSN + accountID;
         BankAccount desiredAccount = null;
-        try{
-            Customer customer = findCustomer(SSN);
-            String accountNumber = SSN + accountID;
-            for (BankAccount account : customer.getBankAccounts()) {
-                if (account.getAccountNumber().equals(accountNumber)) {
-                    desiredAccount = account;
-                }
+        for (BankAccount account : customer.getBankAccounts()) {
+            if (account.getAccountNumber().equals(accountNumber)) {
+                desiredAccount = account;
             }
-            return desiredAccount;
-
-        } catch(Exception e){
-            return desiredAccount;
         }
+        if(desiredAccount == null){
+            throw new Exception("Bank account not found.");
+        }
+        return desiredAccount;
     }
 
     // Returns the number of bank accounts a customer has, from the SSN
@@ -190,9 +191,7 @@ public class CustomerController {
 
      */
     ///Method to transfer money from one account to another owned by the same person
-    public String transferMoneyWithinCustomerAccounts(String SSNSender, double amount, String accountID1, String accountID2)  {
-
-        try {
+    public String transferMoneyWithinCustomerAccounts(String SSNSender, double amount, String accountID1, String accountID2) throws Exception {
             TransactionController transactionController = new TransactionController();
             BankAccount from = findBankAccount(SSNSender, accountID1);
 
@@ -205,15 +204,11 @@ public class CustomerController {
                 transactionController.createTransaction(SSNSender+accountID1, SSNSender+accountID2, amount);
                 return "Successfully transferred " + amount + " SEK from Account " + accountID1 + " to Account " + accountID2 + ". ";
             }
-
-        } catch (Exception accountNotFound) {
-            return accountNotFound.getMessage();
-        }
         //Create a transaction here right
         // transactionController.createTransaction(SSNSender+accountID1, SSNSender+accountID2, amount);
     }
     //Method for transfer of money from a logged in customer to another customer
-    public String transferMoneyToOtherCustomer(String SSNSender, String accountNumber, double amount, String accountID1) {
+    public String transferMoneyToOtherCustomer(String SSNSender, String accountNumber, double amount, String accountID1) throws Exception{
         String SSNReceiver = accountNumber.substring(0, 10);
         String accID2 = accountNumber.substring(10, 12);
         BankAccount receipient = findBankAccount(SSNReceiver, accID2);

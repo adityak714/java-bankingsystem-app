@@ -174,7 +174,12 @@ public class CustomerMenu {
         } while (random > numberOfAccounts || random <= 0 || accountID2.equals(accountID));
 
         double amount = Util.readDouble("Enter the amount: ");
-        System.out.println(customerController.transferMoneyWithinCustomerAccounts(SSN, amount, accountID, accountID2));
+
+        try{
+            System.out.println(customerController.transferMoneyWithinCustomerAccounts(SSN, amount, accountID, accountID2));
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
     }
     //This method forwards information form the menu to the customer controller to transfer money to another customer
     public void transferToOtherCustomer(CustomerController customerController, String SSN, String accountID1)  {
@@ -187,7 +192,11 @@ public class CustomerMenu {
         } while (!Util.isValidAccountNumberFormat(accountNumber));
 
         double amount = Util.readDouble("Enter the amount: ");
-        System.out.println(customerController.transferMoneyToOtherCustomer(SSN, accountNumber, amount, accountID1));
+        try{
+            System.out.println(customerController.transferMoneyToOtherCustomer(SSN, accountNumber, amount, accountID1));
+        } catch(Exception e){
+            System.out.println(e.getMessage());
+        }
     }
     //Method to display most recent transactions
     public void showRecentTransactions(TransactionController transactionController, String SSN, String accID) {
