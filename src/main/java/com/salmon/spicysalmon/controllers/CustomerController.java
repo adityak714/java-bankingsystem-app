@@ -65,7 +65,9 @@ public class CustomerController {
     public String printCustomer(String SSN) {
         try {
             Customer customer = findCustomer(SSN);
-            return customer.toString();
+            String result = customer.toString();
+            result += bankAccountsStringBuilder(customer.getBankAccounts());
+            return result;
         } catch(Exception ex) {
             return ex.getMessage();
         }
