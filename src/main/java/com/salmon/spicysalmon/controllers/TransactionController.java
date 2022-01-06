@@ -199,16 +199,18 @@ public class TransactionController {
         }
     }
     //This method returns transactions within a date interval
-    public String sortByDateInterval (String SSN, String accID, String startInterval, String endInterval){
+    public String sortByDateInterval (String SSN, String accID, String startInterval, String endInterval) throws Exception {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
         Calendar calendar = Calendar.getInstance();
-        String limitedTransactionList = "";
+        ArrayList<Transaction> limitedTransactionList = new ArrayList<>();
         ArrayList<Transaction> desiredAccount = allTransactions.get(SSN).get(accID);
+
         try {
             Date lowerBoundDate = formatter.parse(startInterval);
             Date upperBoundDate = formatter.parse(endInterval);
             Date currentDay = calendar.getTime();
-                //If the customer sets an upperbound of ex. 2034, the method sets it back to the current date
+
+            //If the customer sets an upperbound of ex. 2034, the method sets it back to the current date
             if(upperBoundDate.after(currentDay)){
                 upperBoundDate = currentDay;
             }
@@ -217,17 +219,18 @@ public class TransactionController {
             for (Transaction transaction : desiredAccount) {
                 Date toBeCompared = formatter.parse(transaction.getDATE());
                 if (toBeCompared.after(lowerBoundDate) && toBeCompared.before(upperBoundDate)) {
-                    limitedTransactionList += transaction + System.lineSeparator();
+                    limitedTransactionList.add(transaction);
                 }
             }
         }
-        catch (ParseException p){
-            return "Please enter the date in the form YYYY/MM/DD";
 
+        catch (ParseException p){
+            return Util.EOL + "Please enter the date in the form YYYY/MM/DD" + Util.EOL;
         }
-        return limitedTransactionList;
+        return transactionsStringBuilder(limitedTransactionList);
     }
-    //Stringbuilder for transactions
+
+    //StringBuilder for transactions
     public String transactionsStringBuilder(ArrayList<Transaction> transactions) throws Exception{
         CustomerController customerController = new CustomerController();
 
