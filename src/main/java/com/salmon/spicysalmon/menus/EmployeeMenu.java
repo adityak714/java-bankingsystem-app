@@ -282,7 +282,8 @@ public class EmployeeMenu {
     // creates a new customer
     public void createCustomer(CustomerController customerController){
         System.out.println("You have chosen: Create a customer.");
-        String firstName = Util.readLine("Enter your first name: ");
+        String firstName = Util.readLine("Enter your first name (type EXIT to exit this menu): ");
+        if (firstName.equals("EXIT")) return;
         String lastName = Util.readLine("Enter your last name: ");
         String password = Util.readNewPassword();
         String SSN;
@@ -306,7 +307,8 @@ public class EmployeeMenu {
     // removes a customer with the specified SSN
     public void removeCustomer(CustomerController customerController){
         System.out.println("You have chosen: Remove a customer.");
-        String remove = Util.readLine("What customer do you wish to remove? Enter SSN: ");
+        String remove = Util.readLine("What customer do you wish to remove? Enter SSN (type EXIT to exit this menu): ");
+        if (remove.equals("EXIT")) return;
         try{
             customerController.removeCustomer(remove);
             System.out.println("The customer was removed successfully.");
@@ -318,7 +320,8 @@ public class EmployeeMenu {
     // creates a bank account for a customer
     public void createBankAccount(CustomerController customerController){
         System.out.println("You have chosen: Create a bank account for a customer.");
-        String SSN = Util.readLine("Please enter the Social Security Number of the customer: ");
+        String SSN = Util.readLine("Please enter the Social Security Number of the customer (type EXIT to exit this menu): ");
+        if (SSN.equals("EXIT")) return;
         String accountName = Util.readLine("Please enter a name for the new account: ");
         try{
             customerController.createBankAccount(SSN, accountName);
@@ -330,7 +333,8 @@ public class EmployeeMenu {
 
     // deletes a bank account with the specified accountNumber
     public void deleteBankAccount(CustomerController customerController){
-        String accountNumber = Util.readLine("Type in the account number of the bank account do you want to remove: ");
+        String accountNumber = Util.readLine("Type in the account number of the bank account do you want to remove (type EXIT to exit this menu): ");
+        if (accountNumber.equals("EXIT")) return;
         try{
             customerController.deleteBankAccount(accountNumber);
             System.out.println("The bank account was removed successfully.");
@@ -350,7 +354,8 @@ public class EmployeeMenu {
         System.out.println("Please note that the customer must be present at the time of deposit.");
         String accountNumber;
         do{
-            accountNumber = Util.readLine("Enter the account number for the account where you want to deposit: ");
+            accountNumber = Util.readLine("Enter the account number for the account where you want to deposit (type EXIT to exit this menu): ");
+            if (accountNumber.equals("EXIT")) return;
             if(!Util.isValidAccountNumberFormat(accountNumber)) {
                 System.out.println("Please enter a valid account number.");
             }
@@ -375,7 +380,8 @@ public class EmployeeMenu {
         System.out.println("You have chosen: Withdraw from customer account.");
         System.out.println("Please note that the customer must be present at the time of deposit.");
         System.out.println();
-        String accountNumber = Util.readLine("Enter the account number for the account where you want to withdraw: ");
+        String accountNumber = Util.readLine("Enter the account number for the account where you want to withdraw (type EXIT to exit this menu): ");
+        if (accountNumber.equals("EXIT")) return;
         double amount = Util.readDouble("Enter the withdraw amount: ");
         String customerPassword = Util.readPassword("Ask customer to type in their password in order to verify withdrawal: ");
         String SSN = accountNumber.substring(0,10);
@@ -410,7 +416,14 @@ public class EmployeeMenu {
 
     }
     public void printSpecificBankAccountTransactions(TransactionController transactionController){
-        String accountNumber = Util.readLine("Type in the account number of the bank account you want to look at: ");
+        String accountNumber = "";
+        do {
+            accountNumber = Util.readLine("Type in the account number of the bank account you want to look at (type EXIT to exit this menu): ");
+            if (accountNumber.equals("EXIT")) return;
+            if (!Util.isValidAccountNumberFormat(accountNumber)){
+                System.out.println("Please enter a valid account number.");
+            }
+        }while (!Util.isValidAccountNumberFormat(accountNumber));
         String SSN = accountNumber.substring(0,10);
         String accountID = accountNumber.substring(10,12);
         System.out.println(transactionController.printTransactionsForAnAccount(SSN, accountID));
