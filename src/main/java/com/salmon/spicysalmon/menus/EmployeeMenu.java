@@ -419,7 +419,6 @@ public class EmployeeMenu {
                 System.out.println("Please enter a valid account number.");
             }
         }while (!Util.isValidSSNFormat(SSN));
-        String SSN = Util.readLine("Type in the SSN of the customers you want to look at: ");
         System.out.println(transactionController.printTransactionsForAllAccounts(SSN));
 
     }
