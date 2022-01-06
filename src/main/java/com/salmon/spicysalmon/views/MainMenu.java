@@ -1,4 +1,4 @@
-package com.salmon.spicysalmon.menus;
+package com.salmon.spicysalmon.views;
 
 import com.salmon.spicysalmon.Util;
 import com.salmon.spicysalmon.controllers.AccountRequestController;

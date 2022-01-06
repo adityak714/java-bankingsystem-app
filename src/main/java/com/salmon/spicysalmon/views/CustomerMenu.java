@@ -1,11 +1,10 @@
-package com.salmon.spicysalmon.menus;
+package com.salmon.spicysalmon.views;
 
 
 import com.salmon.spicysalmon.Util;
 import com.salmon.spicysalmon.controllers.AccountRequestController;
 import com.salmon.spicysalmon.controllers.CustomerController;
 import com.salmon.spicysalmon.controllers.TransactionController;
-import com.salmon.spicysalmon.models.BankAccount;
 import com.salmon.spicysalmon.models.Customer;
 import com.salmon.spicysalmon.models.Menu;
 

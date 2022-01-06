@@ -30,11 +30,11 @@ Java frames: (J=compiled Java code, j=interpreted, Vv=VM code)
 v  ~RuntimeStub::_new_array_Java
 J 882 c2 com.salmon.spicysalmon.models.Transaction.toString()Ljava/lang/String; (38 bytes) @ 0x000000011b5b2d7c [0x000000011b5b2000+0x0000000000000d7c]
 J 889 c2 com.salmon.spicysalmon.controllers.TransactionController.printAllTransactions()Ljava/lang/String; (87 bytes) @ 0x000000011b5bf99c [0x000000011b5beb40+0x0000000000000e5c]
-J 904 c2 com.salmon.spicysalmon.menus.EmployeeMenu.printAllTransactions(Lcom/salmon/spicysalmon/controllers/TransactionController;)V (11 bytes) @ 0x000000011b5dd568 [0x000000011b5dd520+0x0000000000000048]
-j  com.salmon.spicysalmon.menus.EmployeeMenu.showTransactionMenu(Lcom/salmon/spicysalmon/controllers/TransactionController;)V+58
-j  com.salmon.spicysalmon.menus.EmployeeMenu.show(Ljava/lang/String;)V+174
+J 904 c2 com.salmon.spicysalmon.views.EmployeeMenu.printAllTransactions(Lcom/salmon/spicysalmon/controllers/TransactionController;)V (11 bytes) @ 0x000000011b5dd568 [0x000000011b5dd520+0x0000000000000048]
+j  com.salmon.spicysalmon.views.EmployeeMenu.showTransactionMenu(Lcom/salmon/spicysalmon/controllers/TransactionController;)V+58
+j  com.salmon.spicysalmon.views.EmployeeMenu.show(Ljava/lang/String;)V+174
 j  com.salmon.spicysalmon.controllers.AuthenticationController.employeeLogin()V+56
-j  com.salmon.spicysalmon.menus.MainMenu.show()V+79
+j  com.salmon.spicysalmon.views.MainMenu.show()V+79
 j  com.salmon.spicysalmon.Main.main([Ljava/lang/String;)V+43
 v  ~StubRoutines::call_stub
 
@@ -401,7 +401,7 @@ Event: 2719.426 Thread 0x00007ff68380f200  897       4       java.nio.ByteBuffer
 Event: 2719.427 Thread 0x00007ff68380f200 nmethod 897 0x000000011b5dbd10 code [0x000000011b5dbea0, 0x000000011b5dbf98]
 Event: 2719.427 Thread 0x00007ff68380f200  901   !   4       java.io.PrintStream::write (69 bytes)
 Event: 2719.429 Thread 0x00007ff68380f200 nmethod 901 0x000000011b5dc190 code [0x000000011b5dc360, 0x000000011b5dcb08]
-Event: 2719.429 Thread 0x00007ff68380f200  904       4       com.salmon.spicysalmon.menus.EmployeeMenu::printAllTransactions (11 bytes)
+Event: 2719.429 Thread 0x00007ff68380f200  904       4       com.salmon.spicysalmon.views.EmployeeMenu::printAllTransactions (11 bytes)
 Event: 2719.430 Thread 0x00007ff68380f200 nmethod 904 0x000000011b5dd390 code [0x000000011b5dd520, 0x000000011b5dd618]
 Event: 2719.430 Thread 0x00007ff68380f200  902       4       java.nio.ByteBuffer::clear (7 bytes)
 Event: 2719.430 Thread 0x00007ff68380f200 nmethod 902 0x000000011b5dd810 code [0x000000011b5dd980, 0x000000011b5dda18]

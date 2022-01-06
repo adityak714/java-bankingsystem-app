@@ -1,13 +1,10 @@
 package com.salmon.spicysalmon.controllers;
 
 import com.salmon.spicysalmon.Util;
-import com.salmon.spicysalmon.controllers.CustomerController;
-import com.salmon.spicysalmon.controllers.EmployeeController;
-import com.salmon.spicysalmon.menus.CustomerMenu;
-import com.salmon.spicysalmon.menus.EmployeeMenu;
+import com.salmon.spicysalmon.views.CustomerMenu;
+import com.salmon.spicysalmon.views.EmployeeMenu;
 import com.salmon.spicysalmon.models.Customer;
 import com.salmon.spicysalmon.models.Employee;
-import com.salmon.spicysalmon.models.Menu;
 
 public class AuthenticationController {
     //Array to get login info i.e password and social security number

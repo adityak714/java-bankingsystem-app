@@ -1,6 +1,6 @@
 package com.salmon.spicysalmon;
 import com.salmon.spicysalmon.controllers.JSONController;
-import com.salmon.spicysalmon.menus.MainMenu;
+import com.salmon.spicysalmon.views.MainMenu;
 
 public class Main {
     public static void main(String[] args) {
