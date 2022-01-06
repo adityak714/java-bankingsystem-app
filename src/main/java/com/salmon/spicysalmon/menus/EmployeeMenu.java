@@ -151,7 +151,6 @@ public class EmployeeMenu {
     public void showAccountRequestMenu(AccountRequestController accountRequestController, CustomerController customerController){
 
         Menu employeeAccountRequestMenu = new Menu(EMPLOYEE_HEADING3,EMPLOYEE_OPTIONS3);
-        System.out.print(employeeAccountRequestMenu);
         int userInput = 0;
         do {
             System.out.print(employeeAccountRequestMenu);
