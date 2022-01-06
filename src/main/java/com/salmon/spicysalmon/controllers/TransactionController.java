@@ -138,14 +138,13 @@ public class TransactionController {
     // Print transactions for all accounts
     public String printTransactionsForAllAccounts(String SSN){
         try {
-            String transactionsForAllAccounts = "====================================================" + Util.EOL;
+            ArrayList<Transaction> listOfAccounts = new ArrayList<>();
             for(String accountKey : allTransactions.get(SSN).keySet()){
                 for(Transaction transaction : allTransactions.get(SSN).get(accountKey)){
-                    transactionsForAllAccounts += transaction + Util.EOL +
-                            "====================================================" + Util.EOL;
+                    listOfAccounts.add(transaction);
                 }
             }
-            return transactionsForAllAccounts;
+            return transactionsStringBuilder(listOfAccounts);
         }
         catch (Exception customerNotFound){
             return customerNotFound.getMessage();
