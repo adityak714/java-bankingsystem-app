@@ -247,30 +247,17 @@ public class EmployeeMenu {
                     break;
                 case 2: // remove an employee
                     try{
-                        employeeController.removeEmployee(SSN);
-                        System.out.println("Employee "+SSN+" was removed successfully.");
+                        removeEmployee(employeeController);
                     } catch (Exception e){
                         System.out.println(e.getMessage());
                     }
                     break;
                 case 3: { // create a new employee
-                    String firstName = Util.readLine("Enter employee's first name: ");
-                    String lastName = Util.readLine("Enter employee's last name: ");
-                    String newSSN = Util.readLine("Enter employee's social security number: ");
-                    String password = Util.readNewPassword();
-                    String startDate = Util.getDateAndTime();
-                    employeeController.createEmployee(newSSN, password, firstName, lastName, startDate);
-                    System.out.println("Employee "+SSN+" was created successfully.");
+                    createEmployee(employeeController);
                     break;
                 }
                 case 4: { // create a new manager
-                    String firstName = Util.readLine("Enter manager's first name: ");
-                    String lastName = Util.readLine("Enter manager's last name: ");
-                    String newSSN = Util.readLine("Enter manager's social security number: ");
-                    String password = Util.readNewPassword();
-                    String startDate = Util.getDateAndTime();
-                    employeeController.createManager(newSSN, password, firstName, lastName, startDate);
-                    System.out.println("Manager "+SSN+" was created successfully.");
+                    createManager(employeeController);
                     break;
                 }
                 default:
@@ -522,6 +509,39 @@ public class EmployeeMenu {
     // Method to print the information of an employee
     public void showUserInfo(EmployeeController employeeController, String SSN) {
         System.out.print(employeeController.printEmployee(SSN));
+    }
+    public void removeEmployee(EmployeeController employeeController) throws Exception {
+        String SSN = "";
+        do {
+            SSN = Util.readLine("Enter the SSN of the Employee you want to remove (type EXIT to exit this menu): ");
+            if (SSN.equals("EXIT")) return;
+            if (!Util.isValidSSNFormat(SSN)){
+                System.out.println("Please use format YYMMDDXXXX");
+            }
+        }while (!Util.isValidSSNFormat(SSN));
+        employeeController.removeEmployee(SSN);
+        System.out.println("Employee "+SSN+" was removed successfully.");
+    }
+    public void createEmployee(EmployeeController employeeController){
+        String firstName = Util.readLine("Enter employee's first name (type EXIT to exit this menu): ");
+        if (firstName.equals("EXIT")) return;
+        String lastName = Util.readLine("Enter employee's last name: ");
+        String newSSN = Util.readLine("Enter employee's social security number: ");
+        String password = Util.readNewPassword();
+        String startDate = Util.getDateAndTime();
+        employeeController.createEmployee(newSSN, password, firstName, lastName, startDate);
+        System.out.println("Employee "+ newSSN +" was created successfully.");
+
+    }
+    public void createManager(EmployeeController employeeController){
+        String firstName = Util.readLine("Enter employee's first name (type EXIT to exit this menu): ");
+        if (firstName.equals("EXIT")) return;
+        String lastName = Util.readLine("Enter manager's last name: ");
+        String newSSN = Util.readLine("Enter manager's social security number: ");
+        String password = Util.readNewPassword();
+        String startDate = Util.getDateAndTime();
+        employeeController.createManager(newSSN, password, firstName, lastName, startDate);
+        System.out.println("Manager "+ newSSN +" was created successfully.");
     }
 }
 
