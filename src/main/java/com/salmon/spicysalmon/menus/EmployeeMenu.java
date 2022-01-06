@@ -100,6 +100,8 @@ public class EmployeeMenu {
                 case 5 -> {
                     if(currentEmployee.getClass() == Manager.class){
                         showEmployeeHandlingMenu(SSN, employeeController);
+                    } else{
+                        System.out.println("Invalid menu option. Please type another option.");
                     }
                 }
             }
