@@ -53,11 +53,7 @@ public class JSONController {
                 // get account ID formatting correct, in accordance with Customer.java createBankAccount method
                 String accID = j < 10 ? "0" + (j + 1) : (j + 1) + "";
                 customerController.createBankAccount(SSN, accountName);
-
-
                 customerController.depositMoney(SSN, accID, balance);
-                BankAccount newAccount = customerController.findBankAccount(SSN, accID);
-
             }
         }
     }

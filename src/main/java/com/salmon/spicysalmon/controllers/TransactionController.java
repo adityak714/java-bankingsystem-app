@@ -1,6 +1,7 @@
 package com.salmon.spicysalmon.controllers;
 
 import com.salmon.spicysalmon.Util;
+import com.salmon.spicysalmon.models.BankAccount;
 import com.salmon.spicysalmon.models.BankAccountRequest;
 import com.salmon.spicysalmon.models.Transaction;
 import java.text.ParseException;
@@ -25,6 +26,22 @@ public class TransactionController {
         Transaction transaction2 = new Transaction(acc2, acc1, amount, date);
         addTransactions(acc1, acc2, transaction1, transaction2);
     }
+
+    // used by employees to withdraw and deposit;
+    public void createEmployeeTransaction(String accNum, double amount){
+        if(amount > 0){
+            Transaction newTransaction = new Transaction(accNum, "Spicy Deposit", amount);
+            String SSN = accNum.substring(0,10);
+            String id = accNum.substring(10,12);
+            allTransactions.get(SSN).get(id).add(newTransaction);
+        } else{
+            Transaction newTransaction = new Transaction(accNum, "Spicy Withdrawal", amount);
+            String SSN = accNum.substring(0,10);
+            String id = accNum.substring(10,12);
+            allTransactions.get(SSN).get(id).add(newTransaction);
+        }
+    }
+
     //Method to initialize transactions for a customer
     public void initializeCustomer(String SSN){
         LinkedHashMap<String, ArrayList<Transaction>> newMap = new LinkedHashMap<>();
@@ -80,7 +97,11 @@ public class TransactionController {
 
     public String sortTransactionsAscending (String SSN, String accID){
         ArrayList<Transaction> sortedList = sortTransactionsByAmount(SSN, accID);
-        return transactionsStringBuilder(sortedList);
+        try {
+            return transactionsStringBuilder(sortedList);
+        } catch(Exception e){
+            return "There was a problem printing the transactions. Please contact the bank.";
+        }
     }
 
     // Sort transactions by amount
@@ -94,7 +115,11 @@ public class TransactionController {
     public String sortTransactionsDescending (String SSN, String accID) { // arre tis 4 jan 20:54: bug in this method
         ArrayList<Transaction> sortedList = sortTransactionsByAmount(SSN, accID);
         Collections.reverse(sortedList);
-        return transactionsStringBuilder(sortedList);
+        try {
+            return transactionsStringBuilder(sortedList);
+        } catch(Exception e) {
+            return "There was a problem printing the transactions. Please contact the bank.";
+        }
     }
     //Returns a string that has the transactions for an account
     public String printTransactionsForAnAccount(String SSN, String accID){
@@ -157,13 +182,21 @@ public class TransactionController {
     //Methods that retrieves earliest transactions for printing
     public String printTransactionsSortedEarliest(String SSN, String accID){
         ArrayList<Transaction> sortedEarliest = sortTransactionsDateEarliest(SSN, accID);
-        return transactionsStringBuilder(sortedEarliest);
+        try {
+            return transactionsStringBuilder(sortedEarliest);
+        } catch(Exception e){
+            return "There was a problem printing the transactions. Please contact the bank.";
+        }
     }
     //Latest transactions sorted by this method
     public String printTransactionsSortedLatest(String SSN, String accID){
         ArrayList<Transaction> sortedList = sortTransactionsDateEarliest(SSN, accID);
         Collections.reverse(sortedList);
-        return transactionsStringBuilder(sortedList);
+        try {
+            return transactionsStringBuilder(sortedList);
+        } catch(Exception e){
+            return "There was a problem printing the transactions. Please contact the bank.";
+        }
     }
     //This method returns transactions within a date interval
     public String sortByDateInterval (String SSN, String accID, String startInterval, String endInterval){
@@ -195,7 +228,7 @@ public class TransactionController {
         return limitedTransactionList;
     }
     //Stringbuilder for transactions
-    public String transactionsStringBuilder(ArrayList<Transaction> transactions){
+    public String transactionsStringBuilder(ArrayList<Transaction> transactions) throws Exception{
         CustomerController customerController = new CustomerController();
 
         StringBuilder sb = new StringBuilder();
@@ -210,13 +243,19 @@ public class TransactionController {
             AMOUNT = transaction.getAMOUNT();
 
             // get sender/reciever name
-            BankAccount theAccount = theAccount = customerController.findBankAccount(ACC2.substring(0,10), ACC2.substring(10,12));
-            // trim to 10, if firstName is longer than 10 letters
-            String firstName = theAccount.getCustomerFirstName();
-            firstName = firstName.length() > 10 ? firstName.substring(0,11)+"." : firstName;
-            // concatenate the first letter of the last Name
-            String personName = firstName + " " + theAccount.getCustomerLastName().charAt(0)+".";
-            String toFrom = personName + " ("+ACC2+")";
+            String toFrom;
+            if(Util.isValidAccountNumberFormat(ACC2)){
+                BankAccount theAccount = customerController.findBankAccount(ACC2.substring(0,10), ACC2.substring(10,12));
+                // trim to 10, if firstName is longer than 10 letters
+                String firstName = theAccount.getCustomerFirstName();
+                firstName = firstName.length() > 10 ? firstName.substring(0,11)+"." : firstName;
+                // concatenate the first letter of the last Name
+                String personName = firstName + " " + theAccount.getCustomerLastName().charAt(0)+".";
+                toFrom = personName + " ("+ACC2+")";
+            } else{ // if the account is the bank, as bank is not a registered customer
+                toFrom = ACC2;
+            }
+
             // append with appropriate number of spaces
             sb.append(ID).append(" ".repeat(8)).append(toFrom).append(" ".repeat(AMOUNT > 0 ? 32-toFrom.length() : 31-toFrom.length()))
                     .append(String.format("%.2f", AMOUNT)).append(" ".repeat(AMOUNT > 0 ? 13-String.format("%.2f", AMOUNT).length() : 14-String.format("%.2f", AMOUNT).length()))

@@ -39,9 +39,12 @@ public class EmployeeMenu {
             "Return to Main Menu",
             "Create customer",
             "Delete customer",
-            "Delete bank account",
+            "Create bank account for customer",
+            "Delete customer bank account",
             "List all registered customers.",
-            "List all registered bank accounts"
+            "List all registered bank accounts",
+            "Deposit into customer account",
+            "Withdraw from customer account"
     };
     String EMPLOYEE_HEADING3 = "Account request handling menu: Please choose a valid option.";
     String[] EMPLOYEE_OPTIONS3 = {
@@ -58,7 +61,7 @@ public class EmployeeMenu {
             "Show all transactions for a customer",
             "Show all transactions for an account"
     };
-    String EMPLOYEE_HEADING5 = "Settigns: Please choose a valid option.";
+    String EMPLOYEE_HEADING5 = "Settings: Please choose a valid option.";
     String[] EMPLOYEE_OPTIONS5 = {
             "Return to Main Menu",
             "Update Password",
@@ -121,14 +124,23 @@ public class EmployeeMenu {
                 case 2: // remove customer
                     removeCustomer(customerController);
                     break;
-                case 3: // delete a bank account
+                case 3:
+                    createBankAccount(customerController);
+                    break;
+                case 4: // delete a bank account
                     deleteBankAccount(customerController);
                     break;
-                case 4: // print all customers
+                case 5: // print all customers
                     printAllCustomers(customerController);
                     break;
-                case 5: // print all bank accounts
+                case 6: // print all bank accounts
                     printAllBankAccounts(customerController);
+                    break;
+                case 7: // deposit money into customer Account
+                    depositIntoCustomer(customerController);
+                    break;
+                case 8:
+                    withdrawFromCustomer(customerController);
                     break;
             }
         }while (userInput != 0);
@@ -301,8 +313,21 @@ public class EmployeeMenu {
         } catch(Exception e){
             System.out.println(e.getMessage());
         }
-
     }
+
+    // creates a bank account for a customer
+    public void createBankAccount(CustomerController customerController){
+        System.out.println("You have chosen: Create a bank account for a customer.");
+        String SSN = Util.readLine("Please enter the Social Security Number of the customer: ");
+        String accountName = Util.readLine("Please enter a name for the new account: ");
+        try{
+            customerController.createBankAccount(SSN, accountName);
+            System.out.println("Account "+accountName+" was created successfully.");
+        } catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+
     // deletes a bank account with the specified accountNumber
     public void deleteBankAccount(CustomerController customerController){
         String accountNumber = Util.readLine("Type in the account number of the bank account do you want to remove: ");
@@ -311,6 +336,58 @@ public class EmployeeMenu {
             System.out.println("The bank account was removed successfully.");
         } catch(Exception e){
             System.out.println(e.getMessage());
+        }
+    }
+
+    public boolean customerAuthentication(String SSN, String testPassword, CustomerController customerController){
+        Customer customer = customerController.findCustomer(SSN);
+        return customer.verifyPassword(testPassword);
+    }
+
+    public void depositIntoCustomer(CustomerController customerController){
+        TransactionController transactionController = new TransactionController();
+        System.out.println("You have chosen: Deposit into customer account.");
+        System.out.println("Please note that the customer must be present at the time of deposit.");
+        String accountNumber;
+        do{
+            accountNumber = Util.readLine("Enter the account number for the account where you want to deposit: ");
+            if(!Util.isValidAccountNumberFormat(accountNumber)) {
+                System.out.println("Please enter a valid account number.");
+            }
+        } while(!Util.isValidAccountNumberFormat(accountNumber));
+        double amount = Util.readDouble("Enter the deposit amount: ");
+        String customerPassword = Util.readPassword("Ask customer to type in their password in order to verify deposit: ");
+        String SSN = accountNumber.substring(0,10);
+        String accID = accountNumber.substring(10,12);
+        if(customerAuthentication(SSN, customerPassword, customerController)){
+            String result = customerController.depositMoney(SSN, accID, amount);
+            if(result.contains("successfully")){
+                transactionController.createEmployeeTransaction(accountNumber, amount);
+            }
+            System.out.println(result);
+        } else{
+            System.out.println("Incorrect password. Please try again.");
+        }
+    }
+
+    public void withdrawFromCustomer(CustomerController customerController){
+        TransactionController transactionController = new TransactionController();
+        System.out.println("You have chosen: Withdraw from customer account.");
+        System.out.println("Please note that the customer must be present at the time of deposit.");
+        System.out.println();
+        String accountNumber = Util.readLine("Enter the account number for the account where you want to withdraw: ");
+        double amount = Util.readDouble("Enter the withdraw amount: ");
+        String customerPassword = Util.readPassword("Ask customer to type in their password in order to verify withdrawal: ");
+        String SSN = accountNumber.substring(0,10);
+        String accID = accountNumber.substring(10,12);
+        if(customerAuthentication(SSN, customerPassword, customerController)){
+            String result = customerController.withdrawMoney(SSN, accID, amount);
+            if(result.contains("successfully")){
+                transactionController.createEmployeeTransaction(accountNumber, (0-amount));
+            }
+            System.out.println(result);
+        } else{
+            System.out.println("Incorrect password. Please try again.");
         }
     }
     // prints all customers
