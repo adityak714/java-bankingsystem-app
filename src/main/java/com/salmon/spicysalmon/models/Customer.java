@@ -52,8 +52,7 @@ public class Customer extends User {
                 + super.toString() + Util.EOL
                 + "Salary: " + this.salary + Util.EOL
                 + "Residential Area: " + tempArea + Util.EOL
-                + "Occupation " + this.occupation + Util.EOL
-                + "--------------------------------------------------" + Util.EOL;
+                + "Occupation " + this.occupation + Util.EOL;
     }
 
     public double getTotalBalance(){
