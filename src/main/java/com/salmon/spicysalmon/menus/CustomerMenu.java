@@ -32,8 +32,9 @@ public class CustomerMenu {
             "Money Transfer To Another Person Bank Account",
             "Show Most Recent Transactions",
             "Show Oldest Transactions",
-            "Show Transactions By Ascending Order Of Price",
-            "Show Transactions By Descending Order Of Price",
+            "Show All Transactions",
+            "Show Transactions By Ascending Order Of Amount",
+            "Show Transactions By Descending Order Of Amount",
             "Show Transactions Between Two Given Dates"
     };
     String ACCOUNT_SETTINGSHEADING = "Welcome to Account Settings: Please choose a valid option";
