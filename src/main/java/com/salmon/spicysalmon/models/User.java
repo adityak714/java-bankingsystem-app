@@ -43,8 +43,8 @@ public abstract class User{
 
     @Override
     public String toString() {
-        return    "|Name: " + this.firstName + " " + this.lastName + Util.EOL
-                + "|SSN: " + this.SOCIALSECURITYNUMBER;
+        return    "Name: " + this.firstName + " " + this.lastName + Util.EOL
+                + "SSN: " + this.SOCIALSECURITYNUMBER;
         /*return "User{" +
                 "firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
