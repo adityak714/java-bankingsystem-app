@@ -1,0 +1,71 @@
+[
+  {
+    "SSN": "9812316786",
+    "password": "salmon123",
+    "firstName": "Armin",
+    "lastName": "Balesic",
+    "salary": 87000,
+    "residentialArea": "Balesicgatan 45, 55555",
+    "occupation": "Project Manager",
+    "accounts": [
+      {
+        "balance": 109000,
+        "accountName": "SAVINGS"
+      },
+      {
+        "balance": 59888,
+        "accountName": "INVESTMENTS"
+      },
+      {
+        "balance": 10,
+        "accountName": "PENSION"
+      }
+    ]
+  },
+  {
+    "SSN": "7801029743",
+    "password": "salmon123",
+    "firstName": "John",
+    "lastName": "Athan",
+    "salary": 87000,
+    "residentialArea": "Jon Köping",
+    "occupation": "Sitting on the train.",
+    "accounts": [
+      {
+        "balance": 109000,
+        "accountName": "SAVINGS"
+      },
+      {
+        "balance": 59888,
+        "accountName": "INVESTMENTS"
+      },
+      {
+        "balance": 10,
+        "accountName": "PENSION"
+      }
+    ]
+  },
+  {
+    "SSN": "1007127687",
+    "password": "salmon123",
+    "firstName": "Victor",
+    "lastName": "Campanello",
+    "salary": 55555555,
+    "residentialArea": "Victorberg",
+    "occupation": "Working",
+    "accounts": [
+      {
+        "balance": 109000,
+        "accountName": "SAVINGS"
+      },
+      {
+        "balance": 59888,
+        "accountName": "INVESTMENTS"
+      },
+      {
+        "balance": 10,
+        "accountName": "PENSION"
+      }
+    ]
+  }
+]

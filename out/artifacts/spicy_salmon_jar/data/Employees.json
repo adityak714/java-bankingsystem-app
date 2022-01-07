@@ -1,0 +1,18 @@
+[
+  {
+    "SSN": "1209097865",
+    "password": "spicy123",
+    "firstName": "Shariq",
+    "lastName": "Shahbaz",
+    "startDate": "21/09/09",
+    "isManager": false
+  },
+  {
+    "SSN": "1007127687",
+    "password": "spicy123",
+    "firstName": "Victor",
+    "lastName": "Campanello",
+    "startDate": "22/10/11",
+    "isManager": true
+  }
+]
