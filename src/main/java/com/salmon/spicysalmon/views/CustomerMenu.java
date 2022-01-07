@@ -31,7 +31,6 @@ public class CustomerMenu {
             "Money Transfer To Another Person Bank Account",
             "Show Most Recent Transactions",
             "Show Oldest Transactions",
-            "Show All Transactions",
             "Show Transactions By Ascending Order Of Amount",
             "Show Transactions By Descending Order Of Amount",
             "Show Transactions Between Two Given Dates"
