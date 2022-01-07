@@ -160,8 +160,8 @@ public class CustomerController {
     }
     //Method to delete bank account
     public void deleteBankAccount(String accountNumber) throws Exception{
-        String SSN = accountNumber.substring(0, 9);
-        String accID = accountNumber.substring(10, 11);
+        String SSN = accountNumber.substring(0, 10);
+        String accID = accountNumber.substring(10, 12);
         BankAccount bankAccount = findBankAccount(SSN, accID);
         if(bankAccount != null){
             Customer customer = findCustomer(SSN);
