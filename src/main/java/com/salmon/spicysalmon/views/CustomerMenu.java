@@ -219,7 +219,7 @@ public class CustomerMenu {
 
     // Change customer's password
     public void changePassword(CustomerController customerController, String SSN) {
-        String testPassword = Util.readLine("Enter your old password: ");
+        String testPassword = Util.readPassword("Enter your old password: ");
         String newPassword = Util.readNewPassword();
         System.out.print(customerController.changePassword(testPassword, newPassword, SSN));
     }
