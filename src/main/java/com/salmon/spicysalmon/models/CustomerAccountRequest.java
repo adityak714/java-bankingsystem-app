@@ -93,7 +93,7 @@ public class CustomerAccountRequest extends AccountRequest{
                         + "|SSN: " +getSocialSecurityNumber() + Util.EOL
                         + "|Address: " + getResidentialArea() + Util.EOL
                         + "|Occupation " + getOccupation() + Util.EOL
-                        + "|Salary: " + getSalary() + Util.EOL
+                        + "|Salary: " + String.format("%.0f",getSalary()) + " SEK" + Util.EOL
                         + "|" + "-".repeat(50) + Util.EOL;
     }
    /* public int compareTo(CustomerAccountRequest otherCustomerAccountRequest) { //Compare last name letter by letter
