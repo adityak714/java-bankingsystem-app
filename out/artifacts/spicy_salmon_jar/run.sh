@@ -1,0 +1,1 @@
+java -jar spicy-salmon.jar
