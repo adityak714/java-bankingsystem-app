@@ -16,12 +16,8 @@ public class Employee extends User{
    }
 
     public String toString(){
-        return    "|--------------------------------------------------" + Util.EOL
-                + "|Employee Information" + Util.EOL
-                + "|--------------------------------------------------" + Util.EOL
-                +  super.toString() + Util.EOL
-                + "|Start Date: " + this.startDate + Util.EOL
-                + "|--------------------------------------------------";
+        return  Util.EOL +  super.toString() + Util.EOL
+                + "Start Date: " + this.startDate + Util.EOL;
     }
     /*public String deleteAccount(String ID) throws Exception{
 
