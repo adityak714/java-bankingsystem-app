@@ -509,7 +509,7 @@ public class EmployeeMenu {
     }
     //Method to change employee's password
     public void changePassword(EmployeeController employeeController, String SSN) throws Exception {
-        String testPassword = Util.readLine("Enter your old password: ");
+        String testPassword = Util.readPassword("Enter your old password: ");
         String newPassword = Util.readNewPassword();
         employeeController.changePassword(testPassword, newPassword, SSN);
     }
