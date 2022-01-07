@@ -64,7 +64,7 @@ public class BankAccountRequest extends AccountRequest{
                             + "|SSN: " +REQUESTEE.getSocialSecurityNumber() + Util.EOL
                             + "|Address: " + REQUESTEE.getResidentialArea() + Util.EOL
                             + "|Occupation: " + REQUESTEE.getOccupation() + Util.EOL
-                            + "|Salary: " + String.format("%.0f",REQUESTEE.getSalary()) + Util.EOL
+                            + "|Salary: " + String.format("%.0f",REQUESTEE.getSalary()) + " SEK" + Util.EOL
                             + "|" + line + Util.EOL;
         }
 }

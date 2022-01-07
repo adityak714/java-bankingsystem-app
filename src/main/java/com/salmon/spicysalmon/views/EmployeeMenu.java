@@ -467,37 +467,45 @@ public class EmployeeMenu {
     }
     // approves or denies a customer account request, denial needs a accompanied message as to why it was denied
     public void approveDenyCustomerAccountRequest(CustomerAccountRequest request, AccountRequestController accountRequestController) throws Exception {
+        AccountRequestController controller = new AccountRequestController();
         String stringUserInput = "";
         do {
-            stringUserInput = Util.readLine("Please type in \"approve\" or \"deny\": ");
-            if (stringUserInput.equals("approve")) {
+            stringUserInput = Util.readLine("Please type in \"Approve\" or \"Deny\" (0 to go back): ");
+            if (stringUserInput.equalsIgnoreCase("approve")) {
                 //Util.readLine("Please type in the reason for the approval:"); do we need message for approval?
-                String message = Util.readLine("Please type in the reason for the approval:");
+                String message = Util.readLine("Please type in the reason for the approval (can be left blank): ");
                 accountRequestController.approveCustomerAccountRequest(request, message);
-            } else if (stringUserInput.equals("deny")) {
-                String message = Util.readLine("Please type in the reason for the denial:");
+            } else if (stringUserInput.equalsIgnoreCase("deny")) {
+                String message = Util.readLine("Please type in the reason for the denial: ");
                 accountRequestController.denyAccountRequest(request, message);
+            } else if (stringUserInput.equals("0")) {
+                listAllCustomerAccountRequests(controller);
+                break;
             } else {
-                System.out.println("Please input a valid option (\"approve\" or \"deny\").");
+                System.out.println("Please input a valid option (\"Approve\" or \"Deny\") (0 to go back)");
             }
-        }while (!(stringUserInput.equals("approve") || stringUserInput.equals("deny")));
+        }while (!(stringUserInput.equalsIgnoreCase("approve") || stringUserInput.equalsIgnoreCase("deny")));
     }
     // approves or denies a bank account request, denial needs a accompanied message as to why it was denied
-    public void approveDenyBankAccountRequest(BankAccountRequest request, AccountRequestController accountRequestController){
+    public void approveDenyBankAccountRequest(BankAccountRequest request, AccountRequestController accountRequestController) throws Exception{
+        AccountRequestController controller = new AccountRequestController();
         String stringUserInput = "";
         do {
-            stringUserInput = Util.readLine("Please type in \"approve\" or \"deny\": ");
-            if (stringUserInput.equals("approve")) {
+            stringUserInput = Util.readLine("Please type in \"Approve\" or \"Deny\" (0 to go back): ");
+            if (stringUserInput.equalsIgnoreCase("approve")) {
                 //Util.readLine("Please type in the reason for the approval:"); do we need message for approval?
                 String message = Util.readLine("Please type in the reason for the approval (can be left blank): ");
                 accountRequestController.approveBankAccountRequest(request, message);
-            } else if (stringUserInput.equals("deny")) {
+            } else if (stringUserInput.equalsIgnoreCase("deny")) {
                 String message = Util.readLine("Please type in the reason for the denial: ");
                 accountRequestController.denyAccountRequest(request, message);
-            } else {
-                System.out.println("Please input a valid option (\"approve\" or \"deny\").");
+            }else if (stringUserInput.equals("0")){
+                listAllBankAccountRequests(controller);
+                break;
+            }else {
+                System.out.println("Please input a valid option (\"Approve\" or \"Deny\") (0 to go back)");
             }
-        }while (!(stringUserInput.equals("approve") || stringUserInput.equals("deny")));
+        }while (!(stringUserInput.equalsIgnoreCase("approve") || stringUserInput.equalsIgnoreCase("deny")));
     }
     //Method to change employee's password
     public void changePassword(EmployeeController employeeController, String SSN) throws Exception {
