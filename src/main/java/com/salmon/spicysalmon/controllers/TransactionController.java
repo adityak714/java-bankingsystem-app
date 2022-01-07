@@ -172,6 +172,7 @@ public class TransactionController {
         ArrayList<Transaction> desiredAccount = allTransactions.get(SSN).get(accID);
 
         try {
+            //If NumberFormatException is thrown here below, the entered date does not follow YYYY/MM/DD
             int startYear = Integer.parseInt(startInterval.substring(0,4));
             int startMonth = Integer.parseInt(startInterval.substring(5,7));
             int startDay = Integer.parseInt(startInterval.substring(8,10));
@@ -195,9 +196,15 @@ public class TransactionController {
                     limitedTransactionList.add(transaction);
                 }
             }
+
+            //Prevents users from entering invalid values for dates and month numbers
+            if ((startDay > 31 || endDay > 31) || (startMonth > 12 || endMonth > 12) || lowerBoundDate.after(upperBoundDate)){
+                return Util.EOL + "Invalid bounds provided for dates. Please try again! " + Util.EOL;
+            }
         }
 
-        catch (ParseException | NumberFormatException p){
+        //Restricts format to YYYY/MM/DD (inclusive of /)
+        catch (ParseException | NumberFormatException | StringIndexOutOfBoundsException p){
             return Util.EOL + "Please enter correct date(s) in the form YYYY/MM/DD." + Util.EOL;
         }
         return transactionsStringBuilder(limitedTransactionList);
