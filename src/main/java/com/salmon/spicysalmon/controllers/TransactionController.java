@@ -172,13 +172,20 @@ public class TransactionController {
         ArrayList<Transaction> desiredAccount = allTransactions.get(SSN).get(accID);
 
         try {
+            int startYear = Integer.parseInt(startInterval.substring(0,4));
+            int startMonth = Integer.parseInt(startInterval.substring(5,7));
+            int startDay = Integer.parseInt(startInterval.substring(8,10));
+            int endYear = Integer.parseInt(endInterval.substring(0,4));
+            int endMonth = Integer.parseInt(endInterval.substring(5,7));
+            int endDay = Integer.parseInt(endInterval.substring(8,10));
+
             Date lowerBoundDate = formatter.parse(startInterval);
             Date upperBoundDate = formatter.parse(endInterval);
             Date currentDay = calendar.getTime();
 
-            //If the customer sets an upperbound of ex. 2034, the method sets it back to the current date
-            if(upperBoundDate.after(currentDay)){
-                upperBoundDate = currentDay;
+            //If the customer sets an lowerBound of ex. 2034, the method sets it back to the current date
+            if (lowerBoundDate.after(currentDay)) {
+                lowerBoundDate = currentDay;
             }
 
             //filtering Transactions in given bounds happens here
@@ -190,8 +197,8 @@ public class TransactionController {
             }
         }
 
-        catch (ParseException p){
-            return Util.EOL + "Please enter the date in the form YYYY/MM/DD" + Util.EOL;
+        catch (ParseException | NumberFormatException p){
+            return Util.EOL + "Please enter correct date(s) in the form YYYY/MM/DD." + Util.EOL;
         }
         return transactionsStringBuilder(limitedTransactionList);
     }
@@ -207,7 +214,7 @@ public class TransactionController {
         int counter = 0;
 
         if(transactions.isEmpty()){
-            return "No transactions for this account have been recorded.";
+            return Util.EOL + "No transactions for this account have been recorded." + Util.EOL;
         }
 
         for(Transaction transaction: transactions){
