@@ -28,12 +28,12 @@ public class EmployeeController {
     //Method to print all registered employees
     public String printAllEmployees(){
         String result = "All Registered Employees" + Util.EOL;
-        result += "----------------------------" + Util.EOL;
+        result += "--------------------------------------------------" + Util.EOL;
         if(!employeeAccounts.isEmpty()){
             for(String SSN : employeeAccounts.keySet()){
                 Employee currentEmployee = employeeAccounts.get(SSN);
                 result += currentEmployee + Util.EOL;
-                result += "----------------------------" + Util.EOL;
+                result += "--------------------------------------------------" + Util.EOL;
             }
         } else{
             result += "No employees registered yet.";
